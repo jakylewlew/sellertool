@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="BoneSeller">
+  <ClassDiagramComponents>
+    <Class name="coordinates" package="Sellertool" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="latit" type="float" visibility="package"/>
+        <Field name="longi" type="float" visibility="package"/>
+        <Field name="x" type="int" visibility="package"/>
+        <Field name="y" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="float" name="latx"/>
+          <Argument type="float" name="laty"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="Demensions" package="Sellertool" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Fields>
+        <Field name="len" type="float" visibility="package"/>
+        <Field name="width" type="float" visibility="package"/>
+        <Field name="height" type="float" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="float" name="length"/>
+          <Argument type="float" name="height"/>
+          <Argument type="float" name="width"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="DinosaurBone" package="Sellertool" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="input" type="Scanner" visibility="package"/>
+        <Field name="output" type="Formatter" visibility="package"/>
+        <Field name="boneid" type="int" visibility="package"/>
+        <Field name="age" type="int" visibility="package"/>
+        <Field name="price" type="float" visibility="package"/>
+        <Field name="weight" type="float" visibility="package"/>
+        <Field name="bought" type="int" visibility="package"/>
+        <Field name="globe_longitude" type="float" visibility="package"/>
+        <Field name="globe_latitude" type="float" visibility="package"/>
+        <Field name="length" type="float" visibility="package"/>
+        <Field name="width" type="float" visibility="package"/>
+        <Field name="height" type="float" visibility="package"/>
+        <Field name="buyer_id" type="int" visibility="package"/>
+        <Field name="name" type="String" visibility="package"/>
+        <Field name="condition" type="String" visibility="package"/>
+        <Field name="country" type="String" visibility="package"/>
+        <Field name="prospector" type="String" visibility="package"/>
+        <Field name="perspective" type="Demensions" visibility="package"/>
+        <Field name="Location" type="coordinates" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="boneediting" returnType="void" visibility="public">
+          <Argument type="DinosaurBone" name="x"/>
+        </Method>
+        <Method name="getI" returnType="int" visibility="public"/>
+        <Method name="getF" returnType="float" visibility="public"/>
+        <Method name="updatelocation" returnType="void" visibility="public">
+          <Argument type="DinosaurBone" name="x"/>
+          <Argument type="float" name="lat"/>
+          <Argument type="float" name="lon"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="MapO" package="Sellertool" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Fields>
+        <Field name="MapX" type="int" visibility="public"/>
+        <Field name="MapY" type="int" visibility="public"/>
+        <Field name="MapZ" type="int" visibility="public"/>
+        <Field name="output" type="Formatter" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="LoadMapNode" returnType="void" visibility="public">
+          <Argument type="ArrayList&lt;MapO&gt;" name="x"/>
+        </Method>
+        <Method name="decifer" returnType="void" visibility="public">
+          <Argument type="ArrayList&lt;MapO&gt;" name="x"/>
+        </Method>
+        <Method name="importbones" returnType="void" visibility="public">
+          <Argument type="ArrayList&lt;MapO&gt;" name="map"/>
+          <Argument type="ArrayList&lt;DinosaurBone&gt;" name="bonelist"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Sellertool" package="Sellertool" visibility="public" xPosition="1220.0" yPosition="20.0">
+      <Fields>
+        <Field name="bonelist" type="ArrayList&lt;DinosaurBone&gt;" visibility="package"/>
+        <Field name="MapNode" type="ArrayList&lt;MapO&gt;" visibility="package"/>
+        <Field name="map" type="char" visibility="package"/>
+        <Field name="input" type="Scanner" visibility="package"/>
+        <Field name="output" type="Formatter" visibility="package"/>
+        <Field name="temp" type="DinosaurBone" visibility="package"/>
+        <Field name="scanstream" type="Scanner" visibility="package"/>
+        <Field name="maploaded" type="boolean" visibility="public"/>
+        <Field name="filesloaded" type="boolean" visibility="public"/>
+        <Field name="createdBone" type="boolean" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="mainmenu" returnType="void" visibility="public"/>
+        <Method name="makeabonefromfiles" returnType="void" visibility="public"/>
+        <Method name="LoadMap" returnType="void" visibility="public"/>
+        <Method name="getI" returnType="int" visibility="public"/>
+        <Method name="getF" returnType="float" visibility="public"/>
+        <Method name="makeBone" returnType="void" visibility="public"/>
+        <Method name="show_map" returnType="void" visibility="public"/>
+        <Method name="get_map_symbol" returnType="char" visibility="public">
+          <Argument type="int" name="input"/>
+        </Method>
+        <Method name="get_bone_map_symbol" returnType="char" visibility="public">
+          <Argument type="int" name="input"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="Location" source="Sellertool.DinosaurBone" target="Sellertool.coordinates" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="Sellertool.MapO" target="Sellertool.MapO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="Sellertool.DinosaurBone" target="Sellertool.DinosaurBone" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="bonelist" source="Sellertool.Sellertool" target="Sellertool.DinosaurBone" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;DinosaurBone&gt;"/>
+    <HasRelation name="perspective" source="Sellertool.DinosaurBone" target="Sellertool.Demensions" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="MapNode" source="Sellertool.Sellertool" target="Sellertool.MapO" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;MapO&gt;"/>
+    <HasRelation name="temp" source="Sellertool.Sellertool" target="Sellertool.DinosaurBone" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
