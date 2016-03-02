@@ -9,7 +9,7 @@ package Sellertool;
  *
  * @author Jacob
  */
-public class Demensions {
+public class Demensions {//this a change
     float len;
     float width;
     float height;
