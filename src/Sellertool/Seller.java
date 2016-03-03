@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class Seller {
     ArrayList<Seller> masterlist = new ArrayList();
     String name;
-    Coordinates location;
+    Coordinates location = new Coordinates();
     Scanner input =new Scanner(System.in);
     Formatter output = new Formatter(System.out);
     
@@ -37,7 +37,6 @@ public class Seller {
         horizontal = input.nextFloat();
         output.format("\nLongitude:\n");
         vertical = input.nextFloat();
-        location = new Coordinates();//feeds all coordinates to map compatible locations
         location.latit = horizontal;
         location.longi = vertical;
         location.updatecoordinates();
