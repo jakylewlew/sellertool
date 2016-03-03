@@ -37,7 +37,10 @@ public class Seller {
         horizontal = input.nextFloat();
         output.format("\nLongitude:\n");
         vertical = input.nextFloat();
-        location = new Coordinates(horizontal, vertical);//feeds all coordinates to map compatible locations
+        location = new Coordinates();//feeds all coordinates to map compatible locations
+        location.latit = horizontal;
+        location.longi = vertical;
+        location.updatecoordinates();
        input.nextLine();//clearScanner
        }
     

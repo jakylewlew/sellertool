@@ -36,7 +36,7 @@ public class DinosaurBone {
             String country; 
             String prospector;
             Demensions perspective;
-            Coordinates Location;
+           Coordinates Location = new Coordinates();
             
     
     public DinosaurBone(){
@@ -68,10 +68,12 @@ public class DinosaurBone {
   
         output.format("\nEnter the price");
             x.price = getF();
+                                        
+      
+            x.Location.latit = x.globe_latitude;//set the Location lat and long
+            x.Location.longi = x.globe_longitude;
             
-                                            /*output.format("\nEnter ID number");//No need id is already or automatically upadted.
-                                             xbuyer_id =getI();*/
-        updatelocation(x,x.globe_latitude,x.globe_longitude);//update and converts values for the 20 60 array using float values
+            x.Location.updatecoordinates();//update and converts values for the 20 60 array using float values
       
         
     }//bone making menu
@@ -122,10 +124,10 @@ public class DinosaurBone {
                 
         }      
       
-    public void updatelocation(DinosaurBone x, float lat, float lon){
-                x.Location = new Coordinates(lat,lon);
+    /*8public void updatelocation(DinosaurBone x, float lat, float lon){
+                x.Location = new Coordinates(lat,lon);*/
     
-            }  
+             
                 
 }//class constructor  
   
