@@ -36,13 +36,13 @@ public class DinosaurBone {
             String country; 
             String prospector;
             Demensions perspective;
-           Coordinates Location = new Coordinates();
+            Coordinates Location = new Coordinates();
             
     
     public DinosaurBone(){
       input = new Scanner(System.in);
       output = new Formatter(System.out);
-      
+     
     }//constructor
 
     //sets thename of the bones
