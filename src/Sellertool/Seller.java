@@ -24,16 +24,20 @@ public class Seller {
     Scanner input =new Scanner(System.in);
     Formatter output = new Formatter(System.out);
     
+    public Seller(int x){//blank seller object for use in file
+        
+    }
     public Seller(){
         float horizontal;
         float vertical;
         output.format("\nName:\n");
-        name = input.next();
+        name = input.nextLine();
+        name = name.toLowerCase();//makes all case lowercase to find easily
         output.format("\nLatitude:\n");
         horizontal = input.nextFloat();
         output.format("\nLongitude:\n");
         vertical = input.nextFloat();
-        location = new Coordinates(horizontal, vertical);//feeds all coordinates
+        location = new Coordinates(horizontal, vertical);//feeds all coordinates to map compatible locations
        input.nextLine();//clearScanner
        }
     
@@ -41,37 +45,54 @@ public class Seller {
  
     
     public void changesellermenu(){
-        int choice;
+        int choice = 0;
         Seller temp;
-        output.format("\nWhat would you like to do?\n"+
-                "1:Create a Seller\n"+
-                "2:Delete a Seller\n"+
-                "3:Update a seller"+
-                "4:Exit");
+        
+            while(choice != 5){
+                printmenu();
                 choice = getI();
                 switch(choice){
+                    
                     case 1:{
                         temp = new Seller();//make new
-                        addsellerfile(temp);//adds person to masterlist
+                        masterlist.add(temp);//adds person to masterlist
+                        writesellerfile();//rewrites sellerfile
+                        break;
                       
                     }
-                    case 2:{//search for seller with naem remove line from file and 
-                          //and from masterlist ;
+                    case 2:{    //search for seller, find, delete from masterlist; 
+                                //rewrites sellerfile;
+                        printsellerlist();
+                        removeseller();
+                        break;
                         
                     }
                     case 3:{//search seller with name, update info;//funciton;
+                        printsellerlist();
+                        updateseller();
+                        break;
                     }
-                    case 4:{
+                    case 4:{//prints list of all sellers
+                        printsellerlist();
+                        break;
+                        
+                    }
+                    case 5:{
+                        ///is a boolean case to break while loop and return to main seller program
+                        break;
                         
                     }
                     default:{
-                        
+                        break;
                     }
       
                 }//switch
-        
+               
+
+            }//while loop to stay in create seller program
     }//changesellermenu
-        public float getF()//float input mismatch
+    
+    public float getF()//float input mismatch
         {   String buffer;
             float result;
             while(true)
@@ -96,7 +117,7 @@ public class Seller {
                 
         }//getf()
         
-        public int getI()//Int input mismatch 
+    public int getI()//Int input mismatch 
         {
            
             String intbuffer;
@@ -118,7 +139,7 @@ public class Seller {
             return result;
         }//getI
       
-    public void addsellerfile(Seller newperson){//adds seller to seller file
+    public void writesellerfile(){//writes new seller file
        File sellerlist = new File("Sellerfile.txt");
        int i;
        Seller temp;
@@ -129,19 +150,96 @@ public class Seller {
                 filewriter.format("%s,%d,%d\n", temp.name,temp.location.x,temp.location.y);
               
             }
-            masterlist.add(newperson);//adds
           filewriter.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Seller.class.getName()).log(Level.SEVERE, null, ex);
         }
         
    }//addsellertofile
-  
-    public void updateinfo(){
+    
+    public void removeseller(){
+        String name;
+        Seller temp = null;
+        int i; 
+        Boolean found = false;
+        
+        output.format("\nWho do you ant to remove?\n", 0);
+        name = input.nextLine();
+        name = name.toLowerCase();
+        
+        for(i=0; i < masterlist.size(); i++){//check for valid name of seller get that item
+            temp = masterlist.get(i);
+            if(name.matches(masterlist.get(i).name)){
+                found = true;
+                masterlist.remove(i);//removes all users with that name from the masterlist
+            }
+            if(found){
+            writesellerfile();//write updated masterlist to list
+            }//if item was found rewrites file
+            else{
+                System.out.print("\nSeller does not exsist\n");
+            }
+                    
+                    
+        }
         
         
+    }//remove seller
+    
+    public void updateseller(){
+        String name = null;
+        Seller temp = null;
+        int i; int selected;
+        Boolean found = false;
+        
+        output.format("\nWho do you want to update?\n", 0);
+        name = input.nextLine();
+        name = name.toLowerCase();
+        
+        for(i=0; i < masterlist.size(); i++){//check for valid name of seller get that item
+            temp = masterlist.get(i);
+            if(name.matches(masterlist.get(i).name)){
+                found = true;
+                output.format("New Latitude\n");
+                temp.location.latit = getF();
+                output.format("New Longitude\n");
+                temp.location.longi = getF();
+                temp.location.updatecoordinates();//function adjusts map coordinates
+            }
+            if(found){
+            writesellerfile();//write updated masterlist to list
+            }                   //if item was found rewrites file
+          
+          }
+        if(found==false){//if the name is not in the list
+            System.out.print("\nSeller not found\n");
+        }
+    }//updateseller
+    
+    public void printsellerlist(){//print seller list
+        int i;
+        if(masterlist.isEmpty()){
+            output.format("\nNo sellers in the list\n");
+            
+        }
+        else{
+            for(i=0; i <masterlist.size();i++){    //prints sll in the list if there is anyhting there
+                output.format("\nName:%s \nLocation:Lat->%f Long->%f\n",masterlist.get(i).name,masterlist.get(i).location.latit, masterlist.get(i).location.longi);
+                output.format("MapCoorinates: Lat %d: Long %d\n", masterlist.get(i).location.x,masterlist.get(i).location.y);
+            }
+        }
     }
     
+    public void printmenu(){
+         output.format("\nWhat would you like to do?\n"+
+                "1:Create a Seller\n"+
+                "2:Delete a Seller\n"+
+                "3:Update a seller\n"+
+                "4:See list of sellers\n"+
+                "5:Exit\n");
+    }//prints the menu in for seller operations
+    
+   
     
     
 }//Seller class   
