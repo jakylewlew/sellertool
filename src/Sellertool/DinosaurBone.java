@@ -36,7 +36,7 @@ public class DinosaurBone {
             String country; 
             String prospector;
             Demensions perspective;
-            coordinates Location;
+            Coordinates Location;
             
     
     public DinosaurBone(){
@@ -123,7 +123,7 @@ public class DinosaurBone {
         }      
       
     public void updatelocation(DinosaurBone x, float lat, float lon){
-                x.Location = new coordinates(lat,lon);
+                x.Location = new Coordinates(lat,lon);
     
             }  
                 

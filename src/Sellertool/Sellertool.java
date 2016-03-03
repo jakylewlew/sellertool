@@ -12,7 +12,6 @@ import java.util.Formatter;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.InputMismatchException;
 import java.util.Random;
 
 
@@ -29,8 +28,10 @@ public class Sellertool{
     public boolean maploaded;
     public boolean filesloaded;
     public boolean createdBone;
+    Seller sellerop;
     
             public Sellertool(){
+            sellerop = new Seller(0);
             output = new Formatter(System.out);
             input = new Scanner(System.in);    
             map = new char[60][20]; 
@@ -44,7 +45,13 @@ public class Sellertool{
             
             MapO Bone = new MapO();
             int i;int x;
-            output.format("\nBUYING BONES FROM MARY JONES DINO BONE SHOP\n1:Load the Map\n2:Handle Bone\n3:Show the world map with Bones\n4:Save Files\n5:Load Files\n6:Exit\n");
+            output.format("\nBUYING BONES FROM MARY JONES DINO BONE SHOP\n1:Load the Map\n"
+                    +"2:Handle Bone\n"
+                    +"3:Show the world map with Bones\n"
+                    +"4:Save Files\n5"
+                    +":Load Files\n"
+                    + "6:Create Seller\n"+""
+                    + "7:Exit\n");
             int choice = getI();
                    
             switch(choice)
@@ -106,8 +113,14 @@ public class Sellertool{
             }        
                 
             case(6):{
+                sellerop.changesellermenu();//calls sellermenu in seller class
+                break;
+              }
+            case(7):{
                 System.exit(0);
-            }default:{
+                break;
+            }
+            default:{
             output.format("\nTry Again...\n");
             }//catch bad choices
             
@@ -231,7 +244,7 @@ public class Sellertool{
             
             }
             return result;
-        }
+        }//getI
         
         public float getF()//float input mismatch
         {   String buffer;
@@ -257,7 +270,7 @@ public class Sellertool{
             }  
             return result;
                 
-        }
+        }//getf()
         public void makeBone(){//makes new bone calls boneediting for coord and id price yada puts in bone list
                         temp = new DinosaurBone();
                         temp.boneediting(temp);
@@ -383,7 +396,11 @@ public class Sellertool{
                         {   temp = bonelist.get(i);//prints the Current in bone list 
                             output.format("\nID:%d, Bonename:%s, Lat->%f, Long->%f  (%d:%d)\n",temp.boneid,temp.name,temp.Location.latit,temp.Location.longi, temp.Location.x,temp.Location.y);
                         }
-                        output.format("\nHow would you like to handle your bone Handler\n1:Make bone\n2:Sell a bone\n3:Modify a bone on the bone list\n4:Remove bone\n5:Exit\n");
+                        output.format("\nHow would you like to handle your bone Handler\n"+
+                                "1:Make bone"
+                                +"\n2:Sell a bone\n"+
+                                "3:Modify a bone on the bone list\n"
+                                +"4:Remove bone\n5:Exit\n");
                         int selection = getI();
                         
                         switch(selection)//handle handling
