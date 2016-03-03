@@ -45,9 +45,7 @@ public class Sellertool{
             
             MapO Bone = new MapO();
             int i;int x;
-            output.format(""
-                    + "\nBUYING BONES FROM MARY JONES DINO BONE SHOP"
-                    + "\n1:Load the Map\n"
+            output.format("\nBUYING BONES FROM MARY JONES DINO BONE SHOP\n1:Load the Map\n"
                     +"2:Handle Bone\n"
                     +"3:Show the world map with Bones\n"
                     +"4:Save Files\n5"
@@ -175,11 +173,12 @@ public class Sellertool{
                 temp.prospector  = data[14].trim();
                 temp.Location.latit = temp.globe_latitude;
                 temp.Location.longi = temp.globe_longitude;
-                temp.Location.updatecoordinates();
                 bonelist.add(temp);
                 //output.format("%s", temp.prospector);
                 //scanstream.nextLine();
             }//while
+            
+            
             
             scanstream.close();
         } //makeabonefrom files
@@ -226,7 +225,7 @@ public class Sellertool{
                         }//catach exception
                    }//load map
        
-        public int getI()//Int input mismatch //gets int
+        public int getI()//Int input mismatch 
         {
            
             String intbuffer;
@@ -248,7 +247,7 @@ public class Sellertool{
             return result;
         }//getI
         
-        public float getF()//float input mismatch gets float
+        public float getF()//float input mismatch
         {   String buffer;
             float result;
             while(true)
@@ -300,6 +299,7 @@ public class Sellertool{
                         temp.country = input.nextLine();
                         output.format("\nWho found it:");
                         temp.prospector  = input.nextLine();
+                        temp.Location.updatecoordinates();            
                         bonelist.add(temp); 
                          
     
@@ -328,7 +328,7 @@ public class Sellertool{
                     
             //if files loaded, load bones into map
             if(filesloaded || createdBone) {
-                //load bones into map changing items in array to X or $
+                //load bones into map
                 for( i=0; i<bonelist.size(); i++) {
                      //output.format("%s%d:%d|\n",bonelist.get(i).name, bonelist.get(i).Location.x,bonelist.get(i).Location.y);
                     //get map info from bone arraylist
@@ -337,34 +337,27 @@ public class Sellertool{
                      y = bonelist.get(i).Location.y;
                    
                     this.map[y][x] = get_bone_map_symbol(bought);
+                    
                 }
-                 //Display Map
-                output.format("\n");
-                for(i = 0; i<20; ++i) {
-                    for(j = 0; j<60; ++j) {
-                        output.format("%c", this.map[j][i]);
-                    }
-                    output.format("\n");
-                }
-                     output.format("\nPress Enter to return to main menu\n");
-                     input.nextLine();
-
+                
             }
-            else{ //Display Map
+            else{
+                //give error message for bone files not loaded
+                output.format("\nNOTE: This map does not show bones!\n");
+                output.format("NOTE: Please load files to see bones!\n\n");
+            }
+            
+            //Display Map
             output.format("\n");
             for(i = 0; i<20; ++i) {
                 for(j = 0; j<60; ++j) {
                     output.format("%c", this.map[j][i]);
                 }
-                    output.format("\n");
+                output.format("\n");
             }
-                //give error message for bone files not loaded
-                output.format("\nNOTE: This map does not show bones!\n");
-                output.format("NOTE: Please load files to see bones!\n");
-                output.format("\nPress Enter to return to main menu\n");
-            }
+            output.format("\nPress Enter to return to main menu\n");
             input.nextLine();
-           
+        
         }
     
     }
@@ -405,11 +398,10 @@ public class Sellertool{
                             output.format("\nID:%d, Bonename:%s, Lat->%f, Long->%f  (%d:%d)\n",temp.boneid,temp.name,temp.Location.latit,temp.Location.longi, temp.Location.x,temp.Location.y);
                         }
                         output.format("\nHow would you like to handle your bone Handler\n"+
-                                "1:Make bone\n"
-                                +"2:Sell a bone\n"+
+                                "1:Make bonez"
+                                +"\n2:Sell a bone\n"+
                                 "3:Modify a bone on the bone list\n"
-                                +"4:Remove bone\n"
-                                + "5:Exit\n");
+                                +"4:Remove bone\n5:Exit\n");
                         int selection = getI();
                         
                         switch(selection)//handle handling
