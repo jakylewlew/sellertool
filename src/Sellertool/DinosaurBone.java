@@ -48,16 +48,27 @@ public class DinosaurBone {
     //sets thename of the bones
   public void boneediting(DinosaurBone x){
         
-        do{ output.format("\nEnter the coordinate Latitude:");
-             x.globe_latitude = getF();
-        }while(x.globe_latitude>90 || x.globe_latitude<-90);     
+        output.format("\nEnter the coordinate Latitude:");
+        x.globe_latitude = getF();
+            if(globe_latitude > 90){//take care of array ob because of trucation
+                x.globe_latitude = 84;
+            }
+            if(globe_latitude<-90){
+                x.globe_latitude = -90;//take care array ob
+            }
+        output.format("\nEnter the coordinate Longitude:");
+        x.globe_longitude = getF();
         
-        do{output.format("\nEnter the coordinate Longitude:");//gets number in specified coordinates
-                x.globe_longitude = getF();
-        }while((x.globe_longitude >180) || (x.globe_longitude<-180));
+            if(globe_longitude < -174){
+                x.globe_longitude = -174;//must adjust because trunctation round value to 60,not 59 and causes a outo bounds error}
+            }
+            if (globe_longitude>174){
+                x.globe_longitude= 174;//array ob adjustment
+            }
   
         output.format("\nEnter the price");
-            x.price = getF();   
+            x.price = getF();
+                                        
       
             x.Location.latit = x.globe_latitude;//set the Location lat and long
             x.Location.longi = x.globe_longitude;
@@ -65,9 +76,8 @@ public class DinosaurBone {
             x.Location.updatecoordinates();//update and converts values for the 20 60 array using float values
       
         
-    }//boneediting
-  
-    public int getI()//Int input mismatch 
+    }//bone making menu
+          public int getI()//Int input mismatch 
         {
            
             String intbuffer;
@@ -112,23 +122,7 @@ public class DinosaurBone {
             }  
             return result;
                 
-        } 
-    public void bonedoublecheck(DinosaurBone x){
-            if(globe_latitude > 90){//take care of array ob because of trucation
-                x.globe_latitude = 84;
-            }
-            if(globe_latitude<-90){
-                x.globe_latitude = -90;//take care array ob
-            }
-             
-        
-            if(globe_longitude < -174){
-                x.globe_longitude = -174;//must adjust because trunctation round value to 60,not 59 and causes a outo bounds error}
-            }
-            if (globe_longitude>174){
-                x.globe_longitude= 174;//array ob adjustment
-            }
-    }
+        }      
       
     /*8public void updatelocation(DinosaurBone x, float lat, float lon){
                 x.Location = new Coordinates(lat,lon);*/

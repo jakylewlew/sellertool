@@ -173,7 +173,6 @@ public class Sellertool{
                 temp.prospector  = data[14].trim();
                 temp.Location.latit = temp.globe_latitude;
                 temp.Location.longi = temp.globe_longitude;
-                temp.Location.updatecoordinates();
                 bonelist.add(temp);
                 //output.format("%s", temp.prospector);
                 //scanstream.nextLine();
@@ -280,6 +279,7 @@ public class Sellertool{
                         temp.boneid = rn.nextInt(15000 -1 + 1);
                         output.format("\nAge:");
                         temp.age = getI();
+                        //temp.price = scanstream.nextFloat();
                         output.format("\nWeight:");
                         temp.weight = getF();
                         temp.bought = 0;
@@ -289,6 +289,8 @@ public class Sellertool{
                         temp.width = getF();
                         output.format("\nHeight:");
                         temp.height = getF();
+                        //output.format("\nId#:");
+                        //temp.buyer_id = getI();
                         output.format("\nBone Name:");
                         temp.name = input.nextLine();
                         output.format("\nCondition:");
@@ -297,6 +299,7 @@ public class Sellertool{
                         temp.country = input.nextLine();
                         output.format("\nWho found it:");
                         temp.prospector  = input.nextLine();
+                        temp.Location.updatecoordinates();            
                         bonelist.add(temp); 
                          
     
