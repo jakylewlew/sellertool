@@ -33,10 +33,14 @@ public class Seller {
         output.format("\nName:\n");
         name = input.nextLine();
         name = name.toLowerCase();//makes all case lowercase to find easily
-        output.format("\nLatitude:\n");
-        horizontal = input.nextFloat();
-        output.format("\nLongitude:\n");
-        vertical = input.nextFloat();
+        do{
+            output.format("\nLatitude:\n");//get valis latitude
+            horizontal = input.nextFloat();
+        }while((horizontal>90) || (horizontal<-90));
+        do{
+            output.format("\nLongitude:\n");//get valid longitude
+            vertical = input.nextFloat();
+        }while((vertical>180)||(vertical<-180));
         location.latit = horizontal;
         location.longi = vertical;
         location.updatecoordinates();
@@ -202,10 +206,14 @@ public class Seller {
             temp = masterlist.get(i);
             if(name.matches(masterlist.get(i).name)){
                 found = true;
-                output.format("New Latitude\n");
-                temp.location.latit = getF();
-                output.format("New Longitude\n");
-                temp.location.longi = getF();
+                do{//makes sure to get valid lat and longitudes
+                    output.format("New Latitude\n");
+                    temp.location.latit = getF();
+                }while((temp.location.latit>90) || (temp.location.latit<-90));
+                do{
+                    output.format("New Longitude\n");
+                    temp.location.longi = getF();
+                }while((temp.location.longi>180) || (temp.location.longi<-180));
                 temp.location.updatecoordinates();//function adjusts map coordinates
             }
             if(found){
