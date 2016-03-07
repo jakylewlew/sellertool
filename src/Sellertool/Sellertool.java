@@ -173,6 +173,7 @@ public class Sellertool{
                 temp.prospector  = data[14].trim();
                 temp.Location.latit = temp.globe_latitude;
                 temp.Location.longi = temp.globe_longitude;
+                temp.Location.updatecoordinates();
                 bonelist.add(temp);
                 //output.format("%s", temp.prospector);
                 //scanstream.nextLine();
