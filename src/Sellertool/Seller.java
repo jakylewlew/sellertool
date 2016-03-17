@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class Seller {
     Scanner input =new Scanner(System.in);
     Formatter output = new Formatter(System.out);
     
-    public Seller(int x){//blank seller object for use in file
+    public Seller(int x){//blank seller object for use in operation to call menu in seller class
         
     }
     public Seller(){
@@ -34,18 +35,32 @@ public class Seller {
         name = input.nextLine();
         name = name.toLowerCase();//makes all case lowercase to find easily
         do{
-            output.format("\nLatitude:\n");//get valis latitude
-            horizontal = input.nextFloat();
+            output.format("\nLatitude:\n");//get valis latitude//******could use getF instead********
+           try{ horizontal = input.nextFloat();
+           
+           }catch(InputMismatchException e) {
+                input.next();
+                output.format("Error: Try again\n");
+                horizontal = 180;   //if wronf make sure that the do whi returns
+                   } 
         }while((horizontal>90) || (horizontal<-90));
         do{
             output.format("\nLongitude:\n");//get valid longitude
-            vertical = input.nextFloat();
+            try{ vertical = input.nextFloat();
+           
+           }catch(InputMismatchException e) {
+                input.next();// reset input
+                output.format("Error: Try again\n");
+                vertical = 200;
+           }
+            
         }while((vertical>180)||(vertical<-180));
         location.latit = horizontal;
         location.longi = vertical;
         location.updatecoordinates();
        input.nextLine();//clearScanner
-       }
+       
+  }
     
     //writesellers to file for storage
  
@@ -114,10 +129,7 @@ public class Seller {
                    //input.nextLine();
                     continue;
                     }
-               /* catch(){
-                    
-                }*/
-              
+             
             }  
             return result;
                 
