@@ -23,16 +23,17 @@ public class DinosaurBone {
             int boneid;
             int age;
             float price;           
-            float weight;
+            float weight; 
+            String condition ;
             int bought;
-            float globe_longitude;//set to zero to overwrite when made
+            float globe_longitude;
             float globe_latitude; 
             float length;
             float width;        
             float height; 
             int buyer_id;
             String name ;
-            String condition ;
+           
             String country; 
             String prospector;
             Demensions perspective;
