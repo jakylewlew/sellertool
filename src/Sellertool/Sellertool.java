@@ -419,7 +419,7 @@ public class Sellertool{
                 int x;
                 for(i=0;i<bonelist.size(); i++)
                         {   temp = bonelist.get(i);//prints the Current in bone list 
-                            output.format("\nID:%d, Bonename:%s, Lat->%f, Long->%f  (%d:%d)\n",temp.boneid,temp.name,temp.Location.latit,temp.Location.longi, temp.Location.x,temp.Location.y);
+                            output.format("\nID:%d, Bonename:%s, Lat->%f, Long->%f  (%d:%d) Price:%f\n",temp.boneid,temp.name,temp.Location.latit,temp.Location.longi, temp.Location.x,temp.Location.y,temp.price);
                         }
                         output.format("\nHow would you like to handle your bone Handler\n"+
                                 "1:Make bonez"

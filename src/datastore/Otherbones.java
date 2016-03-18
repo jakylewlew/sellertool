@@ -27,7 +27,7 @@ class Gigantosaurus extends LandCarnivore {
     void poorLittleMe() { System.out.printf("Bigger than T-Rex, but not as cool\n"); }
     
     public Gigantosaurus(){  
-    boneid = (int) System.currentTimeMillis()%999999;//6 digitid
+    boneid = -1 * (int) System.currentTimeMillis()%999999;//6 digitid
     age = 0;
     price = 0;
     weight = 0;
@@ -49,7 +49,7 @@ class TyrannosaurusRex extends LandCarnivore {
     public TyrannosaurusRex(){
         
     price = 0;
-    boneid = (int) System.currentTimeMillis()%99999;
+    boneid = -1 * (int) System.currentTimeMillis()%99999;
     age = 0;
     price = 0;
     weight = 0;
@@ -66,7 +66,7 @@ class Velociraptor extends LandCarnivore {
     int size = (int) System.currentTimeMillis() % 3;
     public Velociraptor() {  
         price = 0;
-        boneid = (int) System.currentTimeMillis()%99999;
+        boneid = -1 * (int) System.currentTimeMillis()%99999;
         age = 0;
         price = 0;
         weight = 0;
@@ -96,7 +96,7 @@ class Spinosaurus extends LandCarnivore {
     
     int spines = (int)(System.currentTimeMillis()%8);//fins bw  0 and 8;
     price = 0;
-    boneid = (int) System.currentTimeMillis()%99999;
+    boneid = -1 * (int) System.currentTimeMillis()%99999;
     age = 0;
     price = 0;
     weight = 0;
@@ -113,10 +113,11 @@ class LandHerbivore extends LandDinosaur {
 }
 
 class Triceratops extends LandHerbivore {
-    Triceratops()
+    protected int added_price = 2500;
+    public Triceratops(float price)
     {
-    price = 2500;  //direction want it to be a double but our DinoCLass def as float
-    boneid = (int) System.currentTimeMillis()%99999;
+    this.price = add_total(price);  //direction want it to be a double but our DinoCLass def as float
+    boneid = (int) System.currentTimeMillis()%99999 *-1;
     age = 0;
     weight = 0;
     condition = "N/A";
@@ -125,6 +126,10 @@ class Triceratops extends LandHerbivore {
     height = 0;
     name = "Triceratops#"+ boneid;
     }
+    public float add_total(float price)
+    {       
+        return added_price + price;
+    }
 }
 
 class Hylaeosaurus extends LandHerbivore {
@@ -132,7 +137,7 @@ class Hylaeosaurus extends LandHerbivore {
     int right = (int) System.currentTimeMillis()%3;
     public Hylaeosaurus() {     
         price = 0;
-        boneid = (int) System.currentTimeMillis()%99999;
+        boneid = -1 * (int) System.currentTimeMillis()%99999;
         age = 0;
         price = 0;
         weight = 0;
@@ -149,7 +154,7 @@ class Amargasaurus extends LandHerbivore {
     static String dlc = "EF02059517ABB1DA";
     Amargasaurus() {
         price = 0;
-        boneid = (int) System.currentTimeMillis()%99999;
+        boneid = -1 * (int) System.currentTimeMillis()%99999;
         age = 0;
         price = 0;
         weight = 0;
@@ -176,4 +181,4 @@ class SeaDinosaur extends DinosaurBone {
     }
     SeaDinosaur () { super(); tf(); }
     
-}
+} 

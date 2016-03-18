@@ -53,17 +53,17 @@ public class DinosaurBone {
         
            do{ output.format("\nEnter the coordinate Latitude:");
                x.globe_latitude = input.nextDouble();
-           }while ((x.globe_latitude < -90) || (x.globe_latitude > 90));
-            if(x. globe_latitude > 84){//take care of array ob because of trucation
+           }while ((x.globe_latitude < -90.0) || (x.globe_latitude > 90.0));
+            if(x. globe_latitude > 84.0){//take care of array ob because of trucation
                 x.globe_latitude = 84.0;
             }
-            if(x.globe_latitude<-90){
+            if(x.globe_latitude<-90.0){
                 x.globe_latitude = -90.0;//take care array ob
             }
         output.format("\nEnter the coordinate Longitude:");
         do{
             x.globe_longitude = input.nextDouble();
-        }while((x.globe_longitude < -90) || (x.globe_longitude > 90));
+        }while((x.globe_longitude < -180.0) || (x.globe_longitude > 180.0));
         
             if(globe_longitude < -174){
                 x.globe_longitude = -174.0;//must adjust because trunctation round value to 60,not 59 and causes a outo bounds error}
@@ -73,6 +73,7 @@ public class DinosaurBone {
             }
   
         output.format("\nEnter the price");
+            input.nextLine();
             x.price = getF();
                                         
       
@@ -185,10 +186,9 @@ public class DinosaurBone {
             break;
         }
         case("Triceratops"):{ 
-            temp = new Triceratops();
+            temp = new Triceratops(price);
             temp.Location.longi = vertical;
             temp.Location.latit = horizontal;
-            temp.price = temp.price + this.price;
             temp.Location.updatecoordinates();
             break;
         }
