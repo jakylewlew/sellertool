@@ -5,6 +5,7 @@
  */
 package Sellertool;
 
+import datastore.Coordinates;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -29,32 +30,32 @@ public class Seller {
         
     }
     public Seller(){
-        float horizontal;
-        float vertical;
+        Double horizontal;
+        Double vertical;
         output.format("\nName:\n");
         name = input.nextLine();
         name = name.toLowerCase();//makes all case lowercase to find easily
         do{
             output.format("\nLatitude:\n");//get valis latitude//******could use getF instead********
-           try{ horizontal = input.nextFloat();
+           try{ horizontal = input.nextDouble();
            
            }catch(InputMismatchException e) {
                 input.next();
                 output.format("Error: Try again\n");
-                horizontal = 180;   //if wronf make sure that the do whi returns
+                horizontal = 180.0;   //if wronf make sure that the do whi returns
                    } 
         }while((horizontal>90) || (horizontal<-90));
         do{
             output.format("\nLongitude:\n");//get valid longitude
-            try{ vertical = input.nextFloat();
+            try{ vertical = input.nextDouble();
            
            }catch(InputMismatchException e) {
                 input.next();// reset input
                 output.format("Error: Try again\n");
-                vertical = 200;
+                vertical = 200.0;
            }
             
-        }while((vertical>180)||(vertical<-180));
+        }while((vertical>180.0)||(vertical<-180.0));
         location.latit = horizontal;
         location.longi = vertical;
         location.updatecoordinates();
@@ -220,11 +221,11 @@ public class Seller {
                 found = true;
                 do{//makes sure to get valid lat and longitudes
                     output.format("New Latitude\n");
-                    temp.location.latit = getF();
+                    temp.location.latit = input.nextDouble();
                 }while((temp.location.latit>90) || (temp.location.latit<-90));
                 do{
                     output.format("New Longitude\n");
-                    temp.location.longi = getF();
+                    temp.location.longi = input.nextDouble();
                 }while((temp.location.longi>180) || (temp.location.longi<-180));
                 temp.location.updatecoordinates();//function adjusts map coordinates
             }

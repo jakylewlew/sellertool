@@ -1,4 +1,4 @@
-package Sellertool;
+package datastore;
 
 
 
@@ -15,21 +15,21 @@ package Sellertool;
  */
 public class Coordinates {
     
-    float latit;
-    float longi;
-    int x;
-    int y;
+    public Double latit;
+    public Double longi;
+    public int x;
+    public int y;
     
     public Coordinates(){
       
       
     }
     
-    public Coordinates(float latitude, float longitude){
+    public Coordinates(Double latitude, Double longitude){
         latit = latitude;
         longi = longitude;
-        x = (int)(this.latit);
-        y = (int)(this.longi);
+        x = latit.intValue();
+        y = longi.intValue();
         
          if( y >= 0) {
             if( y == 0) {
@@ -77,8 +77,8 @@ public class Coordinates {
 
      public void updatecoordinates(){//a function for updating the xy coordinates when moved or created
         
-        x = (int)(this.latit);
-        y = (int)(this.longi);
+        x = latit.intValue();
+        y = longi.intValue();
         
          if( y >= 0) {
             if( y == 0) {

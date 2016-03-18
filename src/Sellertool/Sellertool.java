@@ -5,6 +5,10 @@ jacobalewis@mavs.uta.edu
 */
 package Sellertool;
 
+
+import datastore.MapO;
+import datastore.DinosaurBone;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -23,12 +27,13 @@ public class Sellertool{
     char map[][];
     Scanner input;
     Formatter output;
-    DinosaurBone temp;
+    DinosaurBone temp = null;
     Scanner scanstream; 
     public boolean maploaded;
     public boolean filesloaded;
     public boolean createdBone;
     Seller sellerop;
+   
     
             public Sellertool(){
             sellerop = new Seller(0);
@@ -50,7 +55,8 @@ public class Sellertool{
                     +"3:Show the world map with Bones\n"
                     +"4:Save Files\n5"
                     +":Load Files\n"
-                    + "6:Create Seller\n"+""
+                    + "6:Create Seller\n"+
+                    "8:Make Specailty\n"
                     + "7:Exit\n");
             int choice = getI();
                    
@@ -91,7 +97,7 @@ public class Sellertool{
                     output.format("\nFiles are saved...\n");
                     filewriter.close();
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(Sellertool.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Sellertool.class.getName()).log(Level.SEVERE, null, ex); 
                 }
                 
                 
@@ -119,6 +125,23 @@ public class Sellertool{
             case(7):{
                 System.exit(0);
                 break;
+            }
+            case(8):{
+                    String[] line;
+                    DinosaurBone temporary = new DinosaurBone();
+                    System.out.print("Give Dino Type\n");
+                    String buffer = input.nextLine();
+                    line = buffer.split(",");
+                    Double vertical = Double.parseDouble(line[0]);
+                  
+                    Double horizontal = Double.parseDouble(line[1]);
+                    
+                    String bonety = line[2];
+                    float price = Float.parseFloat(line[3]);
+                   temporary = temporary.Super(vertical,horizontal,bonety, price);
+                    bonelist.add(temporary);
+                    break;
+                
             }
             default:{
             output.format("\nTry Again...\n");
@@ -161,8 +184,8 @@ public class Sellertool{
                 temp.price = Float.parseFloat(data[2].trim());
                 temp.weight = Float.parseFloat(data[3].trim());
                 temp.bought = Integer.parseInt(data[4].trim());
-                temp.globe_longitude = Float.parseFloat(data[5].trim());
-                temp.globe_latitude = Float.parseFloat(data[6].trim());
+                temp.globe_longitude = Double.parseDouble(data[5].trim());
+                temp.globe_latitude = Double.parseDouble(data[6].trim());
                 temp.length = Float.parseFloat(data[7].trim());
                 temp.width = Float.parseFloat(data[8].trim());
                 temp.height = Float.parseFloat(data[9].trim());
