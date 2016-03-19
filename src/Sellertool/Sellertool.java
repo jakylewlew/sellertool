@@ -10,7 +10,6 @@ import DataStore.Amargasaurus;
 import DataStore.Dakosaurus;
 import DataStore.MapO;
 import DataStore.Dinosaur;
-import DataStore.DinosaurBone;
 import DataStore.Giganotosaurus;
 import DataStore.Hylaeosaurus;
 import DataStore.Pteranodon;
@@ -23,7 +22,6 @@ import DataStore.Velociraptor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import static java.lang.System.exit;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Scanner;
@@ -135,35 +133,48 @@ public class Sellertool{
             case(6):{
                 sellerop.changesellermenu();//calls sellermenu in seller class
                 break;
-              }
+            } 
+            
             case(7):{
-                System.exit(0);
-                break;
-            }
-            case(8):{
                     String[] line;
                     boolean notfound = false;
                     
                     do{
-                    System.out.print("Enter Bone with this format\n"+
+                    
+                     try{
+                         System.out.print("Enter Bone with this format\n"+
                             "Latitude,Longitude,Bone Type,Price\n");
-                   
+                         
                     String buffer = input.nextLine();
                     line = buffer.split(",");
+                   
                     Double vertical = Double.parseDouble(line[0]);
                     Double horizontal = Double.parseDouble(line[1]);
                     String bonety = line[2];
                     float price = Float.parseFloat(line[3]);
+                   
                         if(getspecialbone(vertical,horizontal,bonety, price)==null){
-                            notfound = true; //if method returns null; 
-                            }                    
+                            notfound = true; //if method returns null;
+                            }  
+                     }catch(ArrayIndexOutOfBoundsException e){
+                         output.format("Enter Valid Input!!!\n");
+                         notfound = true;
+                         
+                    }catch(NumberFormatException e){
+                        output.format("Enter Valid Input!!!\n");
+                         notfound = true;
+                        
+                    }
                     }while(notfound);  //will not break creating loop until valid bone is entered//not found == true
                    
                     
                         break;
                 
-            }
-            default:{
+            }case(8):{
+                System.exit(0);
+                break;
+                
+        }default:{
             output.format("\nTry Again...\n");
             }//catch bad choices
             
