@@ -6,11 +6,24 @@ jacobalewis@mavs.uta.edu
 package Sellertool;
 
 
-import datastore.MapO;
-import datastore.DinosaurBone;
+import DataStore.Amargasaurus;
+import DataStore.Dakosaurus;
+import DataStore.MapO;
+import DataStore.Dinosaur;
+import DataStore.DinosaurBone;
+import DataStore.Giganotosaurus;
+import DataStore.Hylaeosaurus;
+import DataStore.Pteranodon;
+import DataStore.Pterodactyl;
+import DataStore.Shastasaurus;
+import DataStore.Spinosaurus;
+import DataStore.Triceratops;
+import DataStore.TyrannosaurusRex;
+import DataStore.Velociraptor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import static java.lang.System.exit;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Scanner;
@@ -22,12 +35,13 @@ import java.util.Random;
 
 public class Sellertool{
      
-    ArrayList<DinosaurBone> bonelist = new ArrayList<>();
+    ArrayList<Dinosaur> bonelist = new ArrayList<>();
     ArrayList<MapO> MapNode = new ArrayList<>();
+    ArrayList<Dinosaur> Dinolist = new ArrayList<>();
     char map[][];
     Scanner input;
     Formatter output;
-    DinosaurBone temp = null;
+    Dinosaur temp = null;
     Scanner scanstream; 
     public boolean maploaded;
     public boolean filesloaded;
@@ -56,8 +70,8 @@ public class Sellertool{
                     +"4:Save Files\n5"
                     +":Load Files\n"
                     + "6:Create Seller\n"+
-                    "8:Make Specailty\n"
-                    + "7:Exit\n");
+                    "7:Make Specailty\n"
+                    + "8:Exit\n");
             int choice = getI();
                    
             switch(choice)
@@ -128,19 +142,25 @@ public class Sellertool{
             }
             case(8):{
                     String[] line;
-                    DinosaurBone temporary = new DinosaurBone();
-                    System.out.print("Give Dino Type\n");
+                    boolean notfound = false;
+                    
+                    do{
+                    System.out.print("Enter Bone with this format\n"+
+                            "Latitude,Longitude,Bone Type,Price\n");
+                   
                     String buffer = input.nextLine();
                     line = buffer.split(",");
                     Double vertical = Double.parseDouble(line[0]);
-                  
                     Double horizontal = Double.parseDouble(line[1]);
-                    
                     String bonety = line[2];
                     float price = Float.parseFloat(line[3]);
-                   temporary = temporary.Super(vertical,horizontal,bonety, price);
-                    bonelist.add(temporary);
-                    break;
+                        if(getspecialbone(vertical,horizontal,bonety, price)==null){
+                            notfound = true; //if method returns null; 
+                            }                    
+                    }while(notfound);  //will not break creating loop until valid bone is entered//not found == true
+                   
+                    
+                        break;
                 
             }
             default:{
@@ -148,10 +168,6 @@ public class Sellertool{
             }//catch bad choices
             
             }//end switch1
-            
-            
-            
-      
             
             }//mainmenu
             
@@ -176,7 +192,7 @@ public class Sellertool{
                 //split string and strip white space
                 String[] data = buffer.split(",");
                 
-                temp = new DinosaurBone();
+               // temp = new DinosaurBone();
                 
                 temp.boneid = Integer.parseInt(data[0].trim());
                 //output.format(":got here");
@@ -197,7 +213,7 @@ public class Sellertool{
                 temp.Location.latit = temp.globe_latitude;
                 temp.Location.longi = temp.globe_longitude;
                 temp.Location.updatecoordinates();
-                bonelist.add(temp);
+               //bonelist.add(temp);
                 //output.format("%s", temp.prospector);
                 //scanstream.nextLine();
             }//while
@@ -297,7 +313,7 @@ public class Sellertool{
                 
         }//getf()
         public void makeBone(){//makes new bone calls boneediting for coord and id price yada puts in bone list
-                        temp = new DinosaurBone();
+                        //temp = new DinosaurBone();
                         temp.boneediting(temp);
                         Random rn = new Random();
                         temp.boneid = rn.nextInt(15000 -1 + 1);
@@ -324,7 +340,7 @@ public class Sellertool{
                         output.format("\nWho found it:");
                         temp.prospector  = input.nextLine();
                         temp.Location.updatecoordinates();            
-                        bonelist.add(temp); 
+                        //bonelist.add(temp); 
                          
     
     }   //import bones to bonelist return list for decifer with dollar signs
@@ -414,12 +430,12 @@ public class Sellertool{
         return symbol;
     }
         
-        public void bonehandle(){
+        public void bonehandle(){//operates on the bones
                 int i;
                 int x;
                 for(i=0;i<bonelist.size(); i++)
                         {   temp = bonelist.get(i);//prints the Current in bone list 
-                            output.format("\nID:%d, Bonename:%s, Lat->%f, Long->%f  (%d:%d) Price:%f\n",temp.boneid,temp.name,temp.Location.latit,temp.Location.longi, temp.Location.x,temp.Location.y,temp.price);
+                            output.format("\nID:%d, Bonename:%s, Lat->%f, Long->%f  (%d:%d) Price:%f\n",temp.boneID,temp.name,temp.coordinates.latit,temp.coordinates.longi, temp.coordinates.x,temp.coordinates.y,temp.price);
                         }
                         output.format("\nHow would you like to handle your bone Handler\n"+
                                 "1:Make bonez"
@@ -432,6 +448,7 @@ public class Sellertool{
                         {
                             case(1):
                                     {   
+                                            
                                         //make a bone from scratch
                                         makeBone();//will add to bonelist on its own
                                         createdBone = true;
@@ -545,8 +562,96 @@ public class Sellertool{
             
             
         }
- 
         
+ public Dinosaur getspecialbone(double latitude,double longitude,String bonety, float price ){
+        Dinosaur temp = null;
+        String[] specialbones = {"Spinosaurus","TyrannosaurusRex","Gigantosaurus","Velociraptor","Triceratops","Hylaeosaurus","Amargasaurus","Dakosaurus","Shastasaurus","Pterodactyl","Pterosaurs","Pteranodon"};
+        boolean inarray = false;//starts false
+
+        for(int i=0; i < specialbones.length; i++){//checks for valid dinosaur
+            
+            if(bonety.equals(specialbones[i])){
+                inarray = true;
+            }
+        }    
+    if(inarray){
+    
+    switch(bonety){//uses the 3rd string from super as a switch to make that typ of dinosaur
+    
+        case("Spinosaurus"): {
+            
+            temp = new Spinosaurus(latitude, longitude, price);//(x,y,price)
+            bonelist.add(temp);
+            break;
+            
+        } 
+        case("TyrannosaurusRex"):{
+        
+            temp = new TyrannosaurusRex(latitude,longitude,  price);//(x,y,price)
+            bonelist.add(temp);
+            break;
+        
+        }
+        case("Gigantosaurus"):{
+            temp = new Giganotosaurus(latitude, longitude, price);//(x,y,price)
+            bonelist.add(temp);
+            break;
+        
+        }
+        case("Velociraptor"):{
+            temp = new Velociraptor(latitude, longitude, price);//(x,y, price
+            bonelist.add(temp);
+            break;
+        }
+        case("Triceratops"):{ 
+            temp = new Triceratops(latitude, longitude, price);//(x,y, price
+            bonelist.add(temp);
+            break;
+        }
+        case("Hylaeosaurus"):{ 
+            temp = new Hylaeosaurus(latitude, longitude, price);//(x,y, price
+            bonelist.add(temp);
+            break;
+        }
+        case("Amargasaurus"):{
+            temp = new Amargasaurus(latitude, longitude, price);//(x,y, price
+            temp.coordinates.updatecoordinates();
+            bonelist.add(temp);
+            break;
+           
+        }case("Dakosaurus"):{
+            temp = new Dakosaurus(latitude, longitude, price);//(x,y, price
+            bonelist.add(temp);
+            break;
+        }case("Shastasaurus"):{
+            temp = new Shastasaurus(latitude, longitude, price);//(x,y, price
+            bonelist.add(temp);
+            break;
+        }case("Pterodactyl"):{
+            temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
+            bonelist.add(temp);
+            break;
+        }case("Pterosaurs"):{
+            temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
+            bonelist.add(temp);
+            break;
+        }case("Pteranodon"):{
+            temp = new Pteranodon(latitude, longitude, price);//(x,y, price
+            bonelist.add(temp);
+            break;            
+        }default:{
+            System.out.print("Not a valid bone please select one of the following types\nSpinosaurus\nTyrannosaurusRex"+
+                    "\nGigantosaurus\nVelociraptor\nTriceratops\nHylaeosaurus\nAmargasaurus\n");
+        }//default
+    }//switch    
+     
+    return temp;    
+    }
+    else{
+        return null; 
+    }
+ }//Super  
+         
         
         
      public static void main(String[] args){

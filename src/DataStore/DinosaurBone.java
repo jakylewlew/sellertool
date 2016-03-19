@@ -1,8 +1,5 @@
-package datastore;
-
-
+package DataStore;
 import java.util.Formatter;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -33,7 +30,6 @@ public class DinosaurBone {
             public float height; 
             public int buyer_id;
             public String name ;
-           
             public String country; 
             public String prospector;
             public Demensions perspective;
@@ -133,88 +129,7 @@ public class DinosaurBone {
       
     /*8public void updatelocation(DinosaurBone x, float lat, float lon){
                 x.Location = new Coordinates(lat,lon);*/
-    public DinosaurBone Super(double vertical, double horizontal, String bonety, float price ){
-        DinosaurBone temp = null;
-        String[] specialbones = {"Spinosaurus","TyrannosaurusRex","Gigantosaurus","Velociraptor","Triceratops","Hylaeosaurus","Amargasaurus"};
-        boolean inarray = false;
-
-        for(int i=0; i < specialbones.length; i++){
-            
-            if(bonety.equals(specialbones[i])){
-                inarray = true;
-            }
-        }    
-    if(inarray){
-    
-    switch(bonety){//uses the 3rd string from super as a switch to make that typ of dinosaur
-    
-        case("Spinosaurus"): {
-            
-            temp = new Spinosaurus();
-            temp.Location.longi = vertical;
-            temp.Location.latit = horizontal;
-            temp.price = this.price;
-            temp.Location.updatecoordinates();
-            break;
-            
-        } 
-        case("TyrannosaurusRex"):{
-        
-            temp = new TyrannosaurusRex();
-            temp.Location.longi = vertical;
-            temp.Location.latit = horizontal;
-            temp.price = this.price;
-            temp.Location.updatecoordinates();
-            break;
-        
-        }
-        case("Gigantosaurus"):{
-            temp = new Gigantosaurus();
-            temp.Location.longi = vertical;
-            temp.Location.latit = horizontal;
-            temp.price = this.price;
-            temp.Location.updatecoordinates();
-            break;
-        
-        }
-        case("Velociraptor"):{
-            temp = new Velociraptor();
-            temp.Location.longi = vertical;
-            temp.Location.latit = horizontal;
-            temp.price = this.price;
-            temp.Location.updatecoordinates();
-            break;
-        }
-        case("Triceratops"):{ 
-            temp = new Triceratops(price);
-            temp.Location.longi = vertical;
-            temp.Location.latit = horizontal;
-            temp.Location.updatecoordinates();
-            break;
-        }
-        case("Hylaeosaurus"):{ 
-            temp = new Velociraptor();
-            temp.Location.longi = vertical;
-            temp.Location.latit = horizontal;
-            temp.price = this.price;
-            temp.Location.updatecoordinates();
-            break;
-        }
-    case("Amargasaurus"):{
-            temp = new Velociraptor();
-            temp.Location.longi = vertical;
-            temp.Location.latit = horizontal;
-            temp.price = this.price;
-           
-    }
-    default:{       
-        break;
-    }//default
-    }//switch    
-        return temp;    
-     }//if in array
-    else return null; 
- }//Super           
+         
                 
 }//class constructor  
   
