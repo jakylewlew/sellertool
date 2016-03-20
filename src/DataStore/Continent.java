@@ -1,29 +1,26 @@
 package DataStore;
-
-
-//import Datastore.Coordinates;
 import java.util.*;
 import java.io.*;
 
 
 public class Continent{
 	//attributes
-	boolean arr[][];
-	String descriptor;
-	float price;
+	public boolean arr[][];
+	public String descriptor;
+	public float price;
 	
 	//constructor
 	public Continent(String FileName, String descriptor_) {
 		this.arr = new boolean[60][20];
-		load(FileName);
+		this.load(FileName);
 		this.descriptor = descriptor_;
 		this.setPrice(descriptor_);
 	}
 	
 	//member functions
 	public boolean IsInContinent(Coordinates coordinate) {
-		int temp_x = coordinate.x;
-		int temp_y = coordinate.y;
+		int temp_x = coordinate.y;
+		int temp_y = coordinate.x;
 		boolean result = arr[temp_x][temp_y];
 		
 		return result;

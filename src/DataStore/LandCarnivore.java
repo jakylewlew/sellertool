@@ -6,7 +6,7 @@ import java.io.*;
 public class LandCarnivore extends LandDinosaur{
 	//atrributes
 	public double ground_speed;
-        long seed = System.currentTimeMillis();
+        
 	
 	//constructor
 	public LandCarnivore(int bone_id_, float price_, int bought_, 
@@ -18,12 +18,24 @@ public class LandCarnivore extends LandDinosaur{
 	}
         
         public LandCarnivore(double y, double x, float price_ ){
+            
             super( y, x, price_);
+            long seed = System.currentTimeMillis();
             this.ground_speed =  seed%45;
        
         }
         
+        public float pricing() {
+            Random rn = new Random();
+            int temp = rn.nextInt(100000 - 20000 + 1) - 20000; 
+            float res = (float)temp;
+
+            return res;
 }
+}
+
+
+
 
 
 

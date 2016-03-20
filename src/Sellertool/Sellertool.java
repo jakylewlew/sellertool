@@ -598,7 +598,7 @@ public class Sellertool{
         } 
         case("TyrannosaurusRex"):{
         
-            temp = new TyrannosaurusRex(latitude,longitude,  price);//(x,y,price)
+            temp = new TyrannosaurusRex(latitude,longitude,price);//(x,y,price)
             bonelist.add(temp);
             break;
         
