@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Sellertool;
+package DataStore;
 
+import Sellertool.*;
 import DataStore.Coordinates;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +23,6 @@ import java.util.logging.Logger;
 public class Seller {
     ArrayList<Seller> masterlist = new ArrayList();
     String name;
-   
     Coordinates location = new Coordinates();
     Scanner input =new Scanner(System.in);
     Formatter output = new Formatter(System.out);
@@ -33,7 +33,6 @@ public class Seller {
     public Seller(){
         Double horizontal;
         Double vertical;
-        
         output.format("\nName:\n");
         name = input.nextLine();
         name = name.toLowerCase();//makes all case lowercase to find easily

@@ -13,10 +13,7 @@ public class Shastasaurus extends SeaCarnivore{
 	}
 	
         public Shastasaurus(double latitude,double longitude,float price){
-             super(latitude, longitude, price);
-            boneID = -1 * (int) System.currentTimeMillis()%99999;
-            buyer = null;
-            seller = null;
+            super(latitude, longitude, price);
             bought = 0;
             name = "Shastasaurus";
         }

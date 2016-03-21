@@ -18,9 +18,6 @@ public class Triceratops extends LandHerbivore{
          public Triceratops(double latitude, double longitude, float price){
             
              super(latitude, longitude, price);
-             boneID = -1 * (int) System.currentTimeMillis()%99999;
-            buyer = null;
-            seller = null;
             bought = 0;
             name = "Triceratops";
             this.adjusted_price += (float)this.added_cost;

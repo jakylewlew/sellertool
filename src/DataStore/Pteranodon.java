@@ -27,11 +27,8 @@ public class Pteranodon extends AirCarnivore{
         public Pteranodon(double latitude, double longitude, float price){
             
             super(latitude, longitude, price);
-            boneID = -1 * (int) System.currentTimeMillis()%99999;
-            buyer = null;
-            seller = null;
             bought = 0;
-            name = "Pteranodon"+ boneID;
+            name = "Pteranodon";
             Random rn = new Random();
             int temp = rn.nextInt(2-1+1) + 1; //from 1 to 2
 		

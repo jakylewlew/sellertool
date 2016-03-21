@@ -19,13 +19,12 @@ public class TyrannosaurusRex extends LandCarnivore{
         
         public TyrannosaurusRex(double latitude,double longitude, float price){//jakes constructor
             super(latitude, longitude,price);
-            boneID = (int) System.currentTimeMillis()%99999 *-1;
+          
             int smellRange = -1 *(int) System.currentTimeMillis()%100;//ramd number by time less than 100
             if (smelling_range<20)    //if less than 20, make twnty for min smellrange
             {smelling_range = 20;
             } name = "TyrannosaurusRex";
-            buyer = null;
-            seller = null;
+        
             bought = 0;
         }
 	 

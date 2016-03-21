@@ -19,27 +19,10 @@ public class Velociraptor extends LandCarnivore{
         public Velociraptor(double latitude, double longitude, float price){
             
             super(latitude, longitude,price);
-            boneID = (int) System.currentTimeMillis()%99999 *-1;
             name = "Velociraptor";
-            buyer = null;
-            seller = null;
             bought = 0;
             size = (int)System.currentTimeMillis()%3;
-            String result = "";
-            switch(size) {
-			case 1:
-				result = "Small";
-				break;
-			case 2:
-				result = "Medium";
-				break;
-			case 3:
-				result = "Large";
-				break;
-			default:
-				result = "Large";
-				break;
-             }
+           
         }
 	
 	public String getSizeLabel() {

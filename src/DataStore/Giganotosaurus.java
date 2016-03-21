@@ -15,9 +15,6 @@ public class Giganotosaurus extends LandCarnivore{
         public Giganotosaurus(double latitude, double longitude, float price){
             
             super(latitude, longitude, price);
-            boneID = -1 * (int) System.currentTimeMillis()%99999;
-            buyer = null;
-            seller = null;
             bought = 0;
             name = "Gigantosaurus";
         }

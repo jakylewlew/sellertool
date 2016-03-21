@@ -1,12 +1,13 @@
 package DataStore;
 
-import Sellertool.Seller;
+
+
 
 import java.util.*;
 import java.io.*;
 
 //DINOSAUR CLASSES
-public class Dinosaur extends DinosaurBone{
+public class Dinosaur {
     public int boneID; 
     public float price;
     public float adjusted_price;
@@ -16,6 +17,7 @@ public class Dinosaur extends DinosaurBone{
     public int bought; 
     
     public String name;
+    
             
 
     public Dinosaur(int bone_id, float price_, 
@@ -33,10 +35,23 @@ public class Dinosaur extends DinosaurBone{
          this.price = price;
          this.adjusted_price = price;
          this.coordinates = new Coordinates(x,y);
+         boneID = -1 * (int) System.currentTimeMillis()%99999;
+         buyer = new Buyer("Your Name",((int)boneID%999),0,0);//default
+         seller = new Seller(0);
+         seller.name = "Jacob Lewis";
          bought = 0;
         
     }
+     
+     public Dinosaur(){
+          this.coordinates = new Coordinates();
+          boneID = -1 * (int) System.currentTimeMillis()%99999;
+          buyer = new Buyer("Your Name",((int)boneID%999),0,0);//default
+          seller = new Seller(0);
+          seller.name = "Jacob Lewis";
+     }
     
+     
     
     
 }

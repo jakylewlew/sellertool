@@ -29,11 +29,10 @@ public class Spinosaurus extends LandCarnivore{
             
             
                 super(y,x,price_);
-                boneID = (int) System.currentTimeMillis()%99999 *-1;
+               
                 spines = (int)(System.currentTimeMillis()%8);//fins bw  0 and 8;
 		name = "Spinosaurus";
-                buyer = null;
-                seller = null;
+               
                 bought = 0;
         }
 }
