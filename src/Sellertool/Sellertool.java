@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 
 
 
+
 public class Sellertool{
      
     ArrayList<Dinosaur> bonelist = new ArrayList<>();
@@ -318,8 +319,6 @@ public class Sellertool{
                         input.nextLine();//clear
                         output.format("Price\n");
                         Float price = getF();
-                       
-                        
                         temp = go_pick_type(latit,longi,price);
                         
                         change_suggested_price(temp);
@@ -382,6 +381,7 @@ public class Sellertool{
                 for( i=0; i<bonelist.size(); i++) {
                      //output.format("%s%d:%d|\n",bonelist.get(i).name, bonelist.get(i).Location.x,bonelist.get(i).Location.y);
                     //get map info from bone arraylist
+                    
                     int bought = bonelist.get(i).bought;
                      x = bonelist.get(i).coordinates.x;
                      y = bonelist.get(i).coordinates.y;
@@ -467,13 +467,15 @@ public class Sellertool{
                                         break;
                                     }    
 
-                            case(2):{if(bonelist.isEmpty()){
-                                     output.format("\nNo bones are loaded yet....\n");
-                                     break;}
+                            case(2):{
+                                if(bonelist.isEmpty()){
+                                output.format("\nNo bones are loaded yet....\n");
+                                break;
+                            }
                                      boolean found = false;
                                      output.format("\nEnter ID number of the bone you would like to Sell:");
                                      x = input.nextInt();
-                                     input.nextLine();
+                                     input.nextLine(); //clear
                                      for(i=0; i<bonelist.size(); i++) 
                                      {
                                         if (bonelist.get(i).boneID == x ) //goes through sellablebonelist and checks if that id number exsists
@@ -496,11 +498,14 @@ public class Sellertool{
                                               {
                                                   bonelist.get(i).bought = 1;
                                               }
+                                              if((x == bonelist.get(i).boneID) && (bonelist.get(i).bought == 1)){//changes back to usold
+                                                  bonelist.get(i).bought = 0;
+                                              }
                                               
-                                            }          
-                                          break;
-                                        }
-                                    }break;
+                                            }   break;       
+                                          
+                                        }break;
+                                    }
                             case(3):{  //Modify bones
                                     if(bonelist.isEmpty())//make sure that the has bones
                                     {
@@ -533,7 +538,7 @@ public class Sellertool{
 
                                         break;
                                     }
-                            case (4):{
+                            case (4):{//removes bone form bone list
                                 boolean found = false;
                                 
                                 if(bonelist.isEmpty()){
@@ -544,7 +549,7 @@ public class Sellertool{
                                 
                                 output.format("\nEnter ID of removed bone:");
                                 int remove_ID = getI();
-                                int bone_index = 0;//gets the  bone index to remove said bone
+                                int bone_index = 0; //gets the  bone index to remove said bone
                                 for (int iter = 0; iter <bonelist.size(); iter++)
                                 {
                                     if (bonelist.get(iter).boneID == remove_ID)
@@ -570,7 +575,7 @@ public class Sellertool{
                             {   boolean found = false;
                                 output.format("Enter ID number:\n");
                                 int see_adj_price = getI();
-                                int bone_index = 0;//gets the  bone index to remove said bone
+                                int bone_index = 0;     //gets the  bone index to remove said bone
                                 for (int iter = 0; iter <bonelist.size(); iter++)
                                 {
                                     if (bonelist.get(iter).boneID == see_adj_price)
@@ -582,7 +587,8 @@ public class Sellertool{
                                 }
 
                                 if (found){
-                                    output.format("Suggested Price: %f",bonelist.get(bone_index).adjusted_price);
+                                    output.format("Suggested Price: %f\n",bonelist.get(bone_index).adjusted_price);
+                                    break;
                                 }
                                 
                             }case(6):{
@@ -744,8 +750,7 @@ public class Sellertool{
                x.coordinates.latit = input.nextDouble();
            }while ((x.coordinates.latit < -90.0) || (x.coordinates.latit > 90.0));
             if(x.coordinates.latit > 84.0){//take care of array ob because of trucation
-                x.coordinates.latit = 84.0;
-                x.coordinates.x = 90;
+                x.coordinates.latit = 90.00;
             }
             if(x.coordinates.latit<-90.0){
                 x.coordinates.latit = -90.0;//take care array ob
@@ -756,10 +761,10 @@ public class Sellertool{
         }while((x.coordinates.longi < -180.0) || (x.coordinates.longi > 180.0));
         
             if(x.coordinates.longi < -174){
-                x.coordinates.longi = -174.0;//must adjust because trunctation round value to 60,not 59 and causes a outo bounds error}
+                x.coordinates.longi = -180.0;//must adjust because trunctation round value to 60,not 59 and causes a outo bounds error}
             }
             if (x.coordinates.longi>174){
-                x.coordinates.longi= 174.0;//array ob adjustment
+                x.coordinates.longi= 180.0;//array ob adjustment
             }
             x.coordinates.updatecoordinates();
             
