@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -142,8 +143,9 @@ public class Sellertool{
                 break;
             } 
             
-            case(7):{
-                    get_a_bone();
+            case(7):{  
+                    scramble();
+                            
                     break;
                 
             }case(8):{
@@ -498,9 +500,11 @@ public class Sellertool{
                                                   
                                               {
                                                   bonelist.get(i).bought = 1;
+                                                  break;
                                               }
                                               if((x == bonelist.get(i).boneID) && (bonelist.get(i).bought == 1)){//changes back to usold
                                                   bonelist.get(i).bought = 0;
+                                                  break;
                                               }
                                               
                                             }   break;       
@@ -985,6 +989,64 @@ public class Sellertool{
         return null;
     }
  }
+         //Scramble function
+    public void scramble() {
+        //check if there is anything to scramble
+        if(this.bonelist.isEmpty() && this.sellerop.masterlist.isEmpty()) {
+            this.output.format("\nNo data to scramble..\n\n");
+        }
+        else if(!this.maploaded) { 
+            //if map not loaded
+            this.output.format("\nPlease Load Map First!!\n\n");
+        }
+        else{
+            //correct data, scramble it
+            if(!this.sellerop.masterlist.isEmpty()) {
+                //scramble buyers
+                for(int i=0; i<this.sellerop.masterlist.size(); ++i) {
+                    
+                    Random rn = new Random();
+                    double temp_long = rn.nextInt((180 - (-180) + 1)) + (-180);
+                    double temp_lat = rn.nextInt((90 - (-90) + 1)) + (-90);
+                    Coordinates tempCoord = new Coordinates(temp_lat,temp_long);
+                    this.sellerop.masterlist.get(i).coordinate = tempCoord;
+
+                }
+                
+            }
+            //scramble bones
+            if(!this.bonelist.isEmpty()) {
+                //create temporary map
+                int[][] temp_map = new int[60][20];
+                for(int i=0; i<this.MapNode.size(); ++i) {
+                    int tempX = this.MapNode.get(i).MapX;
+                    int tempY = this.MapNode.get(i).MapY;
+                    int tempZ = this.MapNode.get(i).MapZ;
+                    temp_map[tempX][tempY] = tempZ;
+                }
+                
+                //scramble each bone
+                for(int i=0; i<this.bonelist.size(); ++i) {
+                    while(true) {
+                        //create random coordinates
+                        Random rn = new Random();
+                        double temp_long = rn.nextInt((180 - (-180) + 1)) + (-180);
+                        double temp_lat = rn.nextInt((90 - (-90) + 1)) + (-90);
+                        Coordinates tempCoord = new Coordinates(temp_lat,temp_long);
+                        int temp_x = tempCoord.y;
+                        int temp_y = tempCoord.x;
+                        
+                        //if bone is on land, set new bone coordinate
+                        if(temp_map[temp_x][temp_y] == 1) {
+                            this.bonelist.get(i).coordinates = tempCoord;
+                            break; //from while loop
+                        }
+                    } 
+                }
+            }
+        }
+    }       
+        
          
      public static void main(String[] args){
         
@@ -992,10 +1054,6 @@ public class Sellertool{
             while(true){
                 seller.mainmenu();
             }
-                    
-                
-       
-        
            }//main
 }
                    

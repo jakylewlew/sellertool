@@ -20,10 +20,10 @@ import java.util.logging.Logger;
  * @author Jacob
  */
 public class Seller {
-    ArrayList<Seller> masterlist = new ArrayList();
+    public ArrayList<Seller> masterlist = new ArrayList();
     String name;
    
-    Coordinates location = new Coordinates();
+    Coordinates coordinate = new Coordinates();
     Scanner input =new Scanner(System.in);
     Formatter output = new Formatter(System.out);
     
@@ -58,9 +58,9 @@ public class Seller {
            }
             
         }while((vertical>180.0)||(vertical<-180.0));
-        location.latit = horizontal;
-        location.longi = vertical;
-        location.updatecoordinates();
+        coordinate.latit = horizontal;
+        coordinate.longi = vertical;
+        coordinate.updatecoordinates();
        input.nextLine();//clearScanner
        
   }
@@ -168,7 +168,7 @@ public class Seller {
             Formatter filewriter = new Formatter(sellerlist);
             for(i = 0; i< masterlist.size(); i++){
                 temp = masterlist.get(i);
-                filewriter.format("%s,%d,%d\n", temp.name,temp.location.x,temp.location.y);
+                filewriter.format("%s,%d,%d\n", temp.name,temp.coordinate.x,temp.coordinate.y);
               
             }
           filewriter.close();
@@ -223,13 +223,13 @@ public class Seller {
                 found = true;
                 do{//makes sure to get valid lat and longitudes
                     output.format("New Latitude\n");
-                    temp.location.latit = input.nextDouble();
-                }while((temp.location.latit>90) || (temp.location.latit<-90));
+                    temp.coordinate.latit = input.nextDouble();
+                }while((temp.coordinate.latit>90) || (temp.coordinate.latit<-90));
                 do{
                     output.format("New Longitude\n");
-                    temp.location.longi = input.nextDouble();
-                }while((temp.location.longi>180) || (temp.location.longi<-180));
-                temp.location.updatecoordinates();//function adjusts map coordinates
+                    temp.coordinate.longi = input.nextDouble();
+                }while((temp.coordinate.longi>180) || (temp.coordinate.longi<-180));
+                temp.coordinate.updatecoordinates();//function adjusts map coordinates
             }
             if(found){
             writesellerfile();//write updated masterlist to list
@@ -249,8 +249,8 @@ public class Seller {
         }
         else{
             for(i=0; i <masterlist.size();i++){    //prints sll in the list if there is anyhting there
-                output.format("\nName:%s \nLocation:Lat->%f Long->%f\n",masterlist.get(i).name,masterlist.get(i).location.latit, masterlist.get(i).location.longi);
-                output.format("MapCoorinates: Lat %d: Long %d\n", masterlist.get(i).location.x,masterlist.get(i).location.y);
+                output.format("\nName:%s \nLocation:Lat->%f Long->%f\n",masterlist.get(i).name,masterlist.get(i).coordinate.latit, masterlist.get(i).coordinate.longi);
+                output.format("MapCoorinates: Lat %d: Long %d\n", masterlist.get(i).coordinate.x,masterlist.get(i).coordinate.y);
             }
         }
     }
