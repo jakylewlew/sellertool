@@ -46,6 +46,7 @@ public class Sellertool{
     public boolean maploaded;
     public boolean filesloaded;
     public boolean createdBone;
+    public boolean moved;
     Seller sellerop;
     
     
@@ -107,7 +108,7 @@ public class Sellertool{
                     for(i=0;i<bonelist.size();i++){
                         temp = bonelist.get(i);
                        // filewriter.format( "%d,%d,%f,%f,%d,%f,%f,%f,%f,%f,%d,%s,%s,%s,%s%\n",temp.boneID,temp.age,temp.price,temp.weight,temp.bought,temp.globe_longitude,temp.globe_latitude,temp.length,temp.width,temp.height,temp.buyer_id,temp.name,temp.condition,temp.country,temp.prospector );
-                       output.format("%d,%f,%f,%f,%d,%s\n", temp.boneID, temp.price, temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
+                       //output.format("%d,%f,%f,%f,%d,%s\n", temp.boneID, temp.price, temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
                        filewriter.format("%d,%f,%d,%f,%f,%d,%s\n", temp.boneID, temp.price,temp.bought,temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
                         
                     }
@@ -199,7 +200,7 @@ public class Sellertool{
                         //temp.Location.longi = temp.globe_longitude;
                         //temp.Location.updatecoordinates();
                 temp.coordinates.updatecoordinates();
-                change_suggested_price(temp);
+                change_suggested_price(temp,moved); //moved is false//goes to new bone price change piece line 815
                 bonelist.add(temp);
                         //output.format("%s", temp.prospector);
                         //scanstream.nextLine();
@@ -320,8 +321,7 @@ public class Sellertool{
                         output.format("Price\n");
                         Float price = getF();
                         temp = go_pick_type(latit,longi,price);
-                        
-                        change_suggested_price(temp);
+                        change_suggested_price(temp,moved); //make new adjusted price // new bone piece line 815
                         sugg_price_function(temp);
                         
                        // Random rn = new Random();
@@ -379,7 +379,7 @@ public class Sellertool{
             if(filesloaded || createdBone) {
                 //load bones into map
                 for( i=0; i<bonelist.size(); i++) {
-                     //output.format("%s%d:%d|\n",bonelist.get(i).name, bonelist.get(i).Location.x,bonelist.get(i).Location.y);
+                    //output.format("%s%d:%d|\n",bonelist.get(i).name, bonelist.get(i).Location.x,bonelist.get(i).Location.y);
                     //get map info from bone arraylist
                     
                     int bought = bonelist.get(i).bought;
@@ -445,11 +445,12 @@ public class Sellertool{
                 int x;
                 for(i=0;i<bonelist.size(); i++)
                         {   temp = bonelist.get(i);//prints the Current in bone list 
+                            change_suggested_price(temp,!moved);  //changes pricing according to continent //!moved is true// line 818 should execute
                             output.format("\nID:%d, Bonename:%s, Lat->%f, Long->%f  (%d:%d) Price:%f\n",temp.boneID,temp.name,temp.coordinates.latit,temp.coordinates.longi, temp.coordinates.x,temp.coordinates.y,temp.price);
                         }
                         output.format("\nHow would you like to handle your bone Handler\n"+
-                                "1:Make bone"
-                                +"\n2:Sell a bone\n"+
+                                "1:Make bone\n"
+                                +"2:Sell a bone\n"+
                                 "3:Modify a bone on the bone list\n"
                                 +"4:Remove bone\n"
                                 +"5:See Suggested price for a bone\n"+
@@ -529,8 +530,10 @@ public class Sellertool{
                                                 }//forloop check id 
                                         if(found)
                                         {
-                                            temp = bonelist.get(bone_index);//use of temp could interfear//can change to edit only your own bones
-                                            boneediting(temp);//cool bone is editng itself//change info for coord
+                                            temp = bonelist.get(bone_index);
+                                            boneediting(temp);          //change coord
+                                            moved = true;
+                                            change_suggested_price(temp,!moved);//change Suggested price//moved bone will execute 818
                                         }
                                         else{
                                             output.format("\nBone Not Found...\n");
@@ -573,7 +576,7 @@ public class Sellertool{
                             case (5):
                                 
                             {   boolean found = false;
-                                output.format("Enter ID number:\n");
+                                output.format("Suggested Price\nEnter ID number:\n");
                                 int see_adj_price = getI();
                                 int bone_index = 0;     //gets the  bone index to remove said bone
                                 for (int iter = 0; iter <bonelist.size(); iter++)
@@ -587,9 +590,11 @@ public class Sellertool{
                                 }
 
                                 if (found){
+                                    change_suggested_price(bonelist.get(bone_index),!moved);//moved is true// execute 818// 
                                     output.format("Suggested Price: %f\n",bonelist.get(bone_index).adjusted_price);
                                     break;
                                 }
+                                break;
                                 
                             }case(6):{
                                 get_a_bone();
@@ -624,7 +629,7 @@ public class Sellertool{
         case("Spinosaurus"): {
             
             temp = new Spinosaurus(latitude, longitude, price);//(x,y,price)
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);//moved is false
             System.out.print(temp.adjusted_price);
             bonelist.add(temp);
             break;
@@ -633,7 +638,7 @@ public class Sellertool{
         case("TyrannosaurusRex"):{
         
             temp = new TyrannosaurusRex(latitude,longitude,price);//(x,y,price)
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved); //moved is false
             System.out.print(temp.adjusted_price);
             bonelist.add(temp);
             
@@ -642,7 +647,7 @@ public class Sellertool{
         }
         case("Gigantosaurus"):{
             temp = new Giganotosaurus(latitude, longitude, price);//(x,y,price)
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             System.out.print(temp.adjusted_price);
             bonelist.add(temp);
             break;
@@ -650,51 +655,51 @@ public class Sellertool{
         }
         case("Velociraptor"):{
             temp = new Velociraptor(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }
         case("Triceratops"):{ 
             temp = new Triceratops(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }
         case("Hylaeosaurus"):{ 
             temp = new Hylaeosaurus(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }
         case("Amargasaurus"):{
             temp = new Amargasaurus(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);            
+            change_suggested_price(temp,moved);            
             bonelist.add(temp);
             break;
            
         }case("Dakosaurus"):{
             temp = new Dakosaurus(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }case("Shastasaurus"):{
             temp = new Shastasaurus(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }case("Pterodactyl"):{
             temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }case("Pterosaurs"):{
             temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }case("Pteranodon"):{
             temp = new Pteranodon(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;            
         }default:{
@@ -798,17 +803,32 @@ public class Sellertool{
       }//load continents
         
       
-    public void change_suggested_price(Dinosaur item){
+    public void change_suggested_price(Dinosaur item, Boolean change){
             for(int j=0; j<this.Continents.size(); ++j) {
                 if(this.Continents.get(j).IsInContinent(item.coordinates)) {
-                    item.adjusted_price = Continents.get(j).price +item.price;
+                    if(change == false){ //if current value for change is false; is created/has 
+                        if(item.adjusted_price>0){
+                            return;//if value exsits, bone exsists
+                        }
+                        else{ // if new bone
+                        item.adjusted_price = Continents.get(j).price +item.price;
+                        }
+                    }
+                    if(!change == true){ //if current value for change true; it has moved
+                        //item.adjusted_price = item.adjusted_price - item.price;//equals difference of prices
+                        item.adjusted_price = item.price + Continents.get(j).price; //adds new value to contine
+                        
+                    }
+               
                 }
-    
+                
+            moved = false; //always change to false to create new bones; // feed in true for bones that are moved
+                    
             }
     }        
     public void sugg_price_function(Dinosaur temp){
             float newprice;
-            output.format("Suggest price for this location id:$%.02f\n"
+            output.format("Suggest price for this location id:$%.2f\n"
                     + "Would you like to set your own price?\n"
                     + "Select 1 for Yes\n"
                     + "Select 2 for No\n",temp.adjusted_price);
@@ -881,7 +901,7 @@ public class Sellertool{
         case("Spinosaurus"): {
             
             temp = new Spinosaurus(latitude, longitude, price);//(x,y,price)
-            change_suggested_price(temp);
+            change_suggested_price(temp, moved);//moved is false new bone
             bonelist.add(temp);
             break;
             
@@ -889,7 +909,7 @@ public class Sellertool{
         case("TyrannosaurusRex"):{
         
             temp = new TyrannosaurusRex(latitude,longitude,price);//(x,y,price)
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             
             break;
@@ -897,7 +917,7 @@ public class Sellertool{
         }
         case("Gigantosaurus"):{
             temp = new Giganotosaurus(latitude, longitude, price);//(x,y,price)
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             System.out.print(temp.adjusted_price);
             bonelist.add(temp);
             break;
@@ -905,51 +925,51 @@ public class Sellertool{
         }
         case("Velociraptor"):{
             temp = new Velociraptor(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }
         case("Triceratops"):{ 
             temp = new Triceratops(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }
         case("Hylaeosaurus"):{ 
             temp = new Hylaeosaurus(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }
         case("Amargasaurus"):{
             temp = new Amargasaurus(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);            
+            change_suggested_price(temp,moved);            
             bonelist.add(temp);
             break;
            
         }case("Dakosaurus"):{
             temp = new Dakosaurus(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }case("Shastasaurus"):{
             temp = new Shastasaurus(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }case("Pterodactyl"):{
             temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }case("Pterosaurs"):{
             temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;
         }case("Pteranodon"):{
             temp = new Pteranodon(latitude, longitude, price);//(x,y, price
-            change_suggested_price(temp);
+            change_suggested_price(temp,moved);
             bonelist.add(temp);
             break;            
         }default:{
