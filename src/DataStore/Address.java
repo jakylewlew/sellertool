@@ -1,18 +1,23 @@
 package DataStore;
+
 import java.util.*;
 import java.io.*;
 
-
 public class Address {
+
     public int streetNumber;
+
     public String streetName;
+
     public String city;
+
     public String state_province;
+
     public String Country;
+
     public int postalCode;
 
-    public Address() 
-    {
+    public Address() {
         this.streetNumber = 221;
         this.streetName = "Baker Street";
         this.city = "London";
@@ -20,6 +25,4 @@ public class Address {
         this.Country = "England";
         this.postalCode = 69159;
     }
-    
 }
-

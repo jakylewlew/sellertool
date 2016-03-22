@@ -76,9 +76,9 @@ public class Sellertool{
                     + "6:Create Seller\n"+
                     "7:Scramble\n"
                     + "8:Exit\n");
-                   
+                  
             int choice = getI();
-                   
+            
             switch(choice)
             {
             case(1):{//loads the map             
@@ -220,42 +220,42 @@ public class Sellertool{
      }//make bone from files
         
         //loads the map from a text doc of csv file 1,0,0
-        public void LoadMap() {
-                        File MapFile;
-                        Scanner ScanFile;
-                        String Buffer;
-                        Scanner ScanBuffer;
+    public void LoadMap() {
+                    File MapFile;
+                    Scanner ScanFile;
+                    String Buffer;
+                    Scanner ScanBuffer;
 
-                        try {
-                            MapFile = new File("Map.txt");
-                            ScanFile = new Scanner(MapFile);
-                            MapO TempMap;
+                    try {
+                        MapFile = new File("Map.txt");
+                        ScanFile = new Scanner(MapFile);
+                        MapO TempMap;
 
-                            while(ScanFile.hasNextLine()) {
-                                Buffer = ScanFile.nextLine();
-                                ScanBuffer = new Scanner(Buffer).useDelimiter(",");
-                                TempMap = new MapO();
+                        while(ScanFile.hasNextLine()) {
+                            Buffer = ScanFile.nextLine();
+                            ScanBuffer = new Scanner(Buffer).useDelimiter(",");
+                            TempMap = new MapO();
 
-                                int x = 0; int y = 0; int z = 0;
+                            int x = 0; int y = 0; int z = 0;
 
-                                x = ScanBuffer.nextInt();
-                                y = ScanBuffer.nextInt();
-                                z = ScanBuffer.nextInt();
+                            x = ScanBuffer.nextInt();
+                            y = ScanBuffer.nextInt();
+                            z = ScanBuffer.nextInt();
 
-                                TempMap.MapX = x;
-                                TempMap.MapY = y;
-                                TempMap.MapZ = z;
-                                
+                            TempMap.MapX = x;
+                            TempMap.MapY = y;
+                            TempMap.MapZ = z;
 
-                                MapNode.add(TempMap);
-                                ScanBuffer.close();
-                            }//whileloop
-                            
-                            this.maploaded = true;
-                            ScanFile.close();
-                        }/*try*/ catch (Exception e) {
-                        }//catach exception
-                   }//load map
+
+                            MapNode.add(TempMap);
+                            ScanBuffer.close();
+                        }//whileloop
+
+                        this.maploaded = true;
+                        ScanFile.close();
+                    }/*try*/ catch (Exception e) {
+                    }//catach exception
+               }//load map
        
         public int getI(){//Int input mismatch 
         
@@ -263,19 +263,17 @@ public class Sellertool{
             String intbuffer;
             int result=0; 
             while(true)
-            {
+            {   
             try {
-               intbuffer = input.nextLine().trim();
+               intbuffer = input.nextLine();
                result = (Integer.valueOf(intbuffer));
-               
                break;
-            } catch(NumberFormatException e) {
-                output.format("Please try again\n");
-                continue;
-                
-            }
-            
-            } return result;
+            } catch (NumberFormatException | InputMismatchException e){ 
+                    output.format("Please try again\n");
+                    continue;
+                } 
+            }  
+            return result;
         }
             
       
@@ -283,29 +281,20 @@ public class Sellertool{
         public float getF()//float input mismatch
         {   String buffer;
             float result;
-            
             while(true)
             {
-                
-                input.nextLine();
                 try {
-                    
-                    buffer = input.nextLine().trim();
+                    buffer = input.nextLine();
                     result = Float.valueOf(buffer);
                     break;
-                } catch (NumberFormatException e) 
-                    {
+                    
+                }catch (NumberFormatException | InputMismatchException e){ 
                     output.format("Please try again\n");
-                    input.nextLine();
                     continue;
-                    }
-                   
-               
-              
-            }  
-            return result;
-                
+                }   
+            }return result;
         }//getf()
+        
         public void makeBone(){//makes new bone calls boneediting for coord and id price yada puts in bone list
                        temp = null; 
                        Double latit;
@@ -331,10 +320,10 @@ public class Sellertool{
                         int price  = 1;
                         
                         
-                        temp = go_pick_type(latit,longi,price);
+                        temp = make_bone_prompt(latit,longi,price);
                         change_continent_price(temp,moved); //make new adjusted price // new bone piece line 815
                         sugg_price_function(temp);  //suggest price randomly for bone //line 813
-                        
+                        //all of these items are not used  for phase 2
                        // Random rn = new Random();
                        // temp.boneid = rn.nextInt(15000 -1 + 1);
                        //output.format("\nAge:");'
@@ -398,16 +387,13 @@ public class Sellertool{
                      y = bonelist.get(i).coordinates.y;
                    
                     this.map[y][x] = get_bone_map_symbol(bought);
-                    
                 }
-                
             }
             else{
                 //give error message for bone files not loaded
                 output.format("\nNOTE: This map does not show bones!\n");
                 output.format("NOTE: Please load files to see bones!\n\n");
             }
-            
             //Display Map
             output.format("\n");
             for(i = 0; i<20; ++i) {
@@ -418,14 +404,12 @@ public class Sellertool{
             }
             output.format("\nPress Enter to return to main menu\n");
             input.nextLine();
-        
         }
-    
-    }
+    }//showmap
         
-         public char get_map_symbol(int input) {
+    public char get_map_symbol(int input) {
         char symbol = '.';
-        switch(input) {
+        switch(input){
             case 0: 
                 symbol = '.';
                 break;
@@ -433,11 +417,10 @@ public class Sellertool{
                 symbol = '*';
                 break;
         }
-    
         return symbol;
     }  
 
-        public char get_bone_map_symbol(int input) {
+    public char get_bone_map_symbol(int input) {
         char symbol = 'X';
         switch(input) {
             case 0: 
@@ -447,207 +430,195 @@ public class Sellertool{
                 symbol = '$';
                 break;
         }
-    
         return symbol;
     }
-        
-        public void bonehandle(){//operates on the bones 
-                int i;
-                int x;
-                int selection = 0;
-                while(selection!=7){
-                    for(i=0;i<bonelist.size(); i++)
-                        {   temp = bonelist.get(i);     //prints the Current bones in bone list 
-                            change_continent_price(temp,!moved);  //changes pricing according to continent //!moved is true// line 818 should execute
-                            output.format("\nID:%-6dBonename:%-18sLat->%7.2f  Long->%7.2f  Coordinates (%2d:%2d)  Price:$%13.2f  ContinentPrice:$%13.2f%n",temp.boneID,temp.name,temp.coordinates.latit,temp.coordinates.longi, temp.coordinates.x,temp.coordinates.y,temp.price, temp.adjusted_price);
+    
+    
+    public void bonehandle(){//operates on the bones calll bone operation menu
+    int i;
+    int x;
+    int selection = 0;
+    while(selection!=7){
+        for(i=0;i<bonelist.size(); i++)
+            {   temp = bonelist.get(i);     //prints the Current bones in bone list 
+                change_continent_price(temp,!moved);  //changes pricing according to continent //!moved is true// line 818 should execute
+                output.format("\nID:%-6dBonename:%-18sLat->%7.2f  Long->%7.2f  Row:Column (%2d:%2d)  Price:$%13.2f  ContinentPrice:$%13.2f%n",temp.boneID,temp.name,temp.coordinates.latit,temp.coordinates.longi, temp.coordinates.x,temp.coordinates.y,temp.price, temp.adjusted_price);
+            }
+            output.format("\nHow would you like to handle your bone Handler\n"+
+                    "1:Make bone\n"
+                    +"2:Sell a bone\n"+
+                     "3:Modify a bone on the bone list\n"
+                    +"4:Remove bone\n"
+                    +"5:See Suggested price for a bone\n"+
+                    "6:Make Bone with Comma separated string\n"+
+                    "7:Exit\n");
+                        
+                        
+            selection = getI();
+
+            switch(selection)//handle handling
+            {
+                case(1):
+                        {   makeBone();   //make bone from string                                     
+
+                            //makeBone();//will add to bonelist on its own
+                            createdBone = true;
+                            break;
+                        }    
+
+                case(2):{
+                        if(bonelist.isEmpty()){//if no bones
+                            output.format("\nNo bones are loaded yet....\n");
+                            break;
                         }
-                        output.format("\nHow would you like to handle your bone Handler\n"+
-                                "1:Make bone\n"
-                                +"2:Sell a bone\n"+
-                                 "3:Modify a bone on the bone list\n"
-                                +"4:Remove bone\n"
-                                +"5:See Suggested price for a bone\n"+
-                                "6:Make Bone with Comma separated string\n"+
-                                "7:Exit\n");
-                        
-                          
-                        selection = getI();
-                        
-                        switch(selection)//handle handling
+                         boolean found = false;
+                         output.format("\nEnter ID number of the bone you would like to Sell:\n");
+                         x = getI();//line 260 getI()
+
+                         for(i=0; i<bonelist.size(); i++) //goes through sellablebonelist and checks if that id number exsists
+                         {
+                            if (bonelist.get(i).boneID == x ) 
+                            {
+                                 found = true;
+                            }
+                         }//forloop for id verification
+                         if(found == false)    
+                             {
+                              output.format("\nIncorrect Id number...\n");
+                              break;
+                             }
+                        if(found == true)
                         {
-                            case(1):
-                                    {   makeBone();   //make bone from string                                     
-                                        
-                                        //makeBone();//will add to bonelist on its own
-                                        createdBone = true;
-                                        break;
-                                    }    
-
-                            case(2):{
-                                if(bonelist.isEmpty()){
-                                output.format("\nNo bones are loaded yet....\n");
-                                break;
-                            }
-                                     boolean found = false;
-                                     output.format("\nEnter ID number of the bone you would like to Sell:");
-                                     x = input.nextInt();
-                                     input.nextInt(); //clear
-                                     for(i=0; i<bonelist.size(); i++) 
-                                     {
-                                        if (bonelist.get(i).boneID == x ) //goes through sellablebonelist and checks if that id number exsists
-                                        {
-                                             found = true;
-                                        }
-                                     }//forloop for id verification
-                                         if(found == false)
-                                         {
-                                          output.format("\nIncorrect Id number...\n");
-                                          break;
-                                         }
-                                        if(found == true)
-                                        {
-                                            
-                                            for(i=0; i<bonelist.size(); i++) 
-                                            {  
-                                              if((x == bonelist.get(i).boneID) && (bonelist.get(i).bought == 0))
-                                                  
-                                              {
-                                                  bonelist.get(i).bought = 1;
-                                                  break;
-                                              }
-                                              if((x == bonelist.get(i).boneID) && (bonelist.get(i).bought == 1)){//changes back to usold
-                                                  bonelist.get(i).bought = 0;
-                                                  break;
-                                              }
-                                              
-                                            }   break;       
-                                          
-                                        }break;
-                                    }
-                            case(3):{  //Modify bones
-                                    if(bonelist.isEmpty())//make sure that the has bones
-                                    {
-                                    output.format("\nNo bones are loaded yet....\n\n");
-                                    break;
-                                    }
-                                       boolean found = false;
-                                       output.format("Enter ID number of the bone you would like to modify or press 4 to exit\nID number:");
-                                       x = input.nextInt();
-                                       input.nextLine();
-                                       int bone_index = 0;
-                                                for(i=0; i<bonelist.size(); i++) 
-                                                {
-                                                    if (bonelist.get(i).boneID== x ) //goes through bonelist and checks if that id number exsists
-                                                    {
-                                                       bone_index = i;
-                                                       found = true;
-                                                       break;
-                                                    }
-
-                                                }//forloop check id 
-                                        if(found)
-                                        {
-                                            temp = bonelist.get(bone_index);
-                                            boneediting(temp);          //change coord
-                                            moved = true;
-                                            change_continent_price(temp,!moved);//change Suggested price//moved bone will execute 818
-                                        }
-                                        else{
-                                            output.format("\nBone Not Found...\n");
-                                        }
-
-                                        break;
-                                    }
-                            case (4):{//removes bone form bone list
-                                boolean found = false;
-                                
-                                if(bonelist.isEmpty()){
-                                output.format("\nNo bones in the bonelist...\n");
-                                break;
-                                 }
-                                
-                                
-                                output.format("\nEnter ID of removed bone:");
-                                int remove_ID = getI();
-                                int bone_index = 0; //gets the  bone index to remove said bone
-                                for (int iter = 0; iter <bonelist.size(); iter++)
+                            for(i=0; i<bonelist.size(); i++) 
+                            {  
+                                if((x == bonelist.get(i).boneID) && (bonelist.get(i).bought == 0))
                                 {
-                                    if (bonelist.get(iter).boneID == remove_ID)
-                                    {
-                                        bone_index = iter;
-                                        found = true;
-                                        break;
-                                    }
-                                }
-
-                                if (found)
-                                {
-                                    bonelist.remove(bone_index);
-                                    output.format("\nRemoved....\n");
-                                }
-                                else
-                                {
-                                    output.format("\nTry again!\nMake sure that you have entered the correct id number...\n");
-                                }
-                            }break;//remove bone
-                            case (5):
-                                
-                            {   boolean found = false;
-                                output.format("Suggested Price\nEnter ID number:\n");
-                                int see_adj_price = getI();
-                               
-                                int bone_index = 0;     //gets the  bone index to remove said bone
-                                for (int iter = 0; iter <bonelist.size(); iter++)
-                                {
-                                    if (bonelist.get(iter).boneID == see_adj_price)
-                                    {
-                                        bone_index = iter;
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                               
-
-                                if (found){
-                                    change_continent_price(bonelist.get(bone_index),!moved);//moved is true// execute 818// 
-                                    output.format("Suggested Price: %f\n",bonelist.get(bone_index).adjusted_price);
+                                    bonelist.get(i).bought = 1;
                                     break;
                                 }
-                                System.out.print("No files loaded\n");
-                                break;
-                                
-                            }case(6):{
-                                get_a_bone();//enter comma separated bone
-                                createdBone = true;
-                                break;
-                                
-                            }
-                            case(7):{
-                                    selection = 7;
+                                if((x == bonelist.get(i).boneID) && (bonelist.get(i).bought == 1)){//changes back to usold
+                                    bonelist.get(i).bought = 0;
                                     break;
+                                }
+                            }   break;       
+
+                        }break;
+                }case(3):{  //Modify bones
+                        if(bonelist.isEmpty())//make sure that the has bones
+                        {
+                        output.format("\nNo bones are loaded yet....\n\n");
+                        break;
+                        }
+                        //prompt
+                        boolean found = false;
+                        output.format("Enter ID number of the bone you would like to modify or press 4 to exit\nID number:");
+                        x = getI();
+                        int bone_index = 0;
+
+                        for(i=0; i<bonelist.size(); i++) 
+                        {
+                            if (bonelist.get(i).boneID== x ) //goes through bonelist and checks if that id number exsists
+                            {
+                               bone_index = i;
+                               found = true;
+                               break;
                             }
-                            default:{
-                               output.format("WORNG DUMMY%n");
-                              
-                            }
-                        }//inner switch
-                        }//while
-            
-            
-        }
-        
- public Dinosaur getspecialbone(double latitude,double longitude,String bonety, float price ){
+                        }//forloop check id 
+                        if(found)
+                        {
+                            temp = bonelist.get(bone_index);
+                            boneediting(temp);          //change coord
+                            moved = true;
+                            change_continent_price(temp,!moved);//change Suggested price//moved bone will execute 818
+                        }
+                        else{
+                            output.format("\nBone Not Found...\n");
+                        }
+                        break;
+                }case (4):{//removes bone form bone list
+                    boolean found = false;
+
+                    if(bonelist.isEmpty()){
+                    output.format("\nNo bones in the bonelist...\n");
+                    break;
+                     }
+                    output.format("\nEnter ID of removed bone:");
+                    int remove_ID = getI();
+                    int bone_index = 0;         //gets the  bone index to remove said bone
+                    for (int iter = 0; iter <bonelist.size(); iter++)//gets the  bone index to remove said bone
+                    {
+                        if (bonelist.get(iter).boneID == remove_ID)
+                        {
+                            bone_index = iter;
+                            found = true;
+                            break;
+                        }
+                    }//end of find and test
+                    //if found int list
+                    if (found)
+                    {
+                        bonelist.remove(bone_index);//take out
+                        output.format("\nRemoved....\n");
+                    }
+                    else//else tell usser bone not found
+                    {
+                        output.format("\nTry again!\nMake sure that you have entered the correct id number...\n");
+                    }break;//remove bone
+                }case (5):{//displays suggested bone price
+                    boolean found = false;
+                    output.format("Suggested Price\nEnter ID number:\n");
+                    int see_adj_price = getI();
+
+                    int bone_index = 0;     //gets the  bone index to remove said bone
+                    for (int iter = 0; iter <bonelist.size(); iter++)//could make a function***later
+                    {
+                        if (bonelist.get(iter).boneID == see_adj_price)
+                        {
+                            bone_index = iter;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found){//if found run continent price with true value for move
+                        change_continent_price(bonelist.get(bone_index),moved);//moved is false// execute 818// 
+                        output.format("Suggested Price: %f\n",bonelist.get(bone_index).adjusted_price);
+                        break;
+                    }
+                    System.out.print("No files loaded\n");
+                    break;
+
+                }case(6):{
+                    Sellertool.this.get_bone_string();//enter comma separated bone line 606
+                    createdBone = true;
+                    break;
+
+                }
+                case(7):{
+                        selection = 7;
+                        break;
+                }
+
+            }//inner switch
+        }//while
+    }//Bonehandle end
+       
+    
+ public Dinosaur get_special_bone(double latitude,double longitude,String bonety, float price ){//read from a string of 4 strings lat, long, Type, price
         Dinosaur temp = null;
-        String[] specialbones = {"Spinosaurus","TyrannosaurusRex","Gigantosaurus","Velociraptor","Triceratops","Hylaeosaurus","Amargasaurus","Dakosaurus","Shastasaurus","Pterodactyl","Pterosaurs","Pteranodon"};
+        String[] specialbones = {"Spinosaurus","TyrannosaurusRex",//next
+            "Gigantosaurus","Velociraptor","Triceratops","Hylaeosaurus",//next
+            "Amargasaurus","Dakosaurus","Shastasaurus","Pterodactyl"//next
+            ,"Pterosaurs","Pteranodon"};//list of valid bones
+        
         boolean inarray = false;//starts false
 
         for(int i=0; i < specialbones.length; i++){//checks for valid dinosaur
             
             if(bonety.equals(specialbones[i])){
-                inarray = true;
+                inarray = true;//if in == True 
             }
         }    
-    if(inarray){
+    if(inarray){//if false retunr null line 716
     
     switch(bonety){//uses the 3rd string from super as a switch to make that typ of dinosaur
     
@@ -655,30 +626,28 @@ public class Sellertool{
             
             temp = new Spinosaurus(latitude, longitude, price);//(x,y,price)
             change_continent_price(temp,moved);//moved is false
-            System.out.print(temp.adjusted_price);
+            //System.out.print(temp.adjusted_price);
             bonelist.add(temp);
             break;
-            
         } 
         case("TyrannosaurusRex"):{
         
             temp = new TyrannosaurusRex(latitude,longitude,price);//(x,y,price)
             change_continent_price(temp,moved); //moved is false
-            System.out.print(temp.adjusted_price);
+            sugg_price_function(temp);
             bonelist.add(temp);
-            
             break;
-        
         }
         case("Gigantosaurus"):{
+            
             temp = new Giganotosaurus(latitude, longitude, price);//(x,y,price)
             change_continent_price(temp,moved);
             sugg_price_function(temp);
             bonelist.add(temp);
             break;
-        
         }
         case("Velociraptor"):{
+            
             temp = new Velociraptor(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             sugg_price_function(temp);
@@ -686,6 +655,7 @@ public class Sellertool{
             break;
         }
         case("Triceratops"):{ 
+            
             temp = new Triceratops(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             sugg_price_function(temp);
@@ -693,6 +663,7 @@ public class Sellertool{
             break;
         }
         case("Hylaeosaurus"):{ 
+            
             temp = new Hylaeosaurus(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             sugg_price_function(temp);
@@ -700,6 +671,7 @@ public class Sellertool{
             break;
         }
         case("Amargasaurus"):{
+            
             temp = new Amargasaurus(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             sugg_price_function(temp);
@@ -707,30 +679,35 @@ public class Sellertool{
             break;
            
         }case("Dakosaurus"):{
+            
             temp = new Dakosaurus(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             sugg_price_function(temp);
             bonelist.add(temp);
             break;
         }case("Shastasaurus"):{
+            
             temp = new Shastasaurus(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             sugg_price_function(temp);
             bonelist.add(temp);
             break;
         }case("Pterodactyl"):{
+            
             temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             sugg_price_function(temp);
             bonelist.add(temp);
             break;
         }case("Pterosaurs"):{
+            
             temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             sugg_price_function(temp);
             bonelist.add(temp);
             break;
         }case("Pteranodon"):{
+            
             temp = new Pteranodon(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             sugg_price_function(temp);
@@ -740,77 +717,68 @@ public class Sellertool{
             System.out.print("Not a valid bone please select one of the following types\nSpinosaurus\nTyrannosaurusRex"+
                     "\nGigantosaurus\nVelociraptor\nTriceratops\nHylaeosaurus\nAmargasaurus\n");
         }//default
-    }//switch    
-     
-       
+    }//switch   
     }
-    
     return temp; 
     
  }
  
-    public void get_a_bone(){
+    public void get_bone_string(){//gets bone from string
         String[] line;
-                    boolean notfound = false;
-                    
-                    do{
-                    
-                     try{
-                         System.out.print("Enter Bone with this format\n"+
-                            "Latitude,Longitude,Bone Type,Price\n");
-                         
-                    String buffer = input.nextLine();
-                    line = buffer.split(",");
-                   
-                    Double vertical = Double.parseDouble(line[0]);
-                    Double horizontal = Double.parseDouble(line[1]);
-                    String bonety = line[2];
-                    float price = Float.parseFloat(line[3]);
-                   
-                    if(getspecialbone(vertical,horizontal,bonety, price)==null){
-                            notfound = true; //if method returns null;
-                            }  
-                     }catch(ArrayIndexOutOfBoundsException e){
-                         output.format("Enter Valid Input!!!\n");
-                         notfound = true;
-                         
-                    }catch(NumberFormatException e){
-                        output.format("Enter Valid Input!!!\n");
-                         notfound = true;
-                        
-                    }
-                    }while(notfound);  //will not break creating loop until valid bone is entered//not found == true
-                   
-    }   
+        float price;
+        boolean notfound = false;
+            do{//while bone not found  repeat
+             try{
+                 System.out.print("Enter Bone with this format\n"+
+                    "Latitude,Longitude,Bone Type,Price\n");
+
+                String buffer = input.nextLine();
+                line = buffer.split(",");
+
+                Double vertical = Double.parseDouble(line[0]);
+                Double horizontal = Double.parseDouble(line[1]);
+                String bonety = line[2];
+                price = Float.parseFloat(line[3]);
+
+                if(get_special_bone(vertical,horizontal,bonety, price)==null){//when bone is not made == null
+                    notfound = true; //if method returns null line 722;
+                }  
+             }catch(ArrayIndexOutOfBoundsException | NumberFormatException e){
+                 output.format("Enter Valid Input!!!\n");
+                 notfound = true;
+
+            }
+            }while(notfound);  //will not break creating loop until valid bone is entered//not found == true
+    } //get_bone_string  
         
     public void boneediting(Dinosaur x){//bone editing for new file format Dinosuarclass
         
         
-           do{ output.format("\nEnter the coordinate Latitude:");
-               x.coordinates.latit = input.nextDouble();
-           }while ((x.coordinates.latit < -90.0) || (x.coordinates.latit > 90.0));
-            if(x.coordinates.latit > 84.0){//take care of array ob because of trucation
-                x.coordinates.latit = 90.00;
-            }
-            if(x.coordinates.latit<-90.0){
-                x.coordinates.latit = -90.0;//take care array ob
-            }
+        do{ output.format("\nEnter the coordinate Latitude:");//while not valid latit
+             x.coordinates.latit = input.nextDouble();
+         }while ((x.coordinates.latit < -90.0) || (x.coordinates.latit > 90.0));
+          if(x.coordinates.latit > 84.0){//take care of array ob because of trucation
+              x.coordinates.latit = 90.00;
+          }
+          if(x.coordinates.latit<-90.0){
+              x.coordinates.latit = -90.0;//take care array ob
+          }
         output.format("\nEnter the coordinate Longitude:");
         do{
-            x.coordinates.longi = input.nextDouble();
+            x.coordinates.longi = input.nextDouble();//while not valid longit
         }while((x.coordinates.longi < -180.0) || (x.coordinates.longi > 180.0));
-        
             if(x.coordinates.longi < -174){
                 x.coordinates.longi = -180.0;//must adjust because trunctation round value to 60,not 59 and causes a outo bounds error}
             }
             if (x.coordinates.longi>174){
                 x.coordinates.longi= 180.0;//array ob adjustment
             }
-            x.coordinates.updatecoordinates();
+            input.nextLine(); //clear
+            x.coordinates.updatecoordinates();//ensure x,y is updated for the array Class Coordinates
             
     }
          
-        public void create_continents() {
+        public void create_continents() {// makes all continent arrrays
         String[] continent_name = new String[7];
         continent_name[0] = "North America";
         continent_name[1] = "South America";
@@ -838,7 +806,7 @@ public class Sellertool{
       }//load continents
         
       
-    public void change_continent_price(Dinosaur item, Boolean change){
+    public void change_continent_price(Dinosaur item, Boolean change){//change price according to the continent bone is on
             for(int j=0; j<this.Continents.size(); ++j) {
                 if(this.Continents.get(j).IsInContinent(item.coordinates)) {
                     if(change == false){ //if current value for change is false; is created/has 
@@ -854,90 +822,77 @@ public class Sellertool{
                         //item.adjusted_price = item.adjusted_price - item.price;//equals difference of prices
                         item.adjusted_price = item.price + Continents.get(j).price; //adds new value to contine
                         break;
-                        
                     }
                 }
                 if(!this.Continents.get(j).IsInContinent(item.coordinates))//if not on land
                 {
                     item.adjusted_price = item.price;
-                    
                 }
             moved = false; //always change to false to create new bones; // feed in true for bones that are moved
-                    
             }
     }  
     
     public void sugg_price_function(Dinosaur tochange){//suggests price for make bone from scratch line 327
-            float newprice;
-            newprice = temp.pricing(tochange);
-            output.format("Suggest price for this location id:$%.2f\n"
-                    + "Would you like to set your own price?\n"
-                    + "Select 1 for Yes\n"
-                    + "Select 2 for No\n",newprice);
-           
-            int choice = getI(); //will not quit until int is selected
-            switch(choice){
-                case (1):
-                {       tochange.price = newprice;
-                     //changes price to suggested
-                    break;
-                }
-                case (2):
-                {
-                    output.format("Enter you price\n"); //user changes
-                    try{
-                            
-                        newprice = input.nextFloat();
-                        tochange.price = newprice;
-                    }catch( NumberFormatException e){
-                         output.format("Pease enter a dollar value-> 400.00\n");
-                    }                 
-                    break;
-                    
-                }
-               
+        float newprice;
+        newprice = temp.pricing(tochange);
+        output.format("Suggest price for this location id:$%.2f\n"
+                + "Would you like to set your own price?\n"
+                + "Select 1 for Yes\n"
+                + "Select 2 for No\n",newprice);
 
-            }//switch
+        int choice = getI(); //will not quit until int is selected
+        switch(choice){
+            case (1):
+            {   tochange.price = newprice;
+                 //changes price to suggested price
+                break;
+            }
+            case (2):
+            {
+                output.format("Enter you price\n"); //user changes
+                try{
+                    newprice = input.nextFloat();
+                    tochange.price = newprice;
+                }catch( NumberFormatException e){
+                     output.format("Pease enter a dollar value-> 400.00\n");
+                }  
+                input.nextLine();//clear
+                break;
+            }
+        }//switch
            
     }
     
-    
-    
-     public Dinosaur go_pick_type(Double latitude, Double longitude,float price){//makes a bone from scratch, one piece at a time
+     public Dinosaur make_bone_prompt(Double latitude, Double longitude,float price){//makes a bone from scratch, one piece at a time
         temp = null;
-        String[] specialbones = {"Spinosaurus","TyrannosaurusRex","Gigantosaurus","Velociraptor","Triceratops","Hylaeosaurus","Amargasaurus","Dakosaurus","Shastasaurus","Pterodactyl","Pterosaurs","Pteranodon"};
+        String[] specialbones = {"Spinosaurus","TyrannosaurusRex","Gigantosaurus",
+            "Velociraptor","Triceratops","Hylaeosaurus","Amargasaurus","Dakosaurus",
+            "Shastasaurus","Pterodactyl","Pterosaurs","Pteranodon"};
+        
         boolean inarray = false;//starts false
         String bonety;
-        
         output.format("Select a type of Dinosaur Bone from the list below\n");
-        output.format(  "Spinosaurus TyrannosaurusRex Pteranodon\n"+ //list all types
+        output.format(  "Spinosaurus TyrannosaurusRex Pteranodon\n"+ //list all valid types for the user
                         "Gigantosaurus Velociraptor Triceratops\n"+
                         "Hylaeosaurus Amargasaurus Dakosaurus\n"+
                         "Shastasaurus Pterodactyl Pterosaurs\n");
-                      
-        bonety = input.nextLine().trim();
+        bonety = input.nextLine().trim();//get string
+        
         while(!inarray){
-             
-             bonety = bonety.trim();
-            
-            for(int i=0; i < specialbones.length; i++){ //checks for valid dinosaur
-            
-                if(bonety.equals(specialbones[i])){
-                    inarray = true;
-                }   
-            }
+                 bonety = bonety.trim();//trim again??
+                for(int i=0; i < specialbones.length; i++){ //checks for valid dinosaur
+                    if(bonety.equals(specialbones[i])){
+                        inarray = true;
+                    }   
+                }
             if(inarray == false){  //only prints when not found
                 output.format("No such Dinosaur available\n"
                         + "Try again\n");
                 bonety = input.nextLine();
             }
-        }
-
-        
-            
-    if(inarray){
-    
-    switch(bonety){//uses the 3rd string from super as a switch to make that typ of dinosaur
+        }//while valid string is not input
+    if(inarray){//when valis is input
+    switch(bonety){//uses bonety as a switch to make that typ of dinosaur
     
         case("Spinosaurus"): {
             
@@ -945,75 +900,83 @@ public class Sellertool{
             change_continent_price(temp, moved);//moved is false new bone
             bonelist.add(temp);
             break;
-            
         } 
         case("TyrannosaurusRex"):{
         
             temp = new TyrannosaurusRex(latitude,longitude,price);//(x,y,price)
             change_continent_price(temp,moved);
             bonelist.add(temp);
-            
-            break;
-        
         }
         case("Gigantosaurus"):{
+            
             temp = new Giganotosaurus(latitude, longitude, price);//(x,y,price)
             change_continent_price(temp,moved);
             System.out.print(temp.adjusted_price);
             bonelist.add(temp);
             break;
-        
         }
         case("Velociraptor"):{
+            
             temp = new Velociraptor(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             bonelist.add(temp);
             break;
         }
         case("Triceratops"):{ 
+            
             temp = new Triceratops(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             bonelist.add(temp);
             break;
         }
         case("Hylaeosaurus"):{ 
+            
             temp = new Hylaeosaurus(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             bonelist.add(temp);
             break;
         }
         case("Amargasaurus"):{
+            
             temp = new Amargasaurus(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);            
             bonelist.add(temp);
-            break;
-           
-        }case("Dakosaurus"):{
+            break;           
+        }
+        case("Dakosaurus"):{
+            
             temp = new Dakosaurus(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             bonelist.add(temp);
             break;
-        }case("Shastasaurus"):{
+        }
+        case("Shastasaurus"):{
+            
             temp = new Shastasaurus(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             bonelist.add(temp);
             break;
-        }case("Pterodactyl"):{
+        }
+        case("Pterodactyl"):{
+            
             temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             bonelist.add(temp);
             break;
-        }case("Pterosaurs"):{
+        }
+        case("Pterosaurs"):{
             temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             bonelist.add(temp);
             break;
         }case("Pteranodon"):{
+            
             temp = new Pteranodon(latitude, longitude, price);//(x,y, price
             change_continent_price(temp,moved);
             bonelist.add(temp);
             break;            
-        }default:{
+        }
+        default:{
             System.out.print("Not a valid bone please select one of the following types\nSpinosaurus\nTyrannosaurusRex"+
                     "\nGigantosaurus\nVelociraptor\nTriceratops\nHylaeosaurus\nAmargasaurus\n");
             break;

@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="sellertool">
+  <ClassDiagramComponents>
+    <Class name="AirCarnivore" package="DataStore" visibility="public" xPosition="552.0" yPosition="880.0">
+      <Fields>
+        <Field name="teeth" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="AirDinosaur" package="DataStore" visibility="public" xPosition="631.0" yPosition="700.0">
+      <Fields>
+        <Field name="wingspan" type="double" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="Amargasaurus" package="DataStore" visibility="public" xPosition="1459.0" yPosition="1472.0">
+      <Fields>
+        <Field name="DLC" type="String" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Buyer" package="DataStore" visibility="public" xPosition="1936.0" yPosition="449.0">
+      <Fields>
+        <Field name="name" type="String" visibility="public"/>
+        <Field name="coordinate" type="Coordinates" visibility="public"/>
+        <Field name="ID" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name_"/>
+          <Argument type="int" name="ID_"/>
+          <Argument type="double" name="longitude_"/>
+          <Argument type="double" name="latitude_"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="Continent" package="DataStore" visibility="public" xPosition="1404.0" yPosition="6.0">
+      <Fields>
+        <Field name="arr" type="boolean" visibility="public"/>
+        <Field name="descriptor" type="String" visibility="public"/>
+        <Field name="price" type="float" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="FileName"/>
+          <Argument type="String" name="descriptor_"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="IsInContinent" returnType="boolean" visibility="public">
+          <Argument type="Coordinates" name="coordinate"/>
+        </Method>
+        <Method name="load" returnType="void" visibility="public">
+          <Argument type="String" name="fileName"/>
+        </Method>
+        <Method name="setPrice" returnType="void" visibility="public">
+          <Argument type="String" name="descriptor_"/>
+        </Method>
+        <Method name="getPrice" returnType="float" visibility="package" isFinal="true">
+          <Argument type="Continent" name="temp"/>
+        </Method>
+        <Method name="getContinent" returnType="String" visibility="package" isFinal="true">
+          <Argument type="Continent" name="temp"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Coordinates" package="DataStore" visibility="public" xPosition="2004.0" yPosition="134.0">
+      <Fields>
+        <Field name="latit" type="Double" visibility="public"/>
+        <Field name="longi" type="Double" visibility="public"/>
+        <Field name="x" type="int" visibility="public"/>
+        <Field name="y" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Double" name="latitude"/>
+          <Argument type="Double" name="longitude"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="updatecoordinates" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Dakosaurus" package="DataStore" visibility="public" xPosition="966.0" yPosition="1455.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="print_saying" returnType="void" visibility="public"/>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Dinosaur" package="DataStore" visibility="public" xPosition="850.0" yPosition="260.0">
+      <Fields>
+        <Field name="boneID" type="int" visibility="public"/>
+        <Field name="price" type="float" visibility="public"/>
+        <Field name="adjusted_price" type="float" visibility="public"/>
+        <Field name="coordinates" type="Coordinates" visibility="public"/>
+        <Field name="buyer" type="Buyer" visibility="public"/>
+        <Field name="seller" type="Seller" visibility="public"/>
+        <Field name="bought" type="int" visibility="public"/>
+        <Field name="name" type="String" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="pricing" returnType="float" visibility="public">
+          <Argument type="Dinosaur" name="x"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="DinosaurBone" package="DataStore" visibility="public" xPosition="2490.0" yPosition="134.0">
+      <Fields>
+        <Field name="input" type="Scanner" visibility="package"/>
+        <Field name="output" type="Formatter" visibility="package"/>
+        <Field name="boneid" type="int" visibility="public"/>
+        <Field name="age" type="int" visibility="public"/>
+        <Field name="price" type="float" visibility="public"/>
+        <Field name="weight" type="float" visibility="public"/>
+        <Field name="condition" type="String" visibility="public"/>
+        <Field name="bought" type="int" visibility="public"/>
+        <Field name="globe_longitude" type="Double" visibility="public"/>
+        <Field name="globe_latitude" type="Double" visibility="public"/>
+        <Field name="length" type="float" visibility="public"/>
+        <Field name="width" type="float" visibility="public"/>
+        <Field name="height" type="float" visibility="public"/>
+        <Field name="buyer_id" type="int" visibility="public"/>
+        <Field name="name" type="String" visibility="public"/>
+        <Field name="country" type="String" visibility="public"/>
+        <Field name="prospector" type="String" visibility="public"/>
+        <Field name="perspective" type="Demensions" visibility="public"/>
+        <Field name="Location" type="Coordinates" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="boneediting" returnType="void" visibility="public">
+          <Argument type="DinosaurBone" name="x"/>
+        </Method>
+        <Method name="getI" returnType="//Int input mismatch  int" visibility="public"/>
+        <Method name="getF" returnType="//float input mismatch float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Giganotosaurus" package="DataStore" visibility="public" xPosition="2450.0" yPosition="1313.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="poorLittleMe" returnType="void" visibility="public"/>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Hylaeosaurus" package="DataStore" visibility="public" xPosition="1676.0" yPosition="1228.0">
+      <Fields>
+        <Field name="armor_left" type="int" visibility="public"/>
+        <Field name="armor_right" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="LandCarnivore" package="DataStore" visibility="public" xPosition="1936.0" yPosition="958.0">
+      <Fields>
+        <Field name="ground_speed" type="double" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+          <Argument type="float" name="price_"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="LandDinosaur" package="DataStore" visibility="public" xPosition="1560.0" yPosition="700.0">
+      <Fields>
+        <Field name="speed" type="double" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+          <Argument type="float" name="price_"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="LandHerbivore" package="DataStore" visibility="public" xPosition="1404.0" yPosition="958.0">
+      <Fields>
+        <Field name="gait" type="double" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+          <Argument type="float" name="price_"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="MapO" package="DataStore" visibility="public" xPosition="703.0" yPosition="9.0">
+      <Fields>
+        <Field name="MapX" type="int" visibility="public"/>
+        <Field name="MapY" type="int" visibility="public"/>
+        <Field name="MapZ" type="int" visibility="public"/>
+        <Field name="output" type="Formatter" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="LoadMapNode" returnType="void" visibility="public">
+          <Argument type="ArrayList&lt;MapO&gt;" name="x"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Pteranodon" package="DataStore" visibility="public" xPosition="2.0" yPosition="1161.0">
+      <Fields>
+        <Field name="saddle_available" type="boolean" visibility="public"/>
+        <Field name="saddle_cost" type="double" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="specialOffer" returnType="void" visibility="public"/>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Pterodactyl" package="DataStore" visibility="public" xPosition="6.0" yPosition="908.0">
+      <Fields>
+        <Field name="coconut" type="boolean" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="carryAcoconut" returnType="boolean" visibility="public"/>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Pterosaurs" package="DataStore" visibility="public" xPosition="2.0" yPosition="1442.0">
+      <Fields>
+        <Field name="crest" type="String" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="SeaCarnivore" package="DataStore" visibility="public" xPosition="819.0" yPosition="1098.0">
+      <Fields>
+        <Field name="propulsion" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getPropulsion" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="SeaDinosaur" package="DataStore" visibility="public" xPosition="1098.0" yPosition="691.0">
+      <Fields>
+        <Field name="salt_water" type="boolean" visibility="public"/>
+        <Field name="fresh_water" type="boolean" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="Shastasaurus" package="DataStore" visibility="public" xPosition="491.0" yPosition="1424.0">
+      <Fields>
+        <Field name="teeth" type="int" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Spinosaurus" package="DataStore" visibility="public" xPosition="2185.0" yPosition="1515.0">
+      <Fields>
+        <Field name="spines" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+          <Argument type="float" name="price_"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Triceratops" package="DataStore" visibility="public" xPosition="1162.0" yPosition="1283.0">
+      <Fields>
+        <Field name="added_cost" type="double" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="TyrannosaurusRex" package="DataStore" visibility="public" xPosition="1972.0" yPosition="1313.0">
+      <Fields>
+        <Field name="smelling_range" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="howScary" returnType="int" visibility="public"/>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Velociraptor" package="DataStore" visibility="public" xPosition="2508.0" yPosition="983.0">
+      <Fields>
+        <Field name="size" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="bone_id_"/>
+          <Argument type="float" name="price_"/>
+          <Argument type="int" name="bought_"/>
+          <Argument type="double" name="y"/>
+          <Argument type="double" name="x"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getSizeLabel" returnType="String" visibility="public"/>
+        <Method name="pricing" returnType="float" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Seller" package="Sellertool" visibility="public" xPosition="1421.0" yPosition="315.0">
+      <Fields>
+        <Field name="masterlist" type="ArrayList&lt;Seller&gt;" visibility="public"/>
+        <Field name="name" type="String" visibility="package"/>
+        <Field name="coordinate" type="Coordinates" visibility="package"/>
+        <Field name="input" type="Scanner" visibility="package"/>
+        <Field name="output" type="Formatter" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="x"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="changesellermenu" returnType="void" visibility="public"/>
+        <Method name="getF" returnType="//float input mismatch float" visibility="public"/>
+        <Method name="getI" returnType="//Int input mismatch  int" visibility="public"/>
+        <Method name="writesellerfile" returnType="void" visibility="public"/>
+        <Method name="removeseller" returnType="void" visibility="public"/>
+        <Method name="updateseller" returnType="void" visibility="public"/>
+        <Method name="printsellerlist" returnType="void" visibility="public"/>
+        <Method name="printmenu" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Sellertool" package="Sellertool" visibility="public" xPosition="54.0" yPosition="96.0">
+      <Fields>
+        <Field name="bonelist" type="ArrayList&lt;Dinosaur&gt;" visibility="package"/>
+        <Field name="MapNode" type="ArrayList&lt;MapO&gt;" visibility="package"/>
+        <Field name="Continents" type="ArrayList&lt;Continent&gt;" visibility="public"/>
+        <Field name="map" type="char" visibility="package"/>
+        <Field name="input" type="Scanner" visibility="package"/>
+        <Field name="output" type="Formatter" visibility="package"/>
+        <Field name="temp" type="Dinosaur" visibility="package"/>
+        <Field name="scanstream" type="Scanner" visibility="package"/>
+        <Field name="maploaded" type="boolean" visibility="public"/>
+        <Field name="filesloaded" type="boolean" visibility="public"/>
+        <Field name="createdBone" type="boolean" visibility="public"/>
+        <Field name="moved" type="boolean" visibility="public"/>
+        <Field name="sellerop" type="Seller" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="mainmenu" returnType="void" visibility="public"/>
+        <Method name="makeabonefromfiles" returnType="void" visibility="public"/>
+        <Method name="LoadMap" returnType="void" visibility="public"/>
+        <Method name="getI" returnType="int" visibility="public"/>
+        <Method name="getF" returnType="//float input mismatch float" visibility="public"/>
+        <Method name="makeBone" returnType="void" visibility="public"/>
+        <Method name="show_map" returnType="void" visibility="public"/>
+        <Method name="get_map_symbol" returnType="char" visibility="public">
+          <Argument type="int" name="input"/>
+        </Method>
+        <Method name="get_bone_map_symbol" returnType="char" visibility="public">
+          <Argument type="int" name="input"/>
+        </Method>
+        <Method name="bonehandle" returnType="void" visibility="public"/>
+        <Method name="get_special_bone" returnType="Dinosaur" visibility="public">
+          <Argument type="double" name="latitude"/>
+          <Argument type="double" name="longitude"/>
+          <Argument type="String" name="bonety"/>
+          <Argument type="float" name="price"/>
+        </Method>
+        <Method name="get_bone_string" returnType="void" visibility="public"/>
+        <Method name="boneediting" returnType="void" visibility="public">
+          <Argument type="Dinosaur" name="x"/>
+        </Method>
+        <Method name="create_continents" returnType="void" visibility="public"/>
+        <Method name="change_continent_price" returnType="void" visibility="public">
+          <Argument type="Dinosaur" name="item"/>
+          <Argument type="Boolean" name="change"/>
+        </Method>
+        <Method name="sugg_price_function" returnType="void" visibility="public">
+          <Argument type="Dinosaur" name="tochange"/>
+        </Method>
+        <Method name="make_bone_prompt" returnType="Dinosaur" visibility="public">
+          <Argument type="Double" name="latitude"/>
+          <Argument type="Double" name="longitude"/>
+          <Argument type="float" name="price"/>
+        </Method>
+        <Method name="scramble" returnType="void" visibility="public"/>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <IsRelation name="is" source="DataStore.TyrannosaurusRex" target="DataStore.LandCarnivore"/>
+    <HasRelation name="temp" source="Sellertool.Sellertool" target="DataStore.Dinosaur" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="Sellertool.Sellertool" target="DataStore.Dinosaur" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="Continents" source="Sellertool.Sellertool" target="DataStore.Continent" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Continent&gt;"/>
+    <HasRelation name="coordinate" source="Sellertool.Seller" target="DataStore.Coordinates" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="DataStore.Giganotosaurus" target="DataStore.LandCarnivore"/>
+    <UseRelation source="DataStore.Dinosaur" target="DataStore.Dinosaur" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="DataStore.Continent" target="DataStore.Continent" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="DataStore.Spinosaurus" target="DataStore.LandCarnivore"/>
+    <HasRelation name="seller" source="DataStore.Dinosaur" target="Sellertool.Seller" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="DataStore.SeaDinosaur" target="DataStore.Dinosaur"/>
+    <IsRelation name="is" source="DataStore.Pteranodon" target="DataStore.AirCarnivore"/>
+    <IsRelation name="is" source="DataStore.AirDinosaur" target="DataStore.Dinosaur"/>
+    <IsRelation name="is" source="DataStore.Pterosaurs" target="DataStore.AirCarnivore"/>
+    <IsRelation name="is" source="DataStore.Velociraptor" target="DataStore.LandCarnivore"/>
+    <UseRelation source="DataStore.Continent" target="DataStore.Coordinates" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="DataStore.LandDinosaur" target="DataStore.Dinosaur"/>
+    <HasRelation name="location" source="Sellertool.Seller" target="DataStore.Coordinates" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="DataStore.LandHerbivore" target="DataStore.LandDinosaur"/>
+    <HasRelation name="buyer" source="DataStore.Dinosaur" target="DataStore.Buyer" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="coordinate" source="DataStore.Buyer" target="DataStore.Coordinates" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="DataStore.Hylaeosaurus" target="DataStore.LandHerbivore"/>
+    <HasRelation name="bonelist" source="Sellertool.Sellertool" target="DataStore.Dinosaur" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Dinosaur&gt;"/>
+    <IsRelation name="is" source="DataStore.LandCarnivore" target="DataStore.LandDinosaur"/>
+    <UseRelation source="DataStore.MapO" target="DataStore.MapO" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="DataStore.SeaCarnivore" target="DataStore.SeaDinosaur"/>
+    <IsRelation name="is" source="DataStore.Dakosaurus" target="DataStore.SeaCarnivore"/>
+    <HasRelation name="sellerop" source="Sellertool.Sellertool" target="Sellertool.Seller" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="DataStore.DinosaurBone" target="DataStore.DinosaurBone" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="Location" source="DataStore.DinosaurBone" target="DataStore.Coordinates" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="DataStore.Shastasaurus" target="DataStore.SeaCarnivore"/>
+    <HasRelation name="coordinates" source="DataStore.Dinosaur" target="DataStore.Coordinates" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="DataStore.AirCarnivore" target="DataStore.AirDinosaur"/>
+    <IsRelation name="is" source="DataStore.Pterodactyl" target="DataStore.AirCarnivore"/>
+    <HasRelation name="masterlist" source="Sellertool.Seller" target="Sellertool.Seller" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Seller&gt;"/>
+    <IsRelation name="is" source="DataStore.Triceratops" target="DataStore.LandHerbivore"/>
+    <IsRelation name="is" source="DataStore.Amargasaurus" target="DataStore.LandHerbivore"/>
+    <HasRelation name="MapNode" source="Sellertool.Sellertool" target="DataStore.MapO" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;MapO&gt;"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
