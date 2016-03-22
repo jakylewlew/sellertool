@@ -50,6 +50,11 @@ public class Dinosaur {
           seller = new Seller(0);
           seller.name = "Jacob Lewis";
      }
+     
+     public float pricing(Dinosaur x){
+         return ((float)((x.price)*System.currentTimeMillis()%9999));
+         //returns random price
+     }
     
      
     

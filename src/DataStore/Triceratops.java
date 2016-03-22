@@ -20,7 +20,7 @@ public class Triceratops extends LandHerbivore{
              super(latitude, longitude, price);
             bought = 0;
             name = "Triceratops";
-            this.adjusted_price += (float)this.added_cost;
+            this.price += (float)this.added_cost;//adds extra to triceratops
          }
          
        
