@@ -27,6 +27,7 @@ public class Dinosaur {
         this.adjusted_price = price_;
         this.coordinates = new Coordinates(x, y);
         this.bought = bought_;
+        
     }
 
     public Dinosaur(double x, double y, float price) {

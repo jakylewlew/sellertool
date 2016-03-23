@@ -18,8 +18,13 @@ public class MapO {
         MapY = MapY;
         MapZ = MapZ;
     }
-
-    public void LoadMapNode(ArrayList<MapO> x) {
+   public MapO(int x, int y, int z){
+       this.MapX = x;
+       this.MapY = y;
+       this.MapZ = z;
+   }
+   
+public void LoadMapNode(ArrayList<MapO> x) {
         int i;
         int counter = 0;
         int condition;
@@ -28,15 +33,8 @@ public class MapO {
             if (counter == 60) {
                 System.out.print("\n");
                 counter = 0;
-            }
-            condition = x.get(i).MapZ;
-            if (condition == 0) {
-                output.format("%s", ",");
-            }
-            if (condition == 1) {
-                output.format("%s", "*");
-            }
-            counter++;
         }
     }
+   }
 }
+
