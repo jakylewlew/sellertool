@@ -183,7 +183,9 @@ public class Seller {
         Seller temp = null;
         int i; 
         Boolean found = false;
-        
+        if(masterlist.isEmpty()){
+            return;
+        }
         output.format("\nWho do you ant to remove?\n", 0);
         name = input.nextLine();
         name = name.toLowerCase();
@@ -212,6 +214,9 @@ public class Seller {
         Seller temp = null;
         int i; int selected;
         Boolean found = false;
+        if(masterlist.isEmpty()){
+            return;
+        }
         
         output.format("\nWho do you want to update?\n", 0);
         name = input.nextLine();
