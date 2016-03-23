@@ -112,7 +112,7 @@ public class Sellertool{
                         temp = bonelist.get(i);
                        // filewriter.format( "%d,%d,%f,%f,%d,%f,%f,%f,%f,%f,%d,%s,%s,%s,%s%\n",temp.boneID,temp.age,temp.price,temp.weight,temp.bought,temp.globe_longitude,temp.globe_latitude,temp.length,temp.width,temp.height,temp.buyer_id,temp.name,temp.condition,temp.country,temp.prospector );
                        //output.format("%d,%f,%f,%f,%d,%s\n", temp.boneID, temp.price, temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
-                       filewriter.format("%d,%f,%d,%f,%f,%d,%s\n", temp.boneID, temp.price,temp.bought,temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
+                       filewriter.format("%d,%f,%d,%f,%f,%d,%s%n", temp.boneID, temp.price,temp.bought,temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
                         
                     }
                     output.format("\nFiles are saved...\n");
@@ -745,7 +745,7 @@ public class Sellertool{
                 }  
              }catch(ArrayIndexOutOfBoundsException | NumberFormatException e){
                  output.format("Enter Valid Input!!!\n");
-                 notfound = true;
+                 notfound = false;
 
             }
             }while(notfound);  //will not break creating loop until valid bone is entered//not found == true
