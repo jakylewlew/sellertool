@@ -221,6 +221,10 @@ public class Sellertool{
         
         //loads the map from a text doc of csv file 1,0,0
     public void LoadMap() {
+                    
+                        //temp.buyer_id = getI();
+                        //output.format("\nBone Name:");
+                        //temp.name = input.nextLine();
                     File MapFile;
                     Scanner ScanFile;
                     String Buffer;
@@ -748,7 +752,7 @@ public class Sellertool{
                  notfound = false;
 
             }
-            }while(notfound);  //will not break creating loop until valid bone is entered//not found == true
+            }while(!notfound);  //will not break creating loop until valid bone is entered//not found == true
     } //get_bone_string  
         
     public void boneediting(Dinosaur x){//bone editing for new file format Dinosuarclass
