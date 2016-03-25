@@ -143,7 +143,7 @@ public class Sellertool{
                     show_map();
                     break;
             }case(8):{
-                System.exit(0);5
+                System.exit(0);
                 break;
             }default:{
             output.format("\nTry Again...\n");
