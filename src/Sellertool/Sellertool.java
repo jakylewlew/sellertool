@@ -140,9 +140,10 @@ public class Sellertool{
             } 
             case(7):{  //calls scramble line 1018
                     scramble();
+                    show_map();
                     break;
             }case(8):{
-                System.exit(0);
+                System.exit(0);5
                 break;
             }default:{
             output.format("\nTry Again...\n");
