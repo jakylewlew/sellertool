@@ -215,7 +215,7 @@ public class Seller {
         Boolean found = false;
         
         output.format("\nWho do you want to update?\n", 0);
-        name = input.nextLine();
+        name = input.nextLine().trim();
         name = name.toLowerCase();
         
         for(i=0; i < masterlist.size(); i++){//check for valid name of seller get that item

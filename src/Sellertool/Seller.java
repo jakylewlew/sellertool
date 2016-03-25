@@ -209,15 +209,15 @@ public class Seller {
         
     }//remove seller
     
-    public void updateseller(){
+    public void updateseller(){//upfdates seller information
         String name = null;
+        String value = null;
         Seller temp = null;
         int i; int selected;
         Boolean found = false;
         if(masterlist.isEmpty()){
             return;
         }
-        
         output.format("\nWho do you want to update?\n", 0);
         name = input.nextLine();
         name = name.toLowerCase();
@@ -225,26 +225,52 @@ public class Seller {
         for(i=0; i < masterlist.size(); i++){//check for valid name of seller get that item
             temp = masterlist.get(i);
             if(name.matches(masterlist.get(i).name)){
-                found = true;
-                do{//makes sure to get valid lat and longitudes
+                
+                while(!found){//while t
                     output.format("New Latitude\n");
-                    temp.coordinate.latit = input.nextDouble();
-                }while((temp.coordinate.latit>90) || (temp.coordinate.latit<-90));
-                do{
-                    output.format("New Longitude\n");
-                    temp.coordinate.longi = input.nextDouble();
-                }while((temp.coordinate.longi>180) || (temp.coordinate.longi<-180));
-                temp.coordinate.updatecoordinates();//function adjusts map coordinates
-            }
+                    
+                    try{
+                        value = input.nextLine().trim();
+                        temp.coordinate.latit = Double.valueOf(value);
+                        found = true;
+                        if((temp.coordinate.latit>90) || (temp.coordinate.latit<-90)){                        
+                            output.format("Enter a valid Latitude values%n");
+                            found = false;
+                            //if found found id true
+                            }
+                    }catch(InputMismatchException |NumberFormatException e){
+                        output.format("Enter a valid Latitude values%n");
+                        found = false;
+                    }
+                }//executes while not valid
+                //reset value for longitude'
+                found = false; //starts false
+                while(!found){
+                    try{
+                       output.format("New Longitude\n");
+                       value = input.nextLine().trim();
+                       temp.coordinate.longi = Double.valueOf(value);
+                       found = true;
+                    if((temp.coordinate.longi>180) || (temp.coordinate.longi<-180)){
+                        output.format("Enter a valid Longitude value!%n");
+                        found = false;
+                    }
+                    }catch(InputMismatchException |NumberFormatException e){
+                        output.format("Enter a valid Longitude coordinates%n");
+                        found = false;
+                    }
+                }
+                temp.coordinate.updatecoordinates();
+               //exit loops
+            }          
+           //function adjusts map coordinates
             if(found){
             writesellerfile();//write updated masterlist to list
             }                   //if item was found rewrites file
           
           }
-        if(found==false){//if the name is not in the list
-            System.out.print("\nSeller not found\n");
-        }
-    }//updateseller
+        
+   }//updateseller
     
     public void printsellerlist(){//print seller list
         int i;

@@ -65,7 +65,7 @@ public class Sellertool{
       public void mainmenu(){
           
             //download new bone file there you go   
-            create_continents();
+            create_continents();   //creates all continent arrays; line 803
             MapO Bone = new MapO();
             int i;int x;
             output.format("\nBUYING BONES FROM MARY JONES DINO BONE SHOP\n1:Load the Map\n"
@@ -90,80 +90,70 @@ public class Sellertool{
                output.format("\nMap is Loaded\n");//email this to me 
                break;
             }
-            case(2):{//calls displays all bones in the bonlist the prompts how to handle anybone or add a bone to bone list
-                    bonehandle();
+            case(2):{               //calls displays all bones in the bonlist the prompts how to handle anybone or add a bone to bone list
+                    bonehandle(); //calls bone handele menu line 434
                     break;
                     }//outercase2
-           
             case(3):
             {
-                show_map();
+                show_map();//show map line 355
                  break; 
             }
-                     
-            
-            case(4):
-            { 
+            case(4)://gets the files written//including different formats
+            {   if(!bonelist.isEmpty()){
                 try {//sends to file
-                    File Bonetext = new File("Bones.txt");
-                    Formatter filewriter = new Formatter(Bonetext);
-                    
-                    for(i=0;i<bonelist.size();i++){
-                        temp = bonelist.get(i);
-                       // filewriter.format( "%d,%d,%f,%f,%d,%f,%f,%f,%f,%f,%d,%s,%s,%s,%s%\n",temp.boneID,temp.age,temp.price,temp.weight,temp.bought,temp.globe_longitude,temp.globe_latitude,temp.length,temp.width,temp.height,temp.buyer_id,temp.name,temp.condition,temp.country,temp.prospector );
-                       //output.format("%d,%f,%f,%f,%d,%s\n", temp.boneID, temp.price, temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
-                       filewriter.format("%d,%f,%d,%f,%f,%d,%s%n", temp.boneID, temp.price,temp.bought,temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
-                        
+                        File Bonetext = new File("Bones.txt");
+                        Formatter filewriter = new Formatter(Bonetext);
+
+                        for(i=0;i<bonelist.size();i++){
+                            temp = bonelist.get(i);
+                           // filewriter.format( "%d,%d,%f,%f,%d,%f,%f,%f,%f,%f,%d,%s,%s,%s,%s%\n",temp.boneID,temp.age,temp.price,temp.weight,temp.bought,temp.globe_longitude,temp.globe_latitude,temp.length,temp.width,temp.height,temp.buyer_id,temp.name,temp.condition,temp.country,temp.prospector );
+                           //output.format("%d,%f,%f,%f,%d,%s\n", temp.boneID, temp.price, temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
+                           filewriter.format("%d,%f,%d,%f,%f,%d,%s%n", temp.boneID, temp.price,temp.bought,temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
+                        }
+                        output.format("\nFiles are saved...\n");
+                        filewriter.close();
+
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Sellertool.class.getName()).log(Level.SEVERE, null, ex); 
                     }
-                    output.format("\nFiles are saved...\n");
-                    filewriter.close();
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(Sellertool.class.getName()).log(Level.SEVERE, null, ex); 
-                }
-                
-                
-            }   break;
-                
+                }else{
+                output.format("No Bones to save%n");
+                } break;
+            }  
             case(5):
             {//load files
                 if(!bonelist.isEmpty())
-                {//if bones array is empty clear it to so not to stack it
+                {                   //if bones array is empty clear it to so not to stack it
                     bonelist.clear();
                 }
-                makeabonefromfiles();
-                LoadMap();
-                
-                filesloaded = true;
+                makeabonefromfiles();//calls line 164 make bones fron bone,txt
+                LoadMap();          // then shows the map
+                filesloaded = true; //makes bool value true for out of sequenced malfunctions
                 maploaded = true;
                 output.format("\n Files are Loaded...\n");
-    
                 break;
-            }        
-                
+            }      
             case(6):{
                 sellerop.changesellermenu();//calls sellermenu in seller class
                 break;
             } 
-            
-            case(7):{  
+            case(7):{  //calls scramble line 1018
                     scramble();
-                            
                     break;
-                
             }case(8):{
                 System.exit(0);
                 break;
-                
-        }default:{
+            }default:{
             output.format("\nTry Again...\n");
             }//catch bad choices
             
-            }//end switch1
+        }//end switch1
             
-            }//mainmenu
+    }//mainmenu
             
         //construct new bone temp from file
-        public void makeabonefromfiles()
+    public void makeabonefromfiles()
         {   
             File BoneFile;
             Scanner scanstream;
@@ -209,18 +199,14 @@ public class Sellertool{
                         //output.format("%s", temp.prospector);
                         //scanstream.nextLine();
             }//while
-            
-            
-            
-            scanstream.close();
+            scanstream.close();//close the stream
         } //makeabonefrom files
         catch (FileNotFoundException ex) {
             Logger.getLogger(Sellertool.class.getName()).log(Level.SEVERE, null, ex);
         }
      }//make bone from files
         
-        //loads the map from a text doc of csv file 1,0,0
-    public void LoadMap() {
+    public void LoadMap() { //loads the map from a text doc of csv file 1,0,0
                     File MapFile;
                     Scanner ScanFile;
                     String Buffer;
@@ -257,105 +243,107 @@ public class Sellertool{
                     }//catach exception
                }//load map
        
-        public int getI(){//Int input mismatch 
-        
-            
-            String intbuffer;
-            int result=0; 
-            while(true)
-            {   
-            try {
-               intbuffer = input.nextLine();
-               result = (Integer.valueOf(intbuffer));
-               break;
-            } catch (NumberFormatException | InputMismatchException e){ 
-                    output.format("Please try again\n");
-                    continue;
-                } 
-            }  
-            return result;
-        }
+    public int getI(){//Int input mismatch function for getting INT
+        String intbuffer;
+        int result=0; 
+        while(true)
+        {   
+        try {
+           intbuffer = input.nextLine();
+           result = (Integer.valueOf(intbuffer));
+           break;
+        } catch (NumberFormatException | InputMismatchException e){ 
+                output.format("Please try again\n");
+                continue;
+            } 
+        }  
+        return result;
+    }
             
       
         
-        public float getF()//float input mismatch
-        {   String buffer;
-            float result;
-            while(true)
-            {
-                try {
-                    buffer = input.nextLine();
-                    result = Float.valueOf(buffer);
-                    break;
-                    
-                }catch (NumberFormatException | InputMismatchException e){ 
-                    output.format("Please try again\n");
-                    continue;
-                }   
-            }return result;
-        }//getf()
+    public float getF()//float input mismatch for Ffloats
+    {   String buffer;
+        float result;
+        while(true)
+        {
+            try {
+                buffer = input.nextLine();
+                result = Float.valueOf(buffer);
+                break;
+
+            }catch (NumberFormatException | InputMismatchException e){ 
+                output.format("Please try again\n");
+                continue;
+            }   
+        }return result;
+    }//getf()
         
-        public void makeBone(){//makes new bone calls boneediting for coord and id price yada puts in bone list
-                       temp = null; 
-                       Double latit;
-                       Double longi;
-                       output.format("Latitude\n");
-                       try{
-                            latit = input.nextDouble();
-                            
-                        }catch(NumberFormatException e){
-                            latit = 50.00;//default for people too stupid
-                        }catch(InputMismatchException e){
-                            latit = 50.00;//default for people too stupid
-                        }
-                        try{
-                            output.format("Longitude\n");
-                            longi = input.nextDouble();
-                        }catch(NumberFormatException e){
-                            longi = 100.00;//default for people too stupid
-                        }catch(InputMismatchException e){
-                            longi = 50.00;//default for people too stupid
-                        }
-                        input.nextLine();
-                        int price  = 1;
-                        
-                        
-                        temp = make_bone_prompt(latit,longi,price);
-                        change_continent_price(temp,moved); //make new adjusted price // new bone piece line 815
-                        sugg_price_function(temp);  //suggest price randomly for bone //line 813
-                        //all of these items are not used  for phase 2
-                       // Random rn = new Random();
-                       // temp.boneid = rn.nextInt(15000 -1 + 1);
-                       //output.format("\nAge:");'
-                       //temp.age = getI();
-                       //temp.price = scanstream.nextFloat();
-                       // output.format("\nWeight:");
-                       // temp.weight = getF();
-                        temp.bought = 0;
-                        //output.format("\nLength:");
-                        //temp.length = getF();
-                        //output.format("\nWidth:");
-                        //temp.width = getF();
-                        //output.format("\nHeight:");
-                        //temp.height = getF();
-                        //output.format("\nId#:");
-                        //temp.buyer_id = getI();
-                        //output.format("\nBone Name:");
-                        //temp.name = input.nextLine();
-                        //output.format("\nCondition:");
-                        //temp.condition = input.nextLine();
-                        //output.format("\nCountry of Orgin:");
-                        //temp.country = input.nextLine();
-                        //output.format("\nWho found it:");
-                        //temp.prospector  = input.nextLine();
-                        //temp.coordinates.updatecoordinates();            
-                        //bonelist.add(temp); 
-                         
+    public void makeBone(){//makes new bone calls boneediting for coord and id price yada puts in bone list//make bone from prompt
+            temp = null; 
+            Double latit = 0.0;
+            Double longi = 0.0;
+            Boolean test = true;
+            //while input is not valid
+            do{ output.format("Latitude\n");
+                try{ 
+                 String buffer = input.nextLine().trim();// get item lat
+                 latit = Double.valueOf(buffer);
+                 test = false;
+                }catch(NumberFormatException | InputMismatchException e){ 
+                    output.format("Please enter a Number:%n");
+                }
+            }while(test);
+
+            do{
+                try{
+                    output.format("Longitude\n");
+                    String buffer = input.nextLine().trim();
+                    longi = Double.valueOf(buffer);
+                    test = false;
+                    }catch(NumberFormatException | InputMismatchException e){
+                   //default for people too stupid
+                    output.format("Please enter a Number:%n");
+                    test = true; //because the value will true now
+                    }
+            }while(test);
+             int price  = 1;//set a price to feed into function to one for error alleviations should wrong vlaue be put
+             temp = make_bone_prompt(latit,longi,price); //make bone prompt line 880
+             temp.coordinates.updatecoordinates();      //changes the array values
+             change_continent_price(temp,moved); //make new adjusted price // new bone piece line 815
+             sugg_price_function(temp);  //suggest price randomly for bone //line 813
+             //all of these items are not used  for phase 2
+            // Random rn = new Random();
+            // temp.boneid = rn.nextInt(15000 -1 + 1);
+            //output.format("\nAge:");'
+            //temp.age = getI();
+            //temp.price = scanstream.nextFloat();
+            // output.format("\nWeight:");
+            // temp.weight = getF();
+             temp.bought = 0;    ///bought varaible is zerp
+             //output.format("\nLength:");
+             //temp.length = getF();
+             //output.format("\nWidth:");
+             //temp.width = getF();
+             //output.format("\nHeight:");
+             //temp.height = getF();
+             //output.format("\nId#:");
+             //temp.buyer_id = getI();
+             //output.format("\nBone Name:");
+             //temp.name = input.nextLine();
+             //output.format("\nCondition:");
+             //temp.condition = input.nextLine();
+             //output.format("\nCountry of Orgin:");
+             //temp.country = input.nextLine();
+             //output.format("\nWho found it:");
+             //temp.prospector  = input.nextLine();
+             //temp.coordinates.updatecoordinates();            
+             //bonelist.add(temp); 
+
+
+    }   
     
-    }   //import bones to bonelist return list for decifer with dollar signs
-     
-       
-    public void show_map() {
+    public void show_map() { //show the map on the output
         int j;
         int i;
         int x;
@@ -727,53 +715,73 @@ public class Sellertool{
         String[] line;
         float price;
         boolean notfound = false;
-            do{//while bone not found  repeat
+        do{//while bone not found  repeat
              try{
                  System.out.print("Enter Bone with this format\n"+
                     "Latitude,Longitude,Bone Type,Price\n");
-
+                //splitting the string
                 String buffer = input.nextLine();
                 line = buffer.split(",");
-
                 Double vertical = Double.parseDouble(line[0]);
                 Double horizontal = Double.parseDouble(line[1]);
                 String bonety = line[2];
                 price = Float.parseFloat(line[3]);
 
-                if(get_special_bone(vertical,horizontal,bonety, price)==null){//when bone is not made == null
-                    notfound = true; //if method returns null line 722;
+                if(get_special_bone(vertical,horizontal,bonety, price)!=null){//when bone is not made == null imple 616
+                   notfound = false; //if method returns null line 722;
                 }  
              }catch(ArrayIndexOutOfBoundsException | NumberFormatException e){
                  output.format("Enter Valid Input!!!\n");
-                 notfound = false;
-
             }
-            }while(notfound);  //will not break creating loop until valid bone is entered//not found == true
+        }while(notfound);  //will not break creating loop until valid bone is entered//not found == true
     } //get_bone_string  
         
-    public void boneediting(Dinosaur x){//bone editing for new file format Dinosuarclass
-        
-        
+    public void boneediting(Dinosaur x){//bone editing for new file format Dinosuar class
+        String value;
+        Boolean valid = false;
         do{ output.format("\nEnter the coordinate Latitude:");//while not valid latit
-             x.coordinates.latit = input.nextDouble();
-         }while ((x.coordinates.latit < -90.0) || (x.coordinates.latit > 90.0));
-          if(x.coordinates.latit > 84.0){//take care of array ob because of trucation
+            
+            try{
+                value = input.nextLine();
+                x.coordinates.latit = Double.valueOf(value);
+                valid = true;
+                 //clear
+             }catch(NumberFormatException | InputMismatchException e)
+             {
+                output.format("Enter Again\n");
+                valid = false;  
+                 
+             }
+         }while (!valid);
+          
+        if(x.coordinates.latit > 84.0){//take care of array ob because of trucation
               x.coordinates.latit = 90.00;
           }
           if(x.coordinates.latit<-90.0){
               x.coordinates.latit = -90.0;//take care array ob
           }
-        output.format("\nEnter the coordinate Longitude:");
-        do{
-            x.coordinates.longi = input.nextDouble();//while not valid longit
-        }while((x.coordinates.longi < -180.0) || (x.coordinates.longi > 180.0));
+          valid = false;
+       
+        do{ output.format("\nEnter the coordinate Longitude:");
+            try{
+                 
+                 value = input.nextLine();
+                 x.coordinates.longi = Double.valueOf(value);
+                 valid = true;
+                 //clear
+             }catch(NumberFormatException | InputMismatchException e)
+             {
+                 output.format("Enter Again\n");
+                  valid = false;
+             }
+        }while(!valid);
             if(x.coordinates.longi < -174){
                 x.coordinates.longi = -180.0;//must adjust because trunctation round value to 60,not 59 and causes a outo bounds error}
             }
             if (x.coordinates.longi>174){
                 x.coordinates.longi= 180.0;//array ob adjustment
             }
-            input.nextLine(); //clear
+             //clear
             x.coordinates.updatecoordinates();//ensure x,y is updated for the array Class Coordinates
             
     }
@@ -853,7 +861,7 @@ public class Sellertool{
                 try{
                     newprice = input.nextFloat();
                     tochange.price = newprice;
-                }catch( NumberFormatException e){
+                }catch( NumberFormatException | InputMismatchException e){
                      output.format("Pease enter a dollar value-> 400.00\n");
                 }  
                 input.nextLine();//clear
