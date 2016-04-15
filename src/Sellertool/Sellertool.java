@@ -50,6 +50,7 @@ public class Sellertool{
     public boolean createdBone;
     public boolean moved;
     Seller sellerop;
+    GUIcomponent GUI = new GUIcomponent();
     
     
             public Sellertool(){
@@ -66,20 +67,21 @@ public class Sellertool{
           
             //download new bone file there you go   
             create_continents();   //creates all continent arrays; line 803
+            GUI.setVisible(true);   //show GUI
             MapO Bone = new MapO();
             int i;int x;
-            output.format("\nBUYING BONES FROM MARY JONES DINO BONE SHOP\n1:Load the Map\n"
+            /*output.format("\nBUYING BONES FROM MARY JONES DINO BONE SHOP\n1:Load the Map\n"
                     +"2:Handle Bone\n"
                     +"3:Show the world map with Bones\n"
                     +"4:Save Files\n5"
-                    +":Load Files\n"
+                    +":Load Files\n"                        //the main menu print out in terminal
                     + "6:Create Seller\n"+
                     "7:Scramble\n"
-                    + "8:Exit\n");
+                    + "8:Exit\n");*/
                   
-            int choice = getI();
             
-            switch(choice)
+            
+          /*  switch(choice)
             {
             case(1):{//loads the map             
                if(!MapNode.isEmpty()){//if there is nothing in the MapNodes
@@ -151,7 +153,7 @@ public class Sellertool{
             
         }//end switch1
             
-    }//mainmenu
+    }//mainmenu*/
             
         //construct new bone temp from file
     public void makeabonefromfiles()
