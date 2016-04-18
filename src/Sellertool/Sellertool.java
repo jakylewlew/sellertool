@@ -7,6 +7,7 @@ package Sellertool;
 
 
 import DataStore.Amargasaurus;
+
 import DataStore.Continent;
 import DataStore.Coordinates;
 import DataStore.Dakosaurus;
@@ -50,26 +51,21 @@ public class Sellertool{
     public boolean createdBone;
     public boolean moved;
     Seller sellerop;
-    GUIcomponent GUI = new GUIcomponent();
-    
     
             public Sellertool(){
             sellerop = new Seller(0);
             output = new Formatter(System.out);
             input = new Scanner(System.in);    
-            map = new char[60][20]; 
             filesloaded = false;
             maploaded= false;
             
-           
         }
-      public void mainmenu(){
+      public void mainmenu(String x){
           
             //download new bone file there you go   
             create_continents();   //creates all continent arrays; line 803
-            GUI.setVisible(true);   //show GUI
-            MapO Bone = new MapO();
-            int i;int x;
+            int i;
+            
             /*output.format("\nBUYING BONES FROM MARY JONES DINO BONE SHOP\n1:Load the Map\n"
                     +"2:Handle Bone\n"
                     +"3:Show the world map with Bones\n"
@@ -81,9 +77,9 @@ public class Sellertool{
                   
             
             
-          /*  switch(choice)
+            switch(x)
             {
-            case(1):{//loads the map             
+            case("loadmap"):{//loads the map             
                if(!MapNode.isEmpty()){//if there is nothing in the MapNodes
                    MapNode.clear();
                } 
@@ -92,16 +88,18 @@ public class Sellertool{
                output.format("\nMap is Loaded\n");//email this to me 
                break;
             }
-            case(2):{               //calls displays all bones in the bonlist the prompts how to handle anybone or add a bone to bone list
-                    bonehandle(); //calls bone handele menu line 434
+            case("bonehandle"):{   
+                   
+                    bonehandle("make"); //calls bone handele menu line 434
+                   
                     break;
                     }//outercase2
-            case(3):
+            case("showmap"):
             {
                 show_map();//show map line 355
                  break; 
             }
-            case(4)://gets the files written//including different formats
+            case("savefiles")://gets the files written//including different formats
             {   if(!bonelist.isEmpty()){
                 try {//sends to file
                         File Bonetext = new File("Bones.txt");
@@ -123,7 +121,7 @@ public class Sellertool{
                 output.format("No Bones to save%n");
                 } break;
             }  
-            case(5):
+            case("loadfiles"):
             {//load files
                 if(!bonelist.isEmpty())
                 {                   //if bones array is empty clear it to so not to stack it
@@ -136,15 +134,15 @@ public class Sellertool{
                 output.format("\n Files are Loaded...\n");
                 break;
             }      
-            case(6):{
+            case("makeseller"):{
                 sellerop.changesellermenu();//calls sellermenu in seller class
                 break;
             } 
-            case(7):{  //calls scramble line 1018
+            case("scramble"):{  //calls scramble line 1018
                     scramble();
                     show_map();
                     break;
-            }case(8):{
+            }case("exit"):{
                 System.exit(0);
                 break;
             }default:{
@@ -282,13 +280,13 @@ public class Sellertool{
         }return result;
     }//getf()
         
-    public void makeBone(){//makes new bone calls boneediting for coord and id price yada puts in bone list//make bone from prompt
+    public void makeBone(String bone, Double price){//makes new bone calls boneediting for coord and id price yada puts in bone list//make bone from prompt
             temp = null; 
             Double latit = 0.0;
             Double longi = 0.0;
             Boolean test = true;
             //while input is not valid
-            do{ output.format("Latitude\n");
+           /* do{ output.format("Latitude\n");
                 try{ 
                  String buffer = input.nextLine().trim();// get item lat
                  latit = Double.valueOf(buffer);
@@ -317,13 +315,13 @@ public class Sellertool{
                     output.format("Enter a valid Longitude value!(-180,180)%n");
                     test = true;
                 }
-            }while(test);
+            }while(test);*/
             
-             int price  = 1;//set a price to feed into function to one for error alleviations should wrong vlaue be put
-             temp = make_bone_prompt(latit,longi,price); //make bone prompt line 880
-             temp.coordinates.updatecoordinates();      //changes the array values
-             change_continent_price(temp,moved); //make new adjusted price // new bone piece line 815
-             sugg_price_function(temp);  //suggest price randomly for bone //line 813
+             //set a price to feed into function to one for error alleviations should wrong vlaue be put
+             temp = make_bone_prompt(latit,longi,price,bone); //make bone prompt line 880
+             //temp.coordinates.updatecoordinates();      //changes the array values
+             //change_continent_price(temp,moved); //make new adjusted price // new bone piece line 815
+            // sugg_price_function(temp);  //suggest price randomly for bone //line 813
              //all of these items are not used  for phase 2
             // Random rn = new Random();
             // temp.boneid = rn.nextInt(15000 -1 + 1);
@@ -433,32 +431,20 @@ public class Sellertool{
     }
     
     
-    public void bonehandle(){//operates on the bones calll bone operation menu
+    public void bonehandle(String selection, String bone, Float price){//operates on the bones calll bone operation menu
     int i;
     int x;
-    int selection = 0;
-    show_map();
-    while(selection!=7){
+    //show_map();
+     
+     
         for(i=0;i<bonelist.size(); i++)
             {   temp = bonelist.get(i);     //prints the Current bones in bone list 
                 change_continent_price(temp,!moved);  //changes pricing according to continent //!moved is true// line 818 should execute
                 output.format("\nID:%-6dBonename:%-18sLat->%7.2f  Long->%7.2f  Row:Column (%2d:%2d)  Price:$%13.2f  ContinentPrice:$%13.2f%n",temp.boneID,temp.name,temp.coordinates.latit,temp.coordinates.longi, temp.coordinates.x,temp.coordinates.y,temp.price, temp.adjusted_price);
             }
-            output.format("\nHow would you like to handle your bone Handler\n"+
-                    "1:Make bone\n"
-                    +"2:Sell a bone\n"+
-                     "3:Modify a bone on the bone list\n"
-                    +"4:Remove bone\n"
-                    +"5:See Suggested price for a bone\n"+
-                    "6:Make Bone with Comma separated string\n"+
-                    "7:Exit\n");
-                        
-                        
-            selection = getI();
-
             switch(selection)//handle handling
             {
-                case(1):
+                case("make"):
                         {   makeBone();   //make bone from string                                     
                             show_map();
                             //makeBone();//will add to bonelist on its own
@@ -466,7 +452,7 @@ public class Sellertool{
                             break;
                         }    
 
-                case(2):{
+                case("sellbone"):{
                         if(bonelist.isEmpty()){//if no bones
                             output.format("\nNo bones are loaded yet....\n");
                             break;
@@ -504,7 +490,7 @@ public class Sellertool{
 
                         }show_map();
                         break;
-                }case(3):{  //Modify bones
+                }case("modifybone"):{  //Modify bones
                         if(bonelist.isEmpty())//make sure that the has bones
                         {
                         output.format("\nNo bones are loaded yet....\n\n");
@@ -536,7 +522,7 @@ public class Sellertool{
                             output.format("\nBone Not Found...\n");
                         }show_map();
                         break;
-                }case (4):{//removes bone form bone list
+                }case ("removebone"):{//removes bone form bone list
                     boolean found = false;
 
                     if(bonelist.isEmpty()){
@@ -567,7 +553,7 @@ public class Sellertool{
                      }
                     show_map();
                     break;//remove bone
-                }case (5):{//displays suggested bone price
+                }case ("display_sugg_boone"):{//displays suggested bone price
                     boolean found = false;
                     output.format("Suggested Price\nEnter ID number:\n");
                     int see_adj_price = getI();
@@ -590,20 +576,19 @@ public class Sellertool{
                     System.out.print("No files loaded\n");
                     break;
 
-                }case(6):{//comma separatebne
+                }case("comma_sep_bone"):{//comma separatebne
                     Sellertool.this.get_bone_string();//enter comma separated bone714
                     createdBone = true;
                     show_map();
                     break;
 
                 }
-                case(7):{
-                        selection = 7;
+                case("quit"):{
+                        
                         break;
                 }
 
             }//inner switch
-        }//while
     }//Bonehandle end
        
     
@@ -907,7 +892,7 @@ public class Sellertool{
         }//while loop  
     }
     
-     public Dinosaur make_bone_prompt(Double latitude, Double longitude,float price){//makes a bone from scratch, one piece at a time
+     public Dinosaur make_bone_prompt(Double latitude, Double longitude,Float price,String bone){//makes a bone from scratch, one piece at a time
         temp = null;
         String[] specialbones = {"Spinosaurus","TyrannosaurusRex","Gigantosaurus",
             "Velociraptor","Triceratops","Hylaeosaurus","Amargasaurus","Dakosaurus",
@@ -915,12 +900,12 @@ public class Sellertool{
         
         boolean inarray = false;//starts false
         String bonety;
-        output.format("Select a type of Dinosaur Bone from the list below\n");
+        /*output.format("Select a type of Dinosaur Bone from the list below\n");
         output.format(  "Spinosaurus TyrannosaurusRex Pteranodon\n"+ //list all valid types for the user
                         "Gigantosaurus Velociraptor Triceratops\n"+
                         "Hylaeosaurus Amargasaurus Dakosaurus\n"+
-                        "Shastasaurus Pterodactyl Pterosaurs\n");
-        bonety = input.nextLine().trim();//get string
+                        "Shastasaurus Pterodactyl Pterosaurs\n");*/
+        bonety =  bone;
         
         while(!inarray){
                  bonety = bonety.trim();//trim again??
@@ -1110,13 +1095,7 @@ public class Sellertool{
         
         
     }
-     public static void main(String[] args){
         
-        Sellertool seller = new Sellertool();        
-            while(true){
-                seller.mainmenu();
-            }
-           }//main
 }
                    
                     

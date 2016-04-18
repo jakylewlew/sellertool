@@ -4,32 +4,21 @@
  * and open the template in the editor.
  */
 package Sellertool;
-
-import DataStore.Dinosaur;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import DataStore.MakeBoneDialog;
 /**
  *
  * @author Jacob
  */
 public class GUIcomponent extends javax.swing.JFrame{
-     ArrayList<Dinosaur> bonelist = new ArrayList<>();
-     Boolean filesloaded = false;
-     Boolean maploaded= false;
-     Dinosaur temp = new Dinosaur();
-     Formatter output = new Formatter();
+    Sellertool GUISellertool = new Sellertool();
+   
     /**
      * Creates new form GUIcomponent
      */
     //Sellertool maintool = new Sellertool();
     public GUIcomponent() {
         initComponents();
+        
     }
 
     /**
@@ -183,51 +172,14 @@ public class GUIcomponent extends javax.swing.JFrame{
 
     private void SaveFilesSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveFilesSeleActionPerformed
         //save the files
-        { int i;  
-            if(!bonelist.isEmpty()){
-                try {//sends to file
-                        File Bonetext = new File("Bones.txt");
-                        Formatter filewriter = new Formatter(Bonetext);
-
-                        for(i=0;i<bonelist.size();i++){
-                            temp = bonelist.get(i);
-                           // filewriter.format( "%d,%d,%f,%f,%d,%f,%f,%f,%f,%f,%d,%s,%s,%s,%s%\n",temp.boneID,temp.age,temp.price,temp.weight,temp.bought,temp.globe_longitude,temp.globe_latitude,temp.length,temp.width,temp.height,temp.buyer_id,temp.name,temp.condition,temp.country,temp.prospector );
-                           //output.format("%d,%f,%f,%f,%d,%s\n", temp.boneID, temp.price, temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
-                           filewriter.format("%d,%f,%d,%f,%f,%d,%s%n", temp.boneID, temp.price,temp.bought,temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
-                        }
-                        output.format("\nFiles are saved...\n");
-                        filewriter.close();
-
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(Sellertool.class.getName()).log(Level.SEVERE, null, ex); 
-                    }
-                }else{
-                output.format("No Bones to save%n");
-                }
-            }  
-        
+        GUISellertool.mainmenu("savefiles");
     }//GEN-LAST:event_SaveFilesSeleActionPerformed
 
     private void LoadFilesSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadFilesSeleActionPerformed
-        //Load all files
-        //load files
-                if(!bonelist.isEmpty())
-                {                   //if bones array is empty clear it to so not to stack it
-                    bonelist.clear();
-                }
-                makeabonefromfiles();//calls line 164 make bones fron bone,txt
+      //load files
+      GUISellertool.mainmenu("loadfiles");
                           
-                filesloaded = true; //makes bool value true for out of sequenced malfunctions
-                maploaded = true;
-                output.format("\n Files are Loaded...\n");
-        
     }//GEN-LAST:event_LoadFilesSeleActionPerformed
-
-    private void MakeBoneSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakeBoneSeleActionPerformed
-       //makeBone
-       BoneMenu
-        
-    }//GEN-LAST:event_MakeBoneSeleActionPerformed
 
     private void SellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SellActionPerformed
         // TODO add your handling code here:
@@ -244,69 +196,17 @@ public class GUIcomponent extends javax.swing.JFrame{
 
     private void ChangeLocationSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeLocationSeleActionPerformed
         // ChangeBone Location
-       
-        
-        
     }//GEN-LAST:event_ChangeLocationSeleActionPerformed
 
-    
-    public void makeabonefromfiles()
-        {   
-            File BoneFile;
-            Scanner scanstream;
-            
-            try {
-            BoneFile = new File("Bones.txt");
-            scanstream = new Scanner(BoneFile);
-            
-            while(scanstream.hasNextLine()){
-                scanstream.useDelimiter(",");
-              
-                String buffer = scanstream.nextLine();
-                
-                if(buffer.isEmpty()) {
-                    break;
-                }
-                //split string and strip white space
-                String[] data = buffer.split(",");
-                
-                 Dinosaur temp = new Dinosaur();
-                
-                temp.boneID = Integer.parseInt(data[0].trim());
-                        //temp.age = Integer.parseInt(data[1].trim());
-                temp.price = Float.parseFloat(data[1].trim());
-                        //temp.weight = Float.parseFloat(data[3].trim());
-                temp.bought = Integer.parseInt(data[2].trim());
-                temp.coordinates.longi= Double.parseDouble(data[3].trim());
-                temp.coordinates.latit= Double.parseDouble(data[4].trim());
-                        //temp.length = Float.parseFloat(data[7].trim());
-                        //temp.width = Float.parseFloat(data[8].trim());
-                        //temp.height = Float.parseFloat(data[9].trim());
-                temp.buyer.ID = Integer.parseInt(data[5].trim());
-                temp.name = data[6].trim();
-                        //temp.condition = data[12].trim();
-                        //temp.country = data[13].trim();
-                        //temp.prospector  = data[14].trim();
-                        //temp.Location.latit = temp.globe_latitude;
-                        //temp.Location.longi = temp.globe_longitude;
-                        //temp.Location.updatecoordinates();
-                temp.coordinates.updatecoordinates();
-                //change_continent_price(temp,moved); //moved is false//goes to new bone price change piece line 815
-                bonelist.add(temp);
-                        //output.format("%s", temp.prospector);
-                        //scanstream.nextLine();
-            }//while
-            scanstream.close();//close the stream
-        } //makeabonefrom files
-        catch (FileNotFoundException ex) {
-            Logger.getLogger(Sellertool.class.getName()).log(Level.SEVERE, null, ex);
-        }
-     }//make bone from files
-    
-    
-    /**
-     * @param args the command line arguments
-     */
+    private void MakeBoneSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakeBoneSeleActionPerformed
+        // TODO add your handling code here:
+        MakeBoneDialog makebone = new MakeBoneDialog(this,true,GUISellertool); //pass pointer to the GGUI seller 
+        makebone.setVisible(true);
+       
+        
+    }//GEN-LAST:event_MakeBoneSeleActionPerformed
+
+ 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -335,6 +235,7 @@ public class GUIcomponent extends javax.swing.JFrame{
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GUIcomponent().setVisible(true);
+                
             }
         });
     }

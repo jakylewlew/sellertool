@@ -30,8 +30,8 @@ public class Dinosaur {
         
     }
 
-    public Dinosaur(double x, double y, float price) {
-        this.price = price;
+    public Dinosaur(double x, double y, float price_) {
+        this.price = price_;
         this.adjusted_price = 0;
         this.coordinates = new Coordinates(x, y);
         boneID = -1 * (int) System.currentTimeMillis() % 99999;
