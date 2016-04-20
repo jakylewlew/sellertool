@@ -2,7 +2,7 @@
 
 <ClassDiagram name="BoneSeller">
   <ClassDiagramComponents>
-    <Class name="coordinates" package="Sellertool" visibility="public" xPosition="20.0" yPosition="20.0">
+    <Class name="coordinates" package="Sellertool" visibility="public" xPosition="19.0" yPosition="200.0">
       <Fields>
         <Field name="latit" type="float" visibility="package"/>
         <Field name="longi" type="float" visibility="package"/>
@@ -17,7 +17,7 @@
       </Constructors>
       <Methods/>
     </Class>
-    <Class name="Demensions" package="Sellertool" visibility="public" xPosition="320.0" yPosition="20.0">
+    <Class name="Demensions" package="Sellertool" visibility="public" xPosition="19.0" yPosition="9.0">
       <Fields>
         <Field name="len" type="float" visibility="package"/>
         <Field name="width" type="float" visibility="package"/>
@@ -32,7 +32,7 @@
       </Constructors>
       <Methods/>
     </Class>
-    <Class name="DinosaurBone" package="Sellertool" visibility="public" xPosition="620.0" yPosition="20.0">
+    <Class name="DinosaurBone" package="Sellertool" visibility="public" xPosition="553.0" yPosition="20.0">
       <Fields>
         <Field name="input" type="Scanner" visibility="package"/>
         <Field name="output" type="Formatter" visibility="package"/>
@@ -70,7 +70,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="MapO" package="Sellertool" visibility="public" xPosition="920.0" yPosition="20.0">
+    <Class name="MapO" package="Sellertool" visibility="public" xPosition="31.0" yPosition="509.0">
       <Fields>
         <Field name="MapX" type="int" visibility="public"/>
         <Field name="MapY" type="int" visibility="public"/>
@@ -93,7 +93,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="Sellertool" package="Sellertool" visibility="public" xPosition="1220.0" yPosition="20.0">
+    <Class name="Sellertool" package="Sellertool" visibility="public" xPosition="1170.0" yPosition="185.0">
       <Fields>
         <Field name="bonelist" type="ArrayList&lt;DinosaurBone&gt;" visibility="package"/>
         <Field name="MapNode" type="ArrayList&lt;MapO&gt;" visibility="package"/>
@@ -130,12 +130,12 @@
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <HasRelation name="Location" source="Sellertool.DinosaurBone" target="Sellertool.coordinates" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation source="Sellertool.MapO" target="Sellertool.MapO" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation source="Sellertool.DinosaurBone" target="Sellertool.DinosaurBone" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="Location" source="Sellertool.DinosaurBone" target="Sellertool.coordinates" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="bonelist" source="Sellertool.Sellertool" target="Sellertool.DinosaurBone" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;DinosaurBone&gt;"/>
-    <HasRelation name="perspective" source="Sellertool.DinosaurBone" target="Sellertool.Demensions" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="MapNode" source="Sellertool.Sellertool" target="Sellertool.MapO" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;MapO&gt;"/>
     <HasRelation name="temp" source="Sellertool.Sellertool" target="Sellertool.DinosaurBone" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="MapNode" source="Sellertool.Sellertool" target="Sellertool.MapO" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;MapO&gt;"/>
+    <HasRelation name="perspective" source="Sellertool.DinosaurBone" target="Sellertool.Demensions" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>

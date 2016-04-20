@@ -51,7 +51,7 @@ public class DinosaurBone {
                x.globe_latitude = input.nextDouble();
            }while ((x.globe_latitude < -90.0) || (x.globe_latitude > 90.0));
             if(x. globe_latitude > 84.0){//take care of array ob because of trucation
-                x.globe_latitude = 84.0;
+                x.globe_latitude = 85.0;
             }
             if(x.globe_latitude<-90.0){
                 x.globe_latitude = -90.0;//take care array ob

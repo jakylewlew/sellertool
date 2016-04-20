@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Sellertool;
+package DataStore;
+
 
 import DataStore.Coordinates;
 import java.io.File;
@@ -183,9 +184,7 @@ public class Seller {
         Seller temp = null;
         int i; 
         Boolean found = false;
-        if(masterlist.isEmpty()){
-            return;
-        }
+        
         output.format("\nWho do you ant to remove?\n", 0);
         name = input.nextLine();
         name = name.toLowerCase();
@@ -209,68 +208,39 @@ public class Seller {
         
     }//remove seller
     
-    public void updateseller(){//upfdates seller information
+    public void updateseller(){
         String name = null;
-        String value = null;
         Seller temp = null;
         int i; int selected;
         Boolean found = false;
-        if(masterlist.isEmpty()){
-            return;
-        }
+        
         output.format("\nWho do you want to update?\n", 0);
-        name = input.nextLine();
+        name = input.nextLine().trim();
         name = name.toLowerCase();
         
         for(i=0; i < masterlist.size(); i++){//check for valid name of seller get that item
             temp = masterlist.get(i);
             if(name.matches(masterlist.get(i).name)){
-                
-                while(!found){//while t
+                found = true;
+                do{//makes sure to get valid lat and longitudes
                     output.format("New Latitude\n");
-                    
-                    try{
-                        value = input.nextLine().trim();
-                        temp.coordinate.latit = Double.valueOf(value);
-                        found = true;
-                        if((temp.coordinate.latit>90) || (temp.coordinate.latit<-90)){                        
-                            output.format("Enter a valid Latitude values%n");
-                            found = false;
-                            //if found found id true
-                            }
-                    }catch(InputMismatchException |NumberFormatException e){
-                        output.format("Enter a valid Latitude values%n");
-                        found = false;
-                    }
-                }//executes while not valid
-                //reset value for longitude'
-                found = false; //starts false
-                while(!found){
-                    try{
-                       output.format("New Longitude\n");
-                       value = input.nextLine().trim();
-                       temp.coordinate.longi = Double.valueOf(value);
-                       found = true;
-                    if((temp.coordinate.longi>180) || (temp.coordinate.longi<-180)){
-                        output.format("Enter a valid Longitude value!%n");
-                        found = false;
-                    }
-                    }catch(InputMismatchException |NumberFormatException e){
-                        output.format("Enter a valid Longitude coordinates%n");
-                        found = false;
-                    }
-                }
-                temp.coordinate.updatecoordinates();
-               //exit loops
-            }          
-           //function adjusts map coordinates
+                    temp.coordinate.latit = input.nextDouble();
+                }while((temp.coordinate.latit>90) || (temp.coordinate.latit<-90));
+                do{
+                    output.format("New Longitude\n");
+                    temp.coordinate.longi = input.nextDouble();
+                }while((temp.coordinate.longi>180) || (temp.coordinate.longi<-180));
+                temp.coordinate.updatecoordinates();//function adjusts map coordinates
+            }
             if(found){
             writesellerfile();//write updated masterlist to list
             }                   //if item was found rewrites file
           
           }
-        
-   }//updateseller
+        if(found==false){//if the name is not in the list
+            System.out.print("\nSeller not found\n");
+        }
+    }//updateseller
     
     public void printsellerlist(){//print seller list
         int i;
