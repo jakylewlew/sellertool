@@ -2,6 +2,7 @@ package DataStore;
 
 import Sellertool.Sellertool;
 import java.util.InputMismatchException;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,7 +18,9 @@ public class MakeBoneDialog extends javax.swing.JDialog {
     Sellertool mySellerTool;
     String currentBone;
     Dinosaur temp = null;
-    Boolean goodvalue = false;
+    Float price;
+    public Boolean goodvalue = false;
+    
     
     /**
      * Creates new form MakeBoneDialog
@@ -25,10 +28,9 @@ public class MakeBoneDialog extends javax.swing.JDialog {
     public MakeBoneDialog(java.awt.Frame parent, boolean modal,Sellertool newSellerTool) {
         super(parent, modal);
         mySellerTool  = newSellerTool;
-        ErrorPopup Error = new ErrorPopup(this , true);
+        goodvalue = false;
         initComponents();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,9 +42,10 @@ public class MakeBoneDialog extends javax.swing.JDialog {
 
         PriceInput = new javax.swing.JTextField();
         MakeBoneTitle = new javax.swing.JLabel();
-        BoneDropDown = new javax.swing.JComboBox<>();
+        BoneDropDown = new javax.swing.JComboBox<String>();
         button = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        TextInField = new javax.swing.JTextField();
 
         PriceInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -54,7 +57,7 @@ public class MakeBoneDialog extends javax.swing.JDialog {
 
         MakeBoneTitle.setText("MakeBones");
 
-        BoneDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Spinosaurus", "TyrannosaurusRex", "Gigantosaurus", "Velociraptor", "Triceratops", "Hylaeosaurus", "Amargasaurus", "Dakosaurus", "Shastasaurus", "Pterodactyl", "Pterosaurs", "Pteranodon" }));
+        BoneDropDown.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Spinosaurus", "TyrannosaurusRex", "Gigantosaurus", "Velociraptor", "Triceratops", "Hylaeosaurus", "Amargasaurus", "Dakosaurus", "Shastasaurus", "Pterodactyl", "Pterosaurs", "Pteranodon" }));
         BoneDropDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BoneDropDownActionPerformed(evt);
@@ -62,34 +65,47 @@ public class MakeBoneDialog extends javax.swing.JDialog {
         });
 
         button.setText("OkieDokie");
-        button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonActionPerformed(evt);
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                buttonMousePressed(evt);
             }
         });
 
         jLabel1.setText("PriceLabel");
 
+        TextInField.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                TextInFieldMouseMoved(evt);
+            }
+        });
+        TextInField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextInFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(BoneDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(jLabel1))
+                        .addGap(70, 70, 70)
+                        .addComponent(MakeBoneTitle))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addComponent(button))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(MakeBoneTitle)))
+                        .addGap(64, 64, 64)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(37, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(TextInField)
+                    .addComponent(BoneDropDown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(43, 43, 43))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,9 +115,11 @@ public class MakeBoneDialog extends javax.swing.JDialog {
                 .addComponent(BoneDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1)
-                .addGap(37, 37, 37)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TextInField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(button)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -110,40 +128,43 @@ public class MakeBoneDialog extends javax.swing.JDialog {
     private void BoneDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BoneDropDownActionPerformed
         // TODO add your handling code here:
          String bone = String.valueOf(BoneDropDown.getSelectedItem());
+         System.out.printf("%s", bone);
          currentBone=bone;
          //change the price in a minute
-         
     }//GEN-LAST:event_BoneDropDownActionPerformed
-
-    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonActionPerformed
-        // TODO add your handling code here:
-       if(goodvalue){
-           temp = mySellerTool.make_bone_prompt(0.0,0.0,400.0f,this.currentBone);
-       }
-       else{
-           //call popup
-       }
-    }//GEN-LAST:event_buttonActionPerformed
 
     private void PriceInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceInputActionPerformed
         // TODO add your handling code here:
-       
-        
-        if (temp== null){
-            //call pop up
-            goodvalue = false;
+    }//GEN-LAST:event_PriceInputActionPerformed
+
+    private void buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonMousePressed
+        // TODO add your handling code here:
+        if(goodvalue == true){
+        temp = mySellerTool.make_bone_prompt(-90.00, -10.00, price, currentBone);
+        mySellerTool.bonelist.add(temp);
+        this.dispose();
         }
         else{
-            try{
-                temp.price = Float.parseFloat(PriceInput.getText());
-                goodvalue = true;
-                
-            }catch(NumberFormatException | InputMismatchException e){
-                //call pop up
-                goodvalue = false;
-            }
+            JOptionPane.showMessageDialog(this, "INVALID");
         }
-    }//GEN-LAST:event_PriceInputActionPerformed
+    }//GEN-LAST:event_buttonMousePressed
+
+    private void TextInFieldMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TextInFieldMouseMoved
+        // TODO add your handling code here:
+        try{
+        price = Float.parseFloat(TextInField.getText());
+        goodvalue = true;
+        }
+        catch(NumberFormatException | InputMismatchException e)
+        {
+            goodvalue = false;
+        }
+        
+    }//GEN-LAST:event_TextInFieldMouseMoved
+
+    private void TextInFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextInFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextInFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -194,6 +215,7 @@ public class MakeBoneDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> BoneDropDown;
     private javax.swing.JLabel MakeBoneTitle;
     private javax.swing.JTextField PriceInput;
+    private javax.swing.JTextField TextInField;
     private javax.swing.JButton button;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
