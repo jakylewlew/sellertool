@@ -7,6 +7,7 @@ package Sellertool;
 import DataStore.Dinosaur;
 import DataStore.MakeBoneDialog;
 import DataStore.ModifyBone;
+import DataStore.RemovePrompt;
 import DataStore.SuggestPrice;
 import java.io.File;
 import java.util.Formatter;
@@ -21,6 +22,7 @@ public class GUIcomponent extends javax.swing.JFrame{
    int i;
    Formatter output = new Formatter(System.out);
    ModifyBone mod;
+   RemovePrompt rmprompt;
    File file;
     /**
      * Creates new form GUIcomponent
@@ -153,6 +155,11 @@ public class GUIcomponent extends javax.swing.JFrame{
         BoneMenu.add(ModifyBone);
 
         RemoveBone.setLabel("RemoveBone");
+        RemoveBone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveBoneActionPerformed(evt);
+            }
+        });
         BoneMenu.add(RemoveBone);
 
         MenuBAR.add(BoneMenu);
@@ -192,7 +199,7 @@ public class GUIcomponent extends javax.swing.JFrame{
 
     private void SellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SellActionPerformed
         // TODO add your handling code here:
-        //get bone and change color
+        mod = new ModifyBone(this, true, GUISellertool);
     }//GEN-LAST:event_SellActionPerformed
 
     private void ListSellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListSellerActionPerformed
@@ -217,11 +224,7 @@ public class GUIcomponent extends javax.swing.JFrame{
         i = GUISellertool.bonelist.size(); //gets the pos of last bone to use to call sugg price
         i = i-1;
         prompt = new SuggestPrice(this,true,GUISellertool.bonelist.get(i)); //calls suggestprice prompt
-         for(i=0;i<GUISellertool.bonelist.size(); i++)
-            {   temp = GUISellertool.bonelist.get(i);     //prints the Current bones in bone list 
-                //change_continent_price(temp,!moved);  //changes pricing according to continent //!moved is true// line 818 should execute
-                output.format("\nID:%-6dBonename:%-18sLat->%7.2f  Long->%7.2f  Row:Column (%2d:%2d)  Price:$%13.2f  ContinentPrice:$%13.2f%n",temp.boneID,temp.name,temp.coordinates.latit,temp.coordinates.longi, temp.coordinates.x,temp.coordinates.y,temp.price, temp.adjusted_price);
-            }
+        GUISellertool.printbonelist();
          makebone.dispose();
     }//GEN-LAST:event_MakeBoneSeleActionPerformed
 
@@ -234,6 +237,12 @@ public class GUIcomponent extends javax.swing.JFrame{
         // TODO add your handling code here:
        
     }//GEN-LAST:event_formComponentAdded
+
+    private void RemoveBoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveBoneActionPerformed
+        // TODO add your handling code here:
+        rmprompt = new RemovePrompt(this, true, GUISellertool);
+        
+    }//GEN-LAST:event_RemoveBoneActionPerformed
 
  
     public static void main(String args[]) {
