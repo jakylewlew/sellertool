@@ -4,14 +4,24 @@
  * and open the template in the editor.
  */
 package Sellertool;
+import DataStore.Dinosaur;
 import DataStore.MakeBoneDialog;
+import DataStore.ModifyBone;
+import DataStore.SuggestPrice;
+import java.io.File;
+import java.util.Formatter;
 /**
  *
  * @author Jacob
  */
 public class GUIcomponent extends javax.swing.JFrame{
-    Sellertool GUISellertool = new Sellertool();
-   
+   Sellertool GUISellertool = new Sellertool();
+   Dinosaur temp;
+   SuggestPrice prompt;
+   int i;
+   Formatter output = new Formatter(System.out);
+   ModifyBone mod;
+   File file;
     /**
      * Creates new form GUIcomponent
      */
@@ -30,7 +40,7 @@ public class GUIcomponent extends javax.swing.JFrame{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        MapDisplay = new javax.swing.JPanel();
+        jFileChooser1 = new javax.swing.JFileChooser();
         MenuBAR = new javax.swing.JMenuBar();
         filemenudropdown = new javax.swing.JMenu();
         LoadFilesSele = new javax.swing.JMenuItem();
@@ -38,30 +48,24 @@ public class GUIcomponent extends javax.swing.JFrame{
         ExitSele = new javax.swing.JMenuItem();
         MapDropDown = new javax.swing.JMenu();
         ChangeLocationSele = new javax.swing.JMenuItem();
+        SellerDropDownMenu = new javax.swing.JMenu();
+        NewSeller = new javax.swing.JMenuItem();
+        DeleteSeller = new javax.swing.JMenuItem();
+        ListSeller = new javax.swing.JMenuItem();
         BoneMenu = new javax.swing.JMenu();
         MakeBoneSele = new javax.swing.JMenuItem();
         Sell = new javax.swing.JMenuItem();
         ModifyBone = new javax.swing.JMenuItem();
         RemoveBone = new javax.swing.JMenuItem();
-        SellerDropDownMenu = new javax.swing.JMenu();
-        NewSeller = new javax.swing.JMenuItem();
-        DeleteSeller = new javax.swing.JMenuItem();
-        ListSeller = new javax.swing.JMenuItem();
+
+        jFileChooser1.setCurrentDirectory(new java.io.File("C:\\Users\\Jacob\\Documents\\GitHub\\sellertool"));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        MapDisplay.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 255, 255), 4, true));
-
-        javax.swing.GroupLayout MapDisplayLayout = new javax.swing.GroupLayout(MapDisplay);
-        MapDisplay.setLayout(MapDisplayLayout);
-        MapDisplayLayout.setHorizontalGroup(
-            MapDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 879, Short.MAX_VALUE)
-        );
-        MapDisplayLayout.setVerticalGroup(
-            MapDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 616, Short.MAX_VALUE)
-        );
+        addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                formComponentAdded(evt);
+            }
+        });
 
         filemenudropdown.setText("File");
 
@@ -104,6 +108,24 @@ public class GUIcomponent extends javax.swing.JFrame{
 
         MenuBAR.add(MapDropDown);
 
+        SellerDropDownMenu.setLabel("Seller");
+
+        NewSeller.setLabel("NewSeller");
+        SellerDropDownMenu.add(NewSeller);
+
+        DeleteSeller.setLabel("DeleteSeller");
+        SellerDropDownMenu.add(DeleteSeller);
+
+        ListSeller.setLabel("ListSellers");
+        ListSeller.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListSellerActionPerformed(evt);
+            }
+        });
+        SellerDropDownMenu.add(ListSeller);
+
+        MenuBAR.add(SellerDropDownMenu);
+
         BoneMenu.setLabel("Bone");
 
         MakeBoneSele.setLabel("MakeBone");
@@ -123,6 +145,11 @@ public class GUIcomponent extends javax.swing.JFrame{
         BoneMenu.add(Sell);
 
         ModifyBone.setLabel("ModifyBone");
+        ModifyBone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModifyBoneActionPerformed(evt);
+            }
+        });
         BoneMenu.add(ModifyBone);
 
         RemoveBone.setLabel("RemoveBone");
@@ -130,41 +157,17 @@ public class GUIcomponent extends javax.swing.JFrame{
 
         MenuBAR.add(BoneMenu);
 
-        SellerDropDownMenu.setLabel("Seller");
-
-        NewSeller.setLabel("NewSeller");
-        SellerDropDownMenu.add(NewSeller);
-
-        DeleteSeller.setLabel("DeleteSeller");
-        SellerDropDownMenu.add(DeleteSeller);
-
-        ListSeller.setLabel("ListSellers");
-        ListSeller.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ListSellerActionPerformed(evt);
-            }
-        });
-        SellerDropDownMenu.add(ListSeller);
-
-        MenuBAR.add(SellerDropDownMenu);
-
         setJMenuBar(MenuBAR);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(MapDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+            .addGap(0, 930, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(MapDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+            .addGap(0, 676, Short.MAX_VALUE)
         );
 
         pack();
@@ -172,17 +175,24 @@ public class GUIcomponent extends javax.swing.JFrame{
 
     private void SaveFilesSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveFilesSeleActionPerformed
         //save the files
-        GUISellertool.mainmenu("savefiles");
+        //GUISellertool.mainmenu("savefiles");  //have to rewrte to feed in variable files
+        jFileChooser1.showOpenDialog(null);
+        file = jFileChooser1.getSelectedFile();
+        GUISellertool.savefile(file);
     }//GEN-LAST:event_SaveFilesSeleActionPerformed
 
     private void LoadFilesSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadFilesSeleActionPerformed
       //load files
-      GUISellertool.mainmenu("loadfiles");
+      
+      jFileChooser1.showOpenDialog(null);
+      file = jFileChooser1.getSelectedFile(); //have to rewrte to feed in variable files
+      GUISellertool.makeabonefromfiles(file);
                           
     }//GEN-LAST:event_LoadFilesSeleActionPerformed
 
     private void SellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SellActionPerformed
         // TODO add your handling code here:
+        //get bone and change color
     }//GEN-LAST:event_SellActionPerformed
 
     private void ListSellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListSellerActionPerformed
@@ -201,10 +211,29 @@ public class GUIcomponent extends javax.swing.JFrame{
     private void MakeBoneSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakeBoneSeleActionPerformed
         // TODO add your handling code here:
         MakeBoneDialog makebone = new MakeBoneDialog(this,true,GUISellertool); //pass pointer to the GGUI seller 
-        makebone.setVisible(true);
-       
+        makebone.setVisible(true); 
         
+       //do the suggested price thing here 
+        i = GUISellertool.bonelist.size(); //gets the pos of last bone to use to call sugg price
+        i = i-1;
+        prompt = new SuggestPrice(this,true,GUISellertool.bonelist.get(i)); //calls suggestprice prompt
+         for(i=0;i<GUISellertool.bonelist.size(); i++)
+            {   temp = GUISellertool.bonelist.get(i);     //prints the Current bones in bone list 
+                //change_continent_price(temp,!moved);  //changes pricing according to continent //!moved is true// line 818 should execute
+                output.format("\nID:%-6dBonename:%-18sLat->%7.2f  Long->%7.2f  Row:Column (%2d:%2d)  Price:$%13.2f  ContinentPrice:$%13.2f%n",temp.boneID,temp.name,temp.coordinates.latit,temp.coordinates.longi, temp.coordinates.x,temp.coordinates.y,temp.price, temp.adjusted_price);
+            }
+         makebone.dispose();
     }//GEN-LAST:event_MakeBoneSeleActionPerformed
+
+    private void ModifyBoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifyBoneActionPerformed
+        // TODO add your handling code here:
+         mod = new ModifyBone(this, true, GUISellertool);
+    }//GEN-LAST:event_ModifyBoneActionPerformed
+
+    private void formComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_formComponentAdded
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_formComponentAdded
 
  
     public static void main(String args[]) {
@@ -248,7 +277,6 @@ public class GUIcomponent extends javax.swing.JFrame{
     private javax.swing.JMenuItem ListSeller;
     private javax.swing.JMenuItem LoadFilesSele;
     private javax.swing.JMenuItem MakeBoneSele;
-    private javax.swing.JPanel MapDisplay;
     private javax.swing.JMenu MapDropDown;
     private javax.swing.JMenuBar MenuBAR;
     private javax.swing.JMenuItem ModifyBone;
@@ -258,5 +286,6 @@ public class GUIcomponent extends javax.swing.JFrame{
     private javax.swing.JMenuItem Sell;
     private javax.swing.JMenu SellerDropDownMenu;
     private javax.swing.JMenu filemenudropdown;
+    private javax.swing.JFileChooser jFileChooser1;
     // End of variables declaration//GEN-END:variables
 }
