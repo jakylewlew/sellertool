@@ -17,11 +17,13 @@ import javax.swing.JOptionPane;
  */
 public class ModifyBone extends javax.swing.JDialog {
         Sellertool inhere;
-        public ArrayList<String> pop = new ArrayList<>();
+        public ArrayList<String> pop = new ArrayList<>();//used to put ID in box
         int i;
         Dinosaur temp;
         int DBselection;
         Boolean tempselected;
+        Boolean FieldSelected = false;
+        float price =0;
         
     /**
      * Creates new form ModifyBone
@@ -29,14 +31,13 @@ public class ModifyBone extends javax.swing.JDialog {
     public ModifyBone(java.awt.Frame parent, boolean modal,Sellertool GUISellertool) {
         super(parent, modal);
         inhere = GUISellertool;
-       for(i = 0 ; i < inhere.bonelist.size(); i++){//generates and populate the dropbox
+       for(i = 0 ; i < inhere.bonelist.size(); i++){    //generates and populate the dropbox
            pop.add(Integer.toString(inhere.bonelist.get(i).boneID));
         }
         initComponents();
         jComboBox1.setModel(new DefaultComboBoxModel(pop.toArray()));
         tempselected = false;   //no bone yet selected
-        
-        
+        this.setVisible(true);
     }
 
     /**
@@ -54,6 +55,7 @@ public class ModifyBone extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -82,10 +84,16 @@ public class ModifyBone extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel3.setText("ModifyField");
 
-        jTextField1.setText("jTextField1");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -106,13 +114,12 @@ public class ModifyBone extends javax.swing.JDialog {
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
             .addGroup(layout.createSequentialGroup()
+                .addGap(77, 77, 77)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel3)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton1)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -128,9 +135,11 @@ public class ModifyBone extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                .addGap(30, 30, 30)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
@@ -145,24 +154,47 @@ public class ModifyBone extends javax.swing.JDialog {
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
-         DBselection = jComboBox2.getSelectedIndex();
-         System.out.printf("%d", DBselection);
-         changefield(DBselection,temp);
+         //if button activated
+         DBselection = jComboBox2.getSelectedIndex(); //sets box to change price , Location, or BuyingStatus
+         if(price != 0){//only execute if button executed
+            changefield(DBselection,temp);
+         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-        
+       if (tempselected){
+        try{ 
+           price = Float.valueOf(jTextField1.getText());
+       }catch(NumberFormatException | InputMismatchException e){
+           JOptionPane.showInputDialog("Bad Input");
+       }
+       }
+       
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
+        {
+            DBselection = jComboBox1.getSelectedIndex();  //gets index of sele DrBx item and associates to temp
+            temp  = inhere.bonelist.get(DBselection);
+            tempselected = true;
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public void changefield(int select, Dinosaur bone){
         switch(select){
             case(0):{
-                    
+                if(price != 0)
+                    bone.price = price;
+                else
+                    JOptionPane.showInputDialog("Enter a Price");
             }
                       
         }
@@ -215,6 +247,7 @@ public class ModifyBone extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
