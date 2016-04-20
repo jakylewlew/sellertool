@@ -1121,9 +1121,18 @@ public class Sellertool{
                 output.format("No Bones to save%n");
                 } 
             }  
+    public void printbonelist(){
+        int i;
+         for(i=0;i<this.bonelist.size(); i++)
+            {   temp =this.bonelist.get(i);     //prints the Current bones in bone list 
+                //change_continent_price(temp,!moved);  //changes pricing according to continent //!moved is true// line 818 should execute
+                output.format("\nID:%-6dBonename:%-18sLat->%7.2f  Long->%7.2f  Row:Column (%2d:%2d)  Price:$%13.2f  ContinentPrice:$%13.2f%n",temp.boneID,temp.name,temp.coordinates.latit,temp.coordinates.longi, temp.coordinates.x,temp.coordinates.y,temp.price, temp.adjusted_price);
+            }
     }
-    
+
 }
+    
+
                    
                     
                                    

@@ -21,8 +21,10 @@ public class ModifyBone extends javax.swing.JDialog {
         int i;
         Dinosaur temp;
         int DBselection;
-        Boolean tempselected;
-        Boolean FieldSelected = false;
+        int IDselection = 0;
+        Boolean tempselected = false;
+        Boolean IDselected = false;
+        Boolean OperationSelected = false;
         float price =0;
         
     /**
@@ -35,8 +37,7 @@ public class ModifyBone extends javax.swing.JDialog {
            pop.add(Integer.toString(inhere.bonelist.get(i).boneID));
         }
         initComponents();
-        jComboBox1.setModel(new DefaultComboBoxModel(pop.toArray()));
-        tempselected = false;   //no bone yet selected
+        IDComboBox.setModel(new DefaultComboBoxModel(pop.toArray()));
         this.setVisible(true);
     }
 
@@ -49,33 +50,28 @@ public class ModifyBone extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox();
+        IDComboBox = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        SelectionComboBox = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        PriceInputField = new javax.swing.JTextField();
+        OKbutton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBox1MouseClicked(evt);
-            }
-        });
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+        IDComboBox.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                IDComboBoxFocusLost(evt);
             }
         });
 
         jLabel1.setText("Bone #ID");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Price", "Location", "PurchaseStatus", " " }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        SelectionComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Change Price", "Change Location", "Sell Bone" }));
+        SelectionComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                SelectionComboBoxActionPerformed(evt);
             }
         });
 
@@ -84,16 +80,16 @@ public class ModifyBone extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel3.setText("ModifyField");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        PriceInputField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                PriceInputFieldActionPerformed(evt);
             }
         });
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        OKbutton.setText("OKieDokie");
+        OKbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                OKbuttonActionPerformed(evt);
             }
         });
 
@@ -109,18 +105,18 @@ public class ModifyBone extends javax.swing.JDialog {
                 .addGap(60, 60, 60))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addComponent(IDComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(SelectionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(77, 77, 77)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton1)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(OKbutton)
+                        .addComponent(PriceInputField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,76 +129,89 @@ public class ModifyBone extends javax.swing.JDialog {
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(IDComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SelectionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PriceInputField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(OKbutton)
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
-        // TODO add your handling code here:
-        DBselection = jComboBox1.getSelectedIndex();  //gets index of sele DrBx item and associates to temp
-        temp  = inhere.bonelist.get(DBselection);
-        tempselected = true;
-    }//GEN-LAST:event_jComboBox1MouseClicked
-
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void SelectionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectionComboBoxActionPerformed
         // TODO add your handling code here:
          //if button activated
-         DBselection = jComboBox2.getSelectedIndex(); //sets box to change price , Location, or BuyingStatus
-         if(price != 0){//only execute if button executed
-            changefield(DBselection,temp);
-         }
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+         DBselection = SelectionComboBox.getSelectedIndex(); //sets box to change price , Location, or BuyingStatus
+         OperationSelected = true;
+         System.out.printf("%s", "Operation selected\n");
+    }//GEN-LAST:event_SelectionComboBoxActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void PriceInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceInputFieldActionPerformed
         // TODO add your handling code here:
-       if (tempselected){//temp selected
-           
         try{ 
-           price = Float.valueOf(jTextField1.getText());
+           price = Float.valueOf(PriceInputField.getText());
+           System.out.printf("%f%n", price);
        }catch(NumberFormatException | InputMismatchException e){
            JOptionPane.showInputDialog("Bad Input");
        }
-       }
-       
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_PriceInputFieldActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void OKbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKbuttonActionPerformed
         // TODO add your handling code here:
-        {
-            DBselection = jComboBox1.getSelectedIndex();  //gets index of sele DrBx item and associates to temp
-            temp  = inhere.bonelist.get(DBselection);
-            tempselected = true;
-        }
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    public void changefield(int select, Dinosaur bone){
-        switch(select){
-            case(0):{
-                if(price != 0)
-                    bone.price = price;
-                else
-                    JOptionPane.showInputDialog("Enter a Price");
+        Boolean invalid = false;
+        if(OperationSelected & tempselected){
+            
+            if((DBselection == 0)&& (price > 0)){                       //changes the price
+                temp.price = this.price;
+                 System.out.printf("%f%n", temp.price);
+                 inhere.printbonelist();
+                 this.dispose();
             }
-                      
+            if(DBselection == 1){
+                while(!invalid){//translates while truely invalid                       //gets the coordinates in comma form
+                    String StrArra[];
+                    String Strcoord = JOptionPane.showInputDialog("Enter Corrdinates");
+                    StrArra = Strcoord.split(",");
+                    try{
+                        temp.coordinates.latit = Double.valueOf(StrArra[0]);
+                        temp.coordinates.longi = Double.valueOf(StrArra[1]);
+                        invalid = true;  //translates no longer invalid
+                    }catch(NumberFormatException | InputMismatchException e){
+                        JOptionPane.showMessageDialog(this, e);
+                    }
+                
+                }//while
+                inhere.printbonelist();
+                this.dispose();
+            }
+            if(DBselection == 2){           //switch value of bought to change from sold to unsold and vice versa
+               System.out.printf("%d%n",temp.bought);
+               if(temp.bought == 0){
+                   temp.bought = 1;}
+               else{
+                   temp.bought =0;}
+               System.out.printf("%d%n",temp.bought);
+               this.dispose();
+            }
+                
         }
-    }
-        
-    
-    
+        else{
+            JOptionPane.showMessageDialog(this,"Finish Selction Make One");
+            inhere.printbonelist();
+          
+        }
+    }//GEN-LAST:event_OKbuttonActionPerformed
+    private void IDComboBoxFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IDComboBoxFocusLost
+        // TODO add your handling code here:
+        IDselection = IDComboBox.getSelectedIndex();  //gets index of sele DrBx item and associates to temp
+        temp  = inhere.bonelist.get(IDselection);
+        tempselected = true;
+        System.out.printf("%s", "ID selected\n");
+    }//GEN-LAST:event_IDComboBoxFocusLost
+
     
     /**
      * @param args the command line arguments
@@ -248,12 +257,12 @@ public class ModifyBone extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox IDComboBox;
+    private javax.swing.JButton OKbutton;
+    private javax.swing.JTextField PriceInputField;
+    private javax.swing.JComboBox SelectionComboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
