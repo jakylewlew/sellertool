@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 
 public class Sellertool{
      
-    ArrayList<Dinosaur> bonelist = new ArrayList<>();
+    public ArrayList<Dinosaur> bonelist = new ArrayList<>();
     ArrayList<MapO> MapNode = new ArrayList<>();
     public ArrayList<Continent> Continents = new ArrayList<>();
     char map[][];
@@ -90,7 +90,7 @@ public class Sellertool{
             }
             case("bonehandle"):{   
                    
-                    bonehandle("make"); //calls bone handele menu line 434
+                    //bonehandle("make"); //calls bone handele menu line 434
                    
                     break;
                     }//outercase2
@@ -127,8 +127,8 @@ public class Sellertool{
                 {                   //if bones array is empty clear it to so not to stack it
                     bonelist.clear();
                 }
-                makeabonefromfiles();//calls line 164 make bones fron bone,txt
-                LoadMap();          // then shows the map
+                //makeabonefromfiles();//calls line 164 make bones fron bone,txt
+                //LoadMap();          // then shows the map
                 filesloaded = true; //makes bool value true for out of sequenced malfunctions
                 maploaded = true;
                 output.format("\n Files are Loaded...\n");
@@ -154,13 +154,22 @@ public class Sellertool{
     }//mainmenu*/
             
         //construct new bone temp from file
-    public void makeabonefromfiles()
+    public void makeabonefromfiles(File file)
         {   
             File BoneFile;
             Scanner scanstream;
+             if(!bonelist.isEmpty())
+                {                   //if bones array is empty clear it to so not to stack it
+                    bonelist.clear();
+                }
+                //makeabonefromfiles();//calls line 164 make bones fron bone,txt
+                //LoadMap();          // then shows the map
+                filesloaded = true; //makes bool value true for out of sequenced malfunctions
+                maploaded = true;
+               // output.format("\n Files are Loaded...\n");
             
             try {
-            BoneFile = new File("Bones.txt");
+            BoneFile = file;
             scanstream = new Scanner(BoneFile);
             
             while(scanstream.hasNextLine()){
@@ -280,7 +289,7 @@ public class Sellertool{
         }return result;
     }//getf()
         
-    public void makeBone(String bone, Double price){//makes new bone calls boneediting for coord and id price yada puts in bone list//make bone from prompt
+    public void makeBone(String bone, float price){//makes new bone calls boneediting for coord and id price yada puts in bone list//make bone from prompt
             temp = null; 
             Double latit = 0.0;
             Double longi = 0.0;
@@ -445,7 +454,7 @@ public class Sellertool{
             switch(selection)//handle handling
             {
                 case("make"):
-                        {   makeBone();   //make bone from string                                     
+                        {   //makeBone();   //make bone from string                                     
                             show_map();
                             //makeBone();//will add to bonelist on its own
                             createdBone = true;
@@ -898,7 +907,7 @@ public class Sellertool{
             "Velociraptor","Triceratops","Hylaeosaurus","Amargasaurus","Dakosaurus",
             "Shastasaurus","Pterodactyl","Pterosaurs","Pteranodon"};
         
-        boolean inarray = false;//starts false
+        boolean inarray = true;//starts false
         String bonety;
         /*output.format("Select a type of Dinosaur Bone from the list below\n");
         output.format(  "Spinosaurus TyrannosaurusRex Pteranodon\n"+ //list all valid types for the user
@@ -907,7 +916,7 @@ public class Sellertool{
                         "Shastasaurus Pterodactyl Pterosaurs\n");*/
         bonety =  bone;
         
-        while(!inarray){
+        /*while(!inarray){
                  bonety = bonety.trim();//trim again??
                 for(int i=0; i < specialbones.length; i++){ //checks for valid dinosaur
                     if(bonety.equals(specialbones[i])){
@@ -918,8 +927,8 @@ public class Sellertool{
                 output.format("No such Dinosaur available\n"
                         + "Try again\n");
                 bonety = input.nextLine();
-            }
-        }//while valid string is not input
+            }/*
+        }*///while valid string is not input
         if(inarray){//when valis is input
         switch(bonety){//uses bonety as a switch to make that typ of dinosaur
 
@@ -927,56 +936,50 @@ public class Sellertool{
 
                 temp = new Spinosaurus(latitude, longitude, price);//(x,y,price)
                 change_continent_price(temp, moved);//moved is false new bone
-                bonelist.add(temp);
                 break;
             } 
             case("TyrannosaurusRex"):{
 
                 temp = new TyrannosaurusRex(latitude,longitude,price);//(x,y,price)
                 change_continent_price(temp,moved);
-                bonelist.add(temp);
+                break;
+                
             }
             case("Gigantosaurus"):{
 
                 temp = new Giganotosaurus(latitude, longitude, price);//(x,y,price)
                 change_continent_price(temp,moved);
-                System.out.print(temp.adjusted_price);
-                bonelist.add(temp);
                 break;
             }
             case("Velociraptor"):{
 
                 temp = new Velociraptor(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                bonelist.add(temp);
+              
                 break;
             }
             case("Triceratops"):{ 
 
                 temp = new Triceratops(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                bonelist.add(temp);
                 break;
             }
             case("Hylaeosaurus"):{ 
 
                 temp = new Hylaeosaurus(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                bonelist.add(temp);
                 break;
             }
             case("Amargasaurus"):{
 
                 temp = new Amargasaurus(latitude, longitude, price);//(x,y, price
-                change_continent_price(temp,moved);            
-                bonelist.add(temp);
+                change_continent_price(temp,moved);  
                 break;           
             }
             case("Dakosaurus"):{
 
                 temp = new Dakosaurus(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                bonelist.add(temp);
                 break;
             }
             case("Shastasaurus"):{
@@ -990,19 +993,16 @@ public class Sellertool{
 
                 temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                bonelist.add(temp);
                 break;
             }
             case("Pterosaurs"):{
                 temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                bonelist.add(temp);
                 break;
             }case("Pteranodon"):{
 
                 temp = new Pteranodon(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                bonelist.add(temp);
                 break;            
             }
              default:{
@@ -1010,13 +1010,15 @@ public class Sellertool{
                     "\nGigantosaurus\nVelociraptor\nTriceratops\nHylaeosaurus\nAmargasaurus\n");
             break;
         }//default
-    }//switch    
+    }//switch 
+      
      return temp;
        
     }
     else{
         return null;
     }
+        
  }
          //Scramble function
     public void scramble() {
@@ -1095,7 +1097,32 @@ public class Sellertool{
         
         
     }
-        
+      
+    public void savefile(File file){
+        int i;
+        if(!bonelist.isEmpty()){
+                try {//sends to file
+                        //File Bonetext = new File("Bones.txt");
+                        Formatter filewriter = new Formatter(file);
+
+                        for(i=0;i<bonelist.size();i++){
+                            temp = bonelist.get(i);
+                           // filewriter.format( "%d,%d,%f,%f,%d,%f,%f,%f,%f,%f,%d,%s,%s,%s,%s%\n",temp.boneID,temp.age,temp.price,temp.weight,temp.bought,temp.globe_longitude,temp.globe_latitude,temp.length,temp.width,temp.height,temp.buyer_id,temp.name,temp.condition,temp.country,temp.prospector );
+                           //output.format("%d,%f,%f,%f,%d,%s\n", temp.boneID, temp.price, temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
+                           filewriter.format("%d,%f,%d,%f,%f,%d,%s%n", temp.boneID, temp.price,temp.bought,temp.coordinates.longi, temp.coordinates.latit,temp.buyer.ID,temp.name);
+                        }
+                        output.format("\nFiles are saved...\n");
+                        filewriter.close();
+
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Sellertool.class.getName()).log(Level.SEVERE, null, ex); 
+                    }
+                }else{
+                output.format("No Bones to save%n");
+                } 
+            }  
+    }
+    
 }
                    
                     

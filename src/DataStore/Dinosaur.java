@@ -34,7 +34,7 @@ public class Dinosaur {
         this.price = price_;
         this.adjusted_price = 0;
         this.coordinates = new Coordinates(x, y);
-        boneID = -1 * (int) System.currentTimeMillis() % 99999;
+        boneID = 1 * (int) System.currentTimeMillis() % 99999;
         buyer = new Buyer("Your Name", ((int) boneID % 999), 0, 0);
         seller = new Seller(0);
         seller.name = "Jacob Lewis";
@@ -43,7 +43,7 @@ public class Dinosaur {
 
     public Dinosaur() {
         this.coordinates = new Coordinates();
-        boneID = -1 * (int) System.currentTimeMillis() % 99999;
+        boneID = 1 * (int) System.currentTimeMillis() % 99999;
         buyer = new Buyer("Your Name", ((int) boneID % 999), 0, 0);
         seller = new Seller(0);
         seller.name = "Jacob Lewis";
