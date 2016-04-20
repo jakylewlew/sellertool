@@ -163,7 +163,8 @@ public class ModifyBone extends javax.swing.JDialog {
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-       if (tempselected){
+       if (tempselected){//temp selected
+           
         try{ 
            price = Float.valueOf(jTextField1.getText());
        }catch(NumberFormatException | InputMismatchException e){
