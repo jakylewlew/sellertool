@@ -41,7 +41,7 @@ public class Sellertool{
     public ArrayList<Dinosaur> bonelist = new ArrayList<>();
     ArrayList<MapO> MapNode = new ArrayList<>();
     public ArrayList<Continent> Continents = new ArrayList<>();
-    char map[][];
+    public char[][] map = new char[3600][1800];
     Scanner input;
     Formatter output;
     Dinosaur temp = new Dinosaur();
@@ -58,22 +58,17 @@ public class Sellertool{
             input = new Scanner(System.in);    
             filesloaded = false;
             maploaded= false;
+            create_continents(); 
+            
             
         }
       public void mainmenu(String x){
           
             //download new bone file there you go   
-            create_continents();   //creates all continent arrays; line 803
+            //create_continents();   //creates all continent arrays; line 803
             int i;
             
-            /*output.format("\nBUYING BONES FROM MARY JONES DINO BONE SHOP\n1:Load the Map\n"
-                    +"2:Handle Bone\n"
-                    +"3:Show the world map with Bones\n"
-                    +"4:Save Files\n5"
-                    +":Load Files\n"                        //the main menu print out in terminal
-                    + "6:Create Seller\n"+
-                    "7:Scramble\n"
-                    + "8:Exit\n");*/
+           
                   
             
             
@@ -83,7 +78,7 @@ public class Sellertool{
                if(!MapNode.isEmpty()){//if there is nothing in the MapNodes
                    MapNode.clear();
                } 
-               LoadMap();
+              
                maploaded = true;
                output.format("\nMap is Loaded\n");//email this to me 
                break;
@@ -816,13 +811,13 @@ public class Sellertool{
         continent_name[6] = "Australia";
         
         String[] continent_files = new String[7];
-        continent_files[0] = "northamerica.txt";
-        continent_files[1] = "southamerica.txt";
-        continent_files[2] = "europe.txt";
-        continent_files[3] = "africa.txt";
-        continent_files[4] = "asia.txt";
-        continent_files[5] = "antarctica.txt";
-        continent_files[6] = "australia.txt";
+        continent_files[0] = "NorthAmerica.png";
+        continent_files[1] = "SouthAmerica.png";
+        continent_files[2] = "Europe.png";
+        continent_files[3] = "Africa.png";
+        continent_files[4] = "Asia.png";
+        continent_files[5] = "Antarctica.png";
+        continent_files[6] = "Australia.png";
 
         
         for(int i=0; i<continent_name.length; ++i) {

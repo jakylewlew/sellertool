@@ -117,6 +117,9 @@ public class RemovePrompt extends javax.swing.JDialog {
         // TODO add your handling code here:
         int x = DinoDropDropDown.getSelectedIndex(); //gets index of the DropDown
         temp = inhere.bonelist.get(x); //grabs selected bone
+        if(x!=0){
+            x = x-1;
+        }
         
     }//GEN-LAST:event_DinoDropDropDownActionPerformed
 
@@ -124,6 +127,7 @@ public class RemovePrompt extends javax.swing.JDialog {
         // TODO add your handling code here:
         JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this bone?");
         inhere.bonelist.remove(temp);
+        
         this.dispose();
     }//GEN-LAST:event_OKbuttonActionPerformed
 

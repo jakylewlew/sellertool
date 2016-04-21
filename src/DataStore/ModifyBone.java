@@ -80,9 +80,9 @@ public class ModifyBone extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel3.setText("ModifyField");
 
-        PriceInputField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PriceInputFieldActionPerformed(evt);
+        PriceInputField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                PriceInputFieldFocusLost(evt);
             }
         });
 
@@ -149,16 +149,6 @@ public class ModifyBone extends javax.swing.JDialog {
          System.out.printf("%s", "Operation selected\n");
     }//GEN-LAST:event_SelectionComboBoxActionPerformed
 
-    private void PriceInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceInputFieldActionPerformed
-        // TODO add your handling code here:
-        try{ 
-           price = Float.valueOf(PriceInputField.getText());
-           System.out.printf("%f%n", price);
-       }catch(NumberFormatException | InputMismatchException e){
-           JOptionPane.showInputDialog("Bad Input");
-       }
-    }//GEN-LAST:event_PriceInputFieldActionPerformed
-
     private void OKbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKbuttonActionPerformed
         // TODO add your handling code here:
         Boolean invalid = false;
@@ -211,6 +201,18 @@ public class ModifyBone extends javax.swing.JDialog {
         tempselected = true;
         System.out.printf("%s", "ID selected\n");
     }//GEN-LAST:event_IDComboBoxFocusLost
+
+    private void PriceInputFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_PriceInputFieldFocusLost
+        // TODO add your handling code here:
+           
+        try{ 
+           price = Float.valueOf(PriceInputField.getText());
+           System.out.printf("%f%n", price);
+       }catch(NumberFormatException | InputMismatchException e){
+           JOptionPane.showInputDialog("Bad Input");
+       }
+     
+    }//GEN-LAST:event_PriceInputFieldFocusLost
 
     
     /**

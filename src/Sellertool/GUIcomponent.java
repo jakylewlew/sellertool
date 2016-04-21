@@ -4,13 +4,21 @@
  * and open the template in the editor.
  */
 package Sellertool;
+import java.awt.Dimension;
 import DataStore.Dinosaur;
 import DataStore.MakeBoneDialog;
 import DataStore.ModifyBone;
 import DataStore.RemovePrompt;
 import DataStore.SuggestPrice;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Formatter;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 /**
  *
  * @author Jacob
@@ -24,13 +32,23 @@ public class GUIcomponent extends javax.swing.JFrame{
    ModifyBone mod;
    RemovePrompt rmprompt;
    File file;
-    /**
+   Dimension d;
+   JLabel map_label;
+     /**
      * Creates new form GUIcomponent
      */
     //Sellertool maintool = new Sellertool();
     public GUIcomponent() {
         initComponents();
+        map_label = new JLabel(new ImageIcon(new ImageIcon("WorldMap.png").getImage().getScaledInstance(3600/3,1800/3,Image.SCALE_SMOOTH)));
+        map_label.setSize(3600/3,1800/3);
+        map_label.setBackground(Color.MAGENTA);
+        d = new Dimension();
+        map_label.setMaximumSize(d);
+        this.add(map_label);
+        load_world_map();
         
+       
     }
 
     /**
@@ -244,6 +262,35 @@ public class GUIcomponent extends javax.swing.JFrame{
         
     }//GEN-LAST:event_RemoveBoneActionPerformed
 
+    public void load_world_map() {
+           
+        try{
+            //open world map file
+            File wm = new File("WorldMap.png");
+            //create worldmap image
+            BufferedImage map_ = ImageIO.read(wm);
+            for(int i=0; i<1800; ++i) {
+                for(int j=0; j<3600; ++j) {
+                    Color c = new Color(map_.getRGB(j, i));
+                    int red = c.getRed();
+                    int green = c.getGreen();
+                    int blue = c.getBlue();
+                    if(red == 0 && green == 0 && blue == 255) {
+                        //its blue
+                        this.map[j][i] = '.';
+                    }
+                    else{
+                        //its green
+                        this.map[j][i] = '*';
+                    }
+                }
+            }
+            
+        }
+        catch(IOException ex) {
+            //do something
+        }
+    }
  
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
