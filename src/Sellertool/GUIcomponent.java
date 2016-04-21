@@ -12,7 +12,12 @@ import DataStore.RemovePrompt;
 import DataStore.SuggestPrice;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
+import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.io.IOException;
 import java.util.Formatter;
@@ -67,7 +72,7 @@ public class GUIcomponent extends javax.swing.JFrame{
         SaveFilesSele = new javax.swing.JMenuItem();
         ExitSele = new javax.swing.JMenuItem();
         MapDropDown = new javax.swing.JMenu();
-        ChangeLocationSele = new javax.swing.JMenuItem();
+        ShowBoneButton = new javax.swing.JMenuItem();
         SellerDropDownMenu = new javax.swing.JMenu();
         NewSeller = new javax.swing.JMenuItem();
         DeleteSeller = new javax.swing.JMenuItem();
@@ -118,13 +123,18 @@ public class GUIcomponent extends javax.swing.JFrame{
 
         MapDropDown.setLabel("Map");
 
-        ChangeLocationSele.setLabel("ChangeLocation");
-        ChangeLocationSele.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ChangeLocationSeleActionPerformed(evt);
+        ShowBoneButton.setText("showbones");
+        ShowBoneButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ShowBoneButtonMouseClicked(evt);
             }
         });
-        MapDropDown.add(ChangeLocationSele);
+        ShowBoneButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ShowBoneButtonActionPerformed(evt);
+            }
+        });
+        MapDropDown.add(ShowBoneButton);
 
         MenuBAR.add(MapDropDown);
 
@@ -229,10 +239,6 @@ public class GUIcomponent extends javax.swing.JFrame{
        System.exit(0);
     }//GEN-LAST:event_ExitSeleActionPerformed
 
-    private void ChangeLocationSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeLocationSeleActionPerformed
-        // ChangeBone Location
-    }//GEN-LAST:event_ChangeLocationSeleActionPerformed
-
     private void MakeBoneSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakeBoneSeleActionPerformed
         // TODO add your handling code here:
         MakeBoneDialog makebone = new MakeBoneDialog(this,true,GUISellertool); //pass pointer to the GGUI seller 
@@ -241,7 +247,10 @@ public class GUIcomponent extends javax.swing.JFrame{
        //do the suggested price thing here 
         i = GUISellertool.bonelist.size(); //gets the pos of last bone to use to call sugg price
         i = i-1;
-        prompt = new SuggestPrice(this,true,GUISellertool.bonelist.get(i)); //calls suggestprice prompt
+        try{prompt = new SuggestPrice(this,true,GUISellertool.bonelist.get(i)); //calls suggestprice prompt
+        }catch(ArrayIndexOutOfBoundsException e){
+            
+        }
         GUISellertool.printbonelist();
          makebone.dispose();
     }//GEN-LAST:event_MakeBoneSeleActionPerformed
@@ -262,6 +271,18 @@ public class GUIcomponent extends javax.swing.JFrame{
         
     }//GEN-LAST:event_RemoveBoneActionPerformed
 
+    private void ShowBoneButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ShowBoneButtonMouseClicked
+        // TODO add your handling code here:
+        output.format("%s","got here\n*\n");
+        put_bones_on_map();
+    }//GEN-LAST:event_ShowBoneButtonMouseClicked
+
+    private void ShowBoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowBoneButtonActionPerformed
+        // TODO add your handling code here:
+          output.format("%s","got here\n*\n");
+        put_bones_on_map();
+    }//GEN-LAST:event_ShowBoneButtonActionPerformed
+
     public void load_world_map() {
            
         try{
@@ -277,11 +298,11 @@ public class GUIcomponent extends javax.swing.JFrame{
                     int blue = c.getBlue();
                     if(red == 0 && green == 0 && blue == 255) {
                         //its blue
-                        this.map[j][i] = '.';
+                        GUISellertool.map[j][i] = '.';
                     }
                     else{
                         //its green
-                        this.map[j][i] = '*';
+                        GUISellertool.map[j][i] = '*';
                     }
                 }
             }
@@ -290,6 +311,81 @@ public class GUIcomponent extends javax.swing.JFrame{
         catch(IOException ex) {
             //do something
         }
+    }
+    public void put_bones_on_map() {
+        output.format("--------->%d",this.map_label.getComponentCount());
+        if(!GUISellertool.bonelist.isEmpty()) { 
+            //empty map_label
+                
+                for(int i=this.map_label.getComponentCount()-1; i>=0; --i) {
+                    this.map_label.remove(i);
+                }
+                this.map_label.validate();
+            
+            ImageFilter filter = new RGBImageFilter() {
+	         int transparentColor = Color.white.getRGB() | 0xFF000000;
+
+                        public final int filterRGB(int x, int y, int rgb) {
+
+
+                            if ((rgb | 0xFF000000) == transparentColor) {
+                              return 0x00FFFFFF & rgb;
+                           } else {
+                              return rgb;
+                           }
+
+                        }
+	      };
+
+            ImageIcon soldIcon = new ImageIcon("Sold.png");
+            ImageIcon unsoldIcon = new ImageIcon("Unsold.png");
+            Image soldImage;
+            Image unsoldImage;
+
+            ImageProducer filteredImgProd = new FilteredImageSource(soldIcon.getImage().getSource(), filter);
+            soldImage = Toolkit.getDefaultToolkit().createImage(filteredImgProd);
+
+            filteredImgProd = new FilteredImageSource(unsoldIcon.getImage().getSource(), filter);
+            unsoldImage = Toolkit.getDefaultToolkit().createImage(filteredImgProd);    
+
+              
+            for(int i=0; i<GUISellertool.bonelist.size(); ++i) {
+                JLabel bone_icon = new JLabel();
+                bone_icon.setSize(25, 25);
+                ImageIcon ic;
+                if(GUISellertool.bonelist.get(i).bought == 1) {
+                    ic = new ImageIcon(soldImage);
+                    
+                }else{
+                    ic = new ImageIcon(unsoldImage);
+                }
+                bone_icon.setIcon(ic);
+                bone_icon.setToolTipText(GUISellertool.bonelist.get(i).name);
+                int temp_x = GUISellertool.bonelist.get(i).coordinates.y;
+                int temp_y = GUISellertool.bonelist.get(i).coordinates.x; 
+                
+                int x = temp_x/3;
+                int y = temp_y/3;
+                
+                if(x==0) {
+                    x = x - 5;
+                }
+                else if(x>=1179) {
+                    x = 1179;
+                }
+                if(y >= 574) {
+                    y = 574;
+                }
+                
+                //this.map_label.setLayout(null);
+                bone_icon.setLocation(x, y);
+                this.map_label.add(bone_icon);
+                //this.map_label.repaint();
+            }
+            this.map_label.validate();
+            this.map_label.repaint();
+        }
+    
     }
  
     public static void main(String args[]) {
@@ -327,7 +423,6 @@ public class GUIcomponent extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu BoneMenu;
-    private javax.swing.JMenuItem ChangeLocationSele;
     private javax.swing.JMenuItem DeleteSeller;
     private javax.swing.JMenuItem ExitSele;
     private javax.swing.JMenuItem ListSeller;
@@ -341,6 +436,7 @@ public class GUIcomponent extends javax.swing.JFrame{
     private javax.swing.JMenuItem SaveFilesSele;
     private javax.swing.JMenuItem Sell;
     private javax.swing.JMenu SellerDropDownMenu;
+    private javax.swing.JMenuItem ShowBoneButton;
     private javax.swing.JMenu filemenudropdown;
     private javax.swing.JFileChooser jFileChooser1;
     // End of variables declaration//GEN-END:variables

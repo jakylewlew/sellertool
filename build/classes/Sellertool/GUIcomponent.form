@@ -48,12 +48,13 @@
             <Property name="label" type="java.lang.String" value="Map"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="ChangeLocationSele">
+            <MenuItem class="javax.swing.JMenuItem" name="ShowBoneButton">
               <Properties>
-                <Property name="label" type="java.lang.String" value="ChangeLocation"/>
+                <Property name="text" type="java.lang.String" value="showbones"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ChangeLocationSeleActionPerformed"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ShowBoneButtonMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ShowBoneButtonActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

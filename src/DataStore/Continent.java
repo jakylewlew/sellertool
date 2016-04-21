@@ -1,7 +1,10 @@
 package DataStore;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import java.io.*;
+import javax.imageio.ImageIO;
 
 public class Continent {
 
@@ -12,7 +15,7 @@ public class Continent {
     public float price;
 
     public Continent(String FileName, String descriptor_) {
-        this.arr = new boolean[60][20];
+        this.arr = new boolean[3600][1800];
         this.load(FileName);
         this.descriptor = descriptor_;
         this.setPrice(descriptor_);
@@ -26,33 +29,32 @@ public class Continent {
     }
 
     public void load(String fileName) {
-        try {
-            File ScanFile = new File(fileName);
-            Scanner s = new Scanner(ScanFile);
-            int row = 0;
-            while (s.hasNextLine()) {
-                String tempString = s.nextLine();
-                if (tempString.trim().isEmpty()) {
-                    break;
+        try{
+            //open world map file
+            File wm = new File(fileName);
+            //create worldmap image
+            BufferedImage map_ = ImageIO.read(wm);
+            for(int i=0; i<1800; ++i) {
+                for(int j=0; j<3600; ++j) {
+                    Color c = new Color(map_.getRGB(j, i));
+                    int red = c.getRed();
+                    int green = c.getGreen();
+                    int blue = c.getBlue();
+                    if(red == 255 && green == 255 && blue == 255) {
+                        //its black
+                        this.arr[j][i] = false;
                 }
-                for (int i = 0; i < tempString.length(); i++) {
-                    switch(tempString.charAt(i)) {
-                        case '0':
-                            this.arr[i][row] = false;
-                            break;
-                        case '1':
-                            this.arr[i][row] = true;
-                            break;
-                        default:
-                            this.arr[i][row] = false;
-                            break;
+                    else{
+                        //its white
+                        this.arr[j][i] = true;
                     }
                 }
-                row++;
             }
-        } catch (FileNotFoundException fnfe) {
-            System.out.printf("Error\n");
+            
         }
+        catch(IOException ex) {
+            //do something
+    }
     }
 
     public void setPrice(String descriptor_) {
