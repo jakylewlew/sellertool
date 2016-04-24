@@ -13,7 +13,7 @@ public class Coordinates {
     public Coordinates(double latitude, double longitude) {
         this.latit = latitude;
         this.longi = longitude;
-        this.setMapCoordinates(longitude, latitude);   
+        this.setMapCoordinates(latitude, longitude);   
     }
 
     public void setMapCoordinates(double temp_long_1, double temp_lat_1) {
@@ -28,7 +28,7 @@ public class Coordinates {
             this.longi = 180;
         }
         if(temp_lat_ < -90) {
-            temp_lat_ = -90;
+            temp_lat_ = -90; 
             this.latit = -90;
         }else if(temp_lat_ > 90) {
             temp_lat_ = 90;
@@ -68,7 +68,7 @@ public class Coordinates {
         int long_ = (int) this.longi;
         int lat_ = (int) this.latit;
         this.y = (3600/360) * long_ + 1800;
-        this.x = (1800/180) * lat_ + 900;
+        this.x = (-1800/180) * lat_ + 900;
         if(this.x < 0) {
             this.x = 0;
         }

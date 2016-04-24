@@ -40,7 +40,6 @@ public class ModifyBone extends javax.swing.JDialog {
         IDComboBox.setModel(new DefaultComboBoxModel(pop.toArray()));
         this.setVisible(true);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,6 +64,11 @@ public class ModifyBone extends javax.swing.JDialog {
                 IDComboBoxFocusLost(evt);
             }
         });
+        IDComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IDComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Bone #ID");
 
@@ -80,9 +84,9 @@ public class ModifyBone extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel3.setText("ModifyField");
 
-        PriceInputField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                PriceInputFieldFocusLost(evt);
+        PriceInputField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PriceInputFieldActionPerformed(evt);
             }
         });
 
@@ -168,8 +172,9 @@ public class ModifyBone extends javax.swing.JDialog {
                     try{
                         temp.coordinates.latit = Double.valueOf(StrArra[0]);
                         temp.coordinates.longi = Double.valueOf(StrArra[1]);
+                        temp.coordinates.updatecoordinates();
                         invalid = true;  //translates no longer invalid
-                    }catch(NumberFormatException | InputMismatchException e){
+                    }catch(NumberFormatException | InputMismatchException | NullPointerException | ArrayIndexOutOfBoundsException e){
                         JOptionPane.showMessageDialog(this, e);
                     }
                 
@@ -197,22 +202,30 @@ public class ModifyBone extends javax.swing.JDialog {
     private void IDComboBoxFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IDComboBoxFocusLost
         // TODO add your handling code here:
         IDselection = IDComboBox.getSelectedIndex();  //gets index of sele DrBx item and associates to temp
-        temp  = inhere.bonelist.get(IDselection);
-        tempselected = true;
+       try{ 
+           temp  = inhere.bonelist.get(IDselection); 
+           tempselected = true;
+       }catch(ArrayIndexOutOfBoundsException e){
+           tempselected = false;
+       }
+       
         System.out.printf("%s", "ID selected\n");
     }//GEN-LAST:event_IDComboBoxFocusLost
 
-    private void PriceInputFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_PriceInputFieldFocusLost
+    private void PriceInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceInputFieldActionPerformed
         // TODO add your handling code here:
-           
-        try{ 
+         try{ 
            price = Float.valueOf(PriceInputField.getText());
            System.out.printf("%f%n", price);
-       }catch(NumberFormatException | InputMismatchException e){
+       
+        }catch(NumberFormatException | InputMismatchException e){
            JOptionPane.showInputDialog("Bad Input");
        }
-     
-    }//GEN-LAST:event_PriceInputFieldFocusLost
+    }//GEN-LAST:event_PriceInputFieldActionPerformed
+
+    private void IDComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IDComboBoxActionPerformed
 
     
     /**

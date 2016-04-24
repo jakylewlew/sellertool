@@ -14,55 +14,47 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Jacob
  */
-public class Seller {
+public class Seller {    
+    public String name;
+    public Coordinates coordinate = new Coordinates();
     public ArrayList<Seller> masterlist = new ArrayList();
-    String name;
-   
-    Coordinates coordinate = new Coordinates();
     Scanner input =new Scanner(System.in);
     Formatter output = new Formatter(System.out);
-    
-    public Seller(int x){//blank seller object for use in operation to call menu in seller class
+    Double latitude;
+    Double longitude;
+    public Seller(int a){//blank seller object for use in operation to call menu in seller class
         
     }
-    public Seller(){
-        Double horizontal;
-        Double vertical;
+    public Seller(String name, Double inpLatitude,Double inpLongitude){
+        System.out.printf("|%f|", inpLatitude);
+        this.name = name.toLowerCase();//makes all case lowercase to find easily
         
-        output.format("\nName:\n");
-        name = input.nextLine();
-        name = name.toLowerCase();//makes all case lowercase to find easily
-        do{
-            output.format("\nLatitude:\n");//get valis latitude//******could use getF instead********
-           try{ horizontal = input.nextDouble();
+          while((inpLatitude>90) || (inpLatitude<-90)){
+                try{
+                   inpLatitude = Double.valueOf(JOptionPane.showInputDialog("Bad input", inpLatitude));
+               }catch(NumberFormatException | InputMismatchException e){
+
+               }                           
+        }
+        
+            while((inpLongitude>180.0)||(inpLongitude<-180.0)){
+               try{
+                   inpLongitude = Double.valueOf(JOptionPane.showInputDialog("Bad input", inpLongitude));
+               }catch(NumberFormatException | InputMismatchException e){
+
+               }
            
-           }catch(InputMismatchException e) {
-                input.next();
-                output.format("Error: Try again\n");
-                horizontal = 180.0;   //if wronf make sure that the do whi returns
-                   } 
-        }while((horizontal>90) || (horizontal<-90));
-        do{
-            output.format("\nLongitude:\n");//get valid longitude
-            try{ vertical = input.nextDouble();
-           
-           }catch(InputMismatchException e) {
-                input.next();// reset input
-                output.format("Error: Try again\n");
-                vertical = 200.0;
-           }
-            
-        }while((vertical>180.0)||(vertical<-180.0));
-        coordinate.latit = horizontal;
-        coordinate.longi = vertical;
+        }
+        coordinate.latit = inpLatitude;
+        coordinate.longi = inpLongitude;
         coordinate.updatecoordinates();
-       input.nextLine();//clearScanner
-       
+            
   }
     
     //writesellers to file for storage
@@ -78,8 +70,8 @@ public class Seller {
                 switch(choice){
                     
                     case 1:{
-                        temp = new Seller();//make new
-                        masterlist.add(temp);//adds person to masterlist
+                        //temp = new Seller();//make new
+                        //masterlist.add(temp);//adds person to masterlist
                         writesellerfile();//rewrites sellerfile
                         break;
                       
@@ -87,7 +79,7 @@ public class Seller {
                     case 2:{    //search for seller, find, delete from masterlist; 
                                 //rewrites sellerfile;
                         printsellerlist();
-                        removeseller();
+                        //removeseller();
                         break;
                         
                     }
@@ -160,7 +152,7 @@ public class Seller {
             return result;
         }//getI
       
-    public void writesellerfile(){//writes new seller file
+      public void writesellerfile(){//writes new seller file
        File sellerlist = new File("Sellerfile.txt");
        int i;
        Seller temp;
@@ -178,23 +170,23 @@ public class Seller {
         
    }//addsellertofile
     
-    public void removeseller(){
+    public void removeseller(Sellertool GUISellertool){
         String name;
         Seller temp = null;
         int i; 
         Boolean found = false;
-        if(masterlist.isEmpty()){
+        if(GUISellertool.masterlist.isEmpty()){
             return;
         }
         output.format("\nWho do you ant to remove?\n", 0);
         name = input.nextLine();
         name = name.toLowerCase();
         
-        for(i=0; i < masterlist.size(); i++){//check for valid name of seller get that item
+        for(i=0; i < GUISellertool.masterlist.size(); i++){//check for valid name of seller get that item
             temp = masterlist.get(i);
             if(name.matches(masterlist.get(i).name)){
                 found = true;
-                masterlist.remove(i);//removes all users with that name from the masterlist
+                GUISellertool.masterlist.remove(i);//removes all users with that name from the masterlist
             }
             if(found){
             writesellerfile();//write updated masterlist to list
@@ -207,7 +199,7 @@ public class Seller {
         }
         
         
-    }//remove seller
+    }
     
     public void updateseller(){//upfdates seller information
         String name = null;
@@ -270,13 +262,12 @@ public class Seller {
           
           }
         
-   }//updateseller
+   }//updateseller*/
     
     public void printsellerlist(){//print seller list
         int i;
         if(masterlist.isEmpty()){
             output.format("\nNo sellers in the list\n");
-            
         }
         else{
             for(i=0; i <masterlist.size();i++){    //prints sll in the list if there is anyhting there
@@ -298,8 +289,8 @@ public class Seller {
    
     
     
-}//Seller class   
-        
+}//Seller class  
+       
        
         
         

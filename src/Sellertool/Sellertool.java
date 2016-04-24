@@ -32,6 +32,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 
@@ -41,6 +42,7 @@ public class Sellertool{
     public ArrayList<Dinosaur> bonelist = new ArrayList<>();
     ArrayList<MapO> MapNode = new ArrayList<>();
     public ArrayList<Continent> Continents = new ArrayList<>();
+     public ArrayList<Seller> masterlist = new ArrayList();
     public char[][] map = new char[3600][1800];
     Scanner input;
     Formatter output;
@@ -67,11 +69,6 @@ public class Sellertool{
             //download new bone file there you go   
             //create_continents();   //creates all continent arrays; line 803
             int i;
-            
-           
-                  
-            
-            
             switch(x)
             {
             case("loadmap"):{//loads the map             
@@ -134,7 +131,7 @@ public class Sellertool{
                 break;
             } 
             case("scramble"):{  //calls scramble line 1018
-                    scramble();
+                    //scramble();
                     show_map();
                     break;
             }case("exit"):{
@@ -623,92 +620,70 @@ public class Sellertool{
                 temp = new Spinosaurus(latitude, longitude, price);//(x,y,price)
                 change_continent_price(temp,moved);//moved is false
                 //System.out.print(temp.adjusted_price);
-                sugg_price_function(temp);
-                bonelist.add(temp);
+                
                 break;
             } 
             case("TyrannosaurusRex"):{
 
                 temp = new TyrannosaurusRex(latitude,longitude,price);//(x,y,price)
                 change_continent_price(temp,moved); //moved is false
-                sugg_price_function(temp);
-                bonelist.add(temp);
                 break;
             }
             case("Gigantosaurus"):{
 
                 temp = new Giganotosaurus(latitude, longitude, price);//(x,y,price)
                 change_continent_price(temp,moved);
-                sugg_price_function(temp);
-                bonelist.add(temp);
                 break;
             }
             case("Velociraptor"):{
 
                 temp = new Velociraptor(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                sugg_price_function(temp);
-                bonelist.add(temp);
                 break;
             }
             case("Triceratops"):{ 
 
                 temp = new Triceratops(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                sugg_price_function(temp);
-                bonelist.add(temp);
                 break;
             }
             case("Hylaeosaurus"):{ 
 
                 temp = new Hylaeosaurus(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                sugg_price_function(temp);
-                bonelist.add(temp);
+                
                 break;
             }
             case("Amargasaurus"):{
 
                 temp = new Amargasaurus(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                sugg_price_function(temp);
-                bonelist.add(temp);
                 break;
 
             }case("Dakosaurus"):{
 
                 temp = new Dakosaurus(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                sugg_price_function(temp);
-                bonelist.add(temp);
                 break;
             }case("Shastasaurus"):{
 
                 temp = new Shastasaurus(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                sugg_price_function(temp);
-                bonelist.add(temp);
                 break;
             }case("Pterodactyl"):{
 
                 temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                sugg_price_function(temp);
-                bonelist.add(temp);
                 break;
             }case("Pterosaurs"):{
 
                 temp = new Pterodactyl(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                sugg_price_function(temp);
-                bonelist.add(temp);
                 break;
             }case("Pteranodon"):{
 
                 temp = new Pteranodon(latitude, longitude, price);//(x,y, price
                 change_continent_price(temp,moved);
-                sugg_price_function(temp);
-                bonelist.add(temp);
                 break;            
             }default:{
                 System.out.print("Not a valid bone please select one of the following types\nSpinosaurus\nTyrannosaurusRex"+
@@ -1016,43 +991,34 @@ public class Sellertool{
         
  }
          //Scramble function
-    public void scramble() {
+    /*public void scramble() {
         //check if there is anything to scramble
-        if(this.bonelist.isEmpty() && this.sellerop.masterlist.isEmpty()) {
-            this.output.format("\nNo data to scramble..\n\n");
-        }
-        else if(!this.maploaded) { 
-            //if map not loaded
-            this.output.format("\nPlease Load Map First!!\n\n");
+        if(this.bonelist.isEmpty() ) {
+            String message = "No Data To Scramble!";
+            JOptionPane.showMessageDialog(this,"Files Not Loaded!"1); 
         }
         else{
             //correct data, scramble it
-            if(!this.sellerop.masterlist.isEmpty()) {
+            if(!GUISellertool.isEmpty()) {
                 //scramble buyers
-                for(int i=0; i<this.sellerop.masterlist.size(); ++i) {
+                for(int i=0; i<this.buyers.size(); ++i) {
                     
                     Random rn = new Random();
                     double temp_long = rn.nextInt((180 - (-180) + 1)) + (-180);
                     double temp_lat = rn.nextInt((90 - (-90) + 1)) + (-90);
                     Coordinates tempCoord = new Coordinates(temp_lat,temp_long);
-                    this.sellerop.masterlist.get(i).coordinate = tempCoord;
+                    this.buyers.get(i).coordinate = tempCoord;
 
                 }
                 
             }
             //scramble bones
-            if(!this.bonelist.isEmpty()) {
+            if(!this.Bones.isEmpty()) {
                 //create temporary map
-                int[][] temp_map = new int[60][20];
-                for(int i=0; i<this.MapNode.size(); ++i) {
-                    int tempX = this.MapNode.get(i).MapX;
-                    int tempY = this.MapNode.get(i).MapY;
-                    int tempZ = this.MapNode.get(i).MapZ;
-                    temp_map[tempX][tempY] = tempZ;
-                }
+                this.load_world_map();
                 
                 //scramble each bone
-                for(int i=0; i<this.bonelist.size(); ++i) {
+                for(int i=0; i<this.Bones.size(); ++i) {
                     while(true) {
                         //create random coordinates
                         Random rn = new Random();
@@ -1063,15 +1029,23 @@ public class Sellertool{
                         int temp_y = tempCoord.x;
                         
                         //if bone is on land, set new bone coordinate
-                        if(temp_map[temp_x][temp_y] == 1) {
-                            this.bonelist.get(i).coordinates = tempCoord;
+                        if(this.map[temp_x][temp_y] == '*') {
+                            this.Bones.get(i).coordinates = tempCoord;
                             break; //from while loop
                         }
                     } 
                 }
+            
             }
+            
+            //let user know data is scrambled
+            String message = "Data Scrambled!";
+            put_bones_on_map();
+            JOptionPane.showMessageDialog(this.main_frame, message, "Success!", 1); 
+        
         }
-    }       
+    
+    }    */   
         
          
     public boolean check_lat_long(double latitude, double longitude){ //checks for valid lat and long in the make_bone_string
@@ -1124,6 +1098,22 @@ public class Sellertool{
                 output.format("\nID:%-6dBonename:%-18sLat->%7.2f  Long->%7.2f  Row:Column (%2d:%2d)  Price:$%13.2f  ContinentPrice:$%13.2f%n",temp.boneID,temp.name,temp.coordinates.latit,temp.coordinates.longi, temp.coordinates.x,temp.coordinates.y,temp.price, temp.adjusted_price);
             }
     }
+           public void writesellerfile(){//writes new seller file
+       File sellerlist = new File("Sellerfile.txt");
+       int i;
+       Seller tempseller = null;
+        try {
+            Formatter filewriter = new Formatter(sellerlist);
+            for(i = 0; i< masterlist.size(); i++){
+                tempseller = masterlist.get(i);
+                filewriter.format("%s,%d,%d%n", tempseller.name,tempseller.coordinate.x,tempseller.coordinate.y);
+              
+            }
+          filewriter.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Seller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     }
 
 }
     
