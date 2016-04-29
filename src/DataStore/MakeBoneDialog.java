@@ -1,7 +1,16 @@
 package DataStore;
 
 import Sellertool.Sellertool;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
+import java.awt.image.RGBImageFilter;
 import java.util.InputMismatchException;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /*
@@ -140,7 +149,8 @@ public class MakeBoneDialog extends javax.swing.JDialog {
     private void buttonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonMousePressed
         // TODO add your handling code here:
         if(goodvalue == true){
-        temp = mySellerTool.make_bone_prompt(-90.00, -10.00, price, currentBone);
+        temp = mySellerTool.make_bone_prompt(0.,0., price, currentBone);
+        temp.coordinates.updatecoordinates();
         mySellerTool.bonelist.add(temp);
         this.dispose();
         }
@@ -166,6 +176,7 @@ public class MakeBoneDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_TextInFieldActionPerformed
 
+    
     /**
      * @param args the command line arguments
      */

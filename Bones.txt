@@ -8,4 +8,3 @@
 48005,3107.000000,0,-180.000000,-75.000000,53,Spinosaurus
 
 
-C:\Users\Jacob\Documents\GitHub\sellertool\Bones.txt

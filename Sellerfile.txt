@@ -1,1 +1,2 @@
-jacob lewis,6,25
+jacob,450,2450
+kirk,270,2780

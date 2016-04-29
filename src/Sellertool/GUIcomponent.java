@@ -4,11 +4,15 @@
  * and open the template in the editor.
  */
 package Sellertool;
-import java.awt.Dimension;
+import DataStore.Coordinates;
 import DataStore.Dinosaur;
+import java.awt.Dimension;
 import DataStore.MakeBoneDialog;
+import DataStore.MakeBoneStringPrmt;
 import DataStore.ModifyBone;
 import DataStore.RemovePrompt;
+import DataStore.SellerDelePrompt;
+import DataStore.SellerPrompt;
 import DataStore.SuggestPrice;
 import java.awt.Color;
 import java.awt.Image;
@@ -20,25 +24,33 @@ import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Jacob
  */
 public class GUIcomponent extends javax.swing.JFrame{
    Sellertool GUISellertool = new Sellertool();
-   Dinosaur temp;
-   SuggestPrice prompt;
+   Seller GUISeller = new Seller(0);//
+   String[] carnivore;
+   ArrayList<String> herbivore = new ArrayList<>();
    int i;
    Formatter output = new Formatter(System.out);
-   ModifyBone mod;
-   RemovePrompt rmprompt;
    File file;
    Dimension d;
    JLabel map_label;
+   SellerDelePrompt delesellerprmt;
+   RemovePrompt rmprompt;
+   SellerPrompt sellerprompt;
+   MakeBoneStringPrmt makeboneprmpt;
+   SuggestPrice SuggPriceprmpt; 
+   ModifyBone modboneprompt;
      /**
      * Creates new form GUIcomponent
      */
@@ -49,11 +61,9 @@ public class GUIcomponent extends javax.swing.JFrame{
         map_label.setSize(3600/3,1800/3);
         map_label.setBackground(Color.MAGENTA);
         d = new Dimension();
-        map_label.setMaximumSize(d);
+        d.setSize(3600/3,1800/3);
+        map_label.setMaximumSize(d);        
         this.add(map_label);
-        load_world_map();
-        
-       
     }
 
     /**
@@ -82,6 +92,7 @@ public class GUIcomponent extends javax.swing.JFrame{
         Sell = new javax.swing.JMenuItem();
         ModifyBone = new javax.swing.JMenuItem();
         RemoveBone = new javax.swing.JMenuItem();
+        LineInput = new javax.swing.JMenuItem();
 
         jFileChooser1.setCurrentDirectory(new java.io.File("C:\\Users\\Jacob\\Documents\\GitHub\\sellertool"));
 
@@ -123,7 +134,7 @@ public class GUIcomponent extends javax.swing.JFrame{
 
         MapDropDown.setLabel("Map");
 
-        ShowBoneButton.setText("showbones");
+        ShowBoneButton.setText("Scramble");
         ShowBoneButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ShowBoneButtonMouseClicked(evt);
@@ -141,9 +152,19 @@ public class GUIcomponent extends javax.swing.JFrame{
         SellerDropDownMenu.setLabel("Seller");
 
         NewSeller.setLabel("NewSeller");
+        NewSeller.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NewSellerActionPerformed(evt);
+            }
+        });
         SellerDropDownMenu.add(NewSeller);
 
         DeleteSeller.setLabel("DeleteSeller");
+        DeleteSeller.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteSellerActionPerformed(evt);
+            }
+        });
         SellerDropDownMenu.add(DeleteSeller);
 
         ListSeller.setLabel("ListSellers");
@@ -190,6 +211,14 @@ public class GUIcomponent extends javax.swing.JFrame{
         });
         BoneMenu.add(RemoveBone);
 
+        LineInput.setText("LineInput");
+        LineInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LineInputActionPerformed(evt);
+            }
+        });
+        BoneMenu.add(LineInput);
+
         MenuBAR.add(BoneMenu);
 
         setJMenuBar(MenuBAR);
@@ -198,7 +227,7 @@ public class GUIcomponent extends javax.swing.JFrame{
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 930, Short.MAX_VALUE)
+            .addGap(0, 1200, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,16 +251,33 @@ public class GUIcomponent extends javax.swing.JFrame{
       jFileChooser1.showOpenDialog(null);
       file = jFileChooser1.getSelectedFile(); //have to rewrte to feed in variable files
       GUISellertool.makeabonefromfiles(file);
+      this.put_bones_on_map();
                           
     }//GEN-LAST:event_LoadFilesSeleActionPerformed
 
     private void SellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SellActionPerformed
         // TODO add your handling code here:
-        mod = new ModifyBone(this, true, GUISellertool);
+        modboneprompt = new ModifyBone(this, true, GUISellertool);
+        if(!GUISellertool.bonelist.isEmpty()){
+        put_bones_on_map();
+        }
     }//GEN-LAST:event_SellActionPerformed
 
     private void ListSellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListSellerActionPerformed
         // TODO add your handling code here:
+        if(GUISellertool.masterlist.isEmpty()){
+            JOptionPane.showMessageDialog(this,"No Sellers Created");
+        }
+        StringBuilder builder = new StringBuilder("<html>"); 
+        for (int i = 0; i < GUISellertool.masterlist.size(); i++) {
+            builder.append(GUISellertool.masterlist.get(i).name);
+            builder.append("<br>");
+        }
+        builder.append("</html>");
+        JOptionPane.showMessageDialog
+            (null, builder.toString(), "Seller List", JOptionPane.INFORMATION_MESSAGE);
+            //reference http://stackoverflow.com/questions/16984221/display-arraylist-contents-in-a-joptionpane-showmessagedialog
+        
     }//GEN-LAST:event_ListSellerActionPerformed
 
     private void ExitSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitSeleActionPerformed
@@ -241,48 +287,78 @@ public class GUIcomponent extends javax.swing.JFrame{
 
     private void MakeBoneSeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MakeBoneSeleActionPerformed
         // TODO add your handling code here:
-        MakeBoneDialog makebone = new MakeBoneDialog(this,true,GUISellertool); //pass pointer to the GGUI seller 
+        MakeBoneDialog makebone = new MakeBoneDialog(this,true,GUISellertool); //pass pointer to the GUI seller 
         makebone.setVisible(true); 
-        
-       //do the suggested price thing here 
         i = GUISellertool.bonelist.size(); //gets the pos of last bone to use to call sugg price
-        i = i-1;
-        try{prompt = new SuggestPrice(this,true,GUISellertool.bonelist.get(i)); //calls suggestprice prompt
+        i = i-1;                           //subtracts 1 to restablish 0 items
+        try{SuggPriceprmpt = new SuggestPrice(this,true,GUISellertool.bonelist.get(i)); //calls suggestprice prompt
         }catch(ArrayIndexOutOfBoundsException e){
             
         }
-        GUISellertool.printbonelist();
-         makebone.dispose();
+        if(!GUISellertool.bonelist.isEmpty()){
+            put_bones_on_map();
+        }
+       //GUISellertool.printbonelist();      //test print all bones in list
+        makebone.dispose();      //dispose MakeBonePromt
     }//GEN-LAST:event_MakeBoneSeleActionPerformed
 
     private void ModifyBoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifyBoneActionPerformed
         // TODO add your handling code here:
-         mod = new ModifyBone(this, true, GUISellertool);
+         modboneprompt = new ModifyBone(this, true, GUISellertool);//Modify bone, change price, location, buy status
+        if(!GUISellertool.bonelist.isEmpty()){
+            put_bones_on_map();
+        }
+        //refresh map
+         
     }//GEN-LAST:event_ModifyBoneActionPerformed
 
     private void formComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_formComponentAdded
         // TODO add your handling code here:
-       
     }//GEN-LAST:event_formComponentAdded
 
     private void RemoveBoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveBoneActionPerformed
-        // TODO add your handling code here:
+        // remove bone prompt with are you sure prompt
         rmprompt = new RemovePrompt(this, true, GUISellertool);
-        
+        if(!GUISellertool.bonelist.isEmpty()){
+            put_bones_on_map();
+        }
+         
     }//GEN-LAST:event_RemoveBoneActionPerformed
 
     private void ShowBoneButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ShowBoneButtonMouseClicked
-        // TODO add your handling code here:
-        output.format("%s","got here\n*\n");
-        put_bones_on_map();
+        // Scamble bones in the list
+        this.scramble();
+        if(!GUISellertool.bonelist.isEmpty()){
+            put_bones_on_map();
+        }
+
     }//GEN-LAST:event_ShowBoneButtonMouseClicked
 
     private void ShowBoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowBoneButtonActionPerformed
-        // TODO add your handling code here:
-          output.format("%s","got here\n*\n");
-        put_bones_on_map();
+        this.scramble();
+        if(!GUISellertool.bonelist.isEmpty()){
+            put_bones_on_map();
+        }
+
     }//GEN-LAST:event_ShowBoneButtonActionPerformed
 
+    private void NewSellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewSellerActionPerformed
+        // TODO add your handling code here:
+         sellerprompt = new SellerPrompt(this,true, GUISellertool);
+         
+    }//GEN-LAST:event_NewSellerActionPerformed
+
+    private void DeleteSellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteSellerActionPerformed
+        // TODO add your handling code here:
+        delesellerprmt = new SellerDelePrompt(this,true,GUISellertool);
+    }//GEN-LAST:event_DeleteSellerActionPerformed
+
+    private void LineInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LineInputActionPerformed
+        // TODO add your handling code here:
+        makeboneprmpt = new MakeBoneStringPrmt(this, true, GUISellertool);
+         put_bones_on_map();
+    }//GEN-LAST:event_LineInputActionPerformed
+//*******************************LocalFunctions*********************************/
     public void load_world_map() {
            
         try{
@@ -314,6 +390,7 @@ public class GUIcomponent extends javax.swing.JFrame{
     }
     public void put_bones_on_map() {
         output.format("--------->%d",this.map_label.getComponentCount());
+        String display;
         if(!GUISellertool.bonelist.isEmpty()) { 
             //empty map_label
                 
@@ -360,7 +437,17 @@ public class GUIcomponent extends javax.swing.JFrame{
                     ic = new ImageIcon(unsoldImage);
                 }
                 bone_icon.setIcon(ic);
-                bone_icon.setToolTipText(GUISellertool.bonelist.get(i).name);
+                Dinosaur pointer = GUISellertool.bonelist.get(i);
+                display = GUISellertool.bonelist.get(i).name + "\n Coordinates:(";
+                display = display + Double.toString(GUISellertool.bonelist.get(i).coordinates.latit)+"\n,";
+                display = display + Double.toString(GUISellertool.bonelist.get(i).coordinates.longi)+"\n) Price: $";
+                display = display + Float.toString(GUISellertool.bonelist.get(i).price)+" ID#";
+                display = display + Integer.toString(GUISellertool.bonelist.get(i).boneID);
+                //if carnivore
+                              
+                              
+                //if herb
+                bone_icon.setToolTipText(display);
                 int temp_x = GUISellertool.bonelist.get(i).coordinates.y;
                 int temp_y = GUISellertool.bonelist.get(i).coordinates.x; 
                 
@@ -378,7 +465,7 @@ public class GUIcomponent extends javax.swing.JFrame{
                 }
                 
                 //this.map_label.setLayout(null);
-                bone_icon.setLocation(x, y);
+                bone_icon.setLocation(x,y);
                 this.map_label.add(bone_icon);
                 //this.map_label.repaint();
             }
@@ -387,7 +474,42 @@ public class GUIcomponent extends javax.swing.JFrame{
         }
     
     }
- 
+  public void scramble() {
+        //check if there is anything to scramble
+        if(GUISellertool.bonelist.isEmpty() ) {
+            JOptionPane.showMessageDialog(this,"No Data To Scramble!"); 
+        }
+        else{
+            //correct data, scramble it
+            }
+            //scramble bones
+            if(!GUISellertool.bonelist.isEmpty()) {
+                //create temporary map
+                this.load_world_map();
+                //scramble each bone
+                for(int i=0; i<GUISellertool.bonelist.size(); ++i) {
+                    while(true) {
+                        //create random coordinates
+                        Random rn = new Random();
+                        double temp_long = rn.nextInt((180 - (-180) + 1)) + (-180);
+                        double temp_lat = rn.nextInt((90 - (-90) + 1)) + (-90);
+                        Coordinates tempCoord = new Coordinates(temp_lat,temp_long);
+                        int temp_x = tempCoord.y;
+                        int temp_y = tempCoord.x;
+                        
+                        //if bone is on land, set new bone coordinate
+                        if(GUISellertool.map[temp_x][temp_y] == '*') {
+                            GUISellertool.bonelist.get(i).coordinates = tempCoord;
+                            break; //from while loop
+                        }
+                    } 
+                }
+            
+            }
+    }
+  
+
+  
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -420,11 +542,14 @@ public class GUIcomponent extends javax.swing.JFrame{
             }
         });
     }
-
+    
+   
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu BoneMenu;
     private javax.swing.JMenuItem DeleteSeller;
     private javax.swing.JMenuItem ExitSele;
+    private javax.swing.JMenuItem LineInput;
     private javax.swing.JMenuItem ListSeller;
     private javax.swing.JMenuItem LoadFilesSele;
     private javax.swing.JMenuItem MakeBoneSele;
