@@ -33,7 +33,7 @@ public class ModifyBone extends javax.swing.JDialog {
     public ModifyBone(java.awt.Frame parent, boolean modal,Sellertool GUISellertool) {
         super(parent, modal);
         inhere = GUISellertool;
-       for(i = 0 ; i < inhere.bonelist.size(); i++){    //generates and populate the dropbox
+        for(i = 0 ; i < inhere.bonelist.size(); i++){    //generates and populate the dropbox
            pop.add(Integer.toString(inhere.bonelist.get(i).boneID));
         }
         initComponents();
@@ -84,9 +84,9 @@ public class ModifyBone extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel3.setText("ModifyField");
 
-        PriceInputField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PriceInputFieldActionPerformed(evt);
+        PriceInputField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                PriceInputFieldFocusLost(evt);
             }
         });
 
@@ -158,7 +158,7 @@ public class ModifyBone extends javax.swing.JDialog {
         Boolean invalid = false;
         if(OperationSelected & tempselected){
             
-            if((DBselection == 0)&& (price > 0)){                       //changes the price
+            if((DBselection == 0) || (price > 0)){                       //changes the price
                 temp.price = this.price;
                  System.out.printf("%f%n", temp.price);
                  inhere.printbonelist();
@@ -212,7 +212,11 @@ public class ModifyBone extends javax.swing.JDialog {
         System.out.printf("%s", "ID selected\n");
     }//GEN-LAST:event_IDComboBoxFocusLost
 
-    private void PriceInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriceInputFieldActionPerformed
+    private void IDComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IDComboBoxActionPerformed
+
+    private void PriceInputFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_PriceInputFieldFocusLost
         // TODO add your handling code here:
          try{ 
            price = Float.valueOf(PriceInputField.getText());
@@ -221,11 +225,7 @@ public class ModifyBone extends javax.swing.JDialog {
         }catch(NumberFormatException | InputMismatchException e){
            JOptionPane.showInputDialog("Bad Input");
        }
-    }//GEN-LAST:event_PriceInputFieldActionPerformed
-
-    private void IDComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_IDComboBoxActionPerformed
+    }//GEN-LAST:event_PriceInputFieldFocusLost
 
     
     /**

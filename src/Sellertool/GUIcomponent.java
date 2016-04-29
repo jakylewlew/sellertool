@@ -5,6 +5,7 @@
  */
 package Sellertool;
 import DataStore.Coordinates;
+import DataStore.Dinosaur;
 import java.awt.Dimension;
 import DataStore.MakeBoneDialog;
 import DataStore.MakeBoneStringPrmt;
@@ -23,6 +24,7 @@ import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Random;
 import javax.imageio.ImageIO;
@@ -36,6 +38,8 @@ import javax.swing.JOptionPane;
 public class GUIcomponent extends javax.swing.JFrame{
    Sellertool GUISellertool = new Sellertool();
    Seller GUISeller = new Seller(0);//
+   String[] carnivore;
+   ArrayList<String> herbivore = new ArrayList<>();
    int i;
    Formatter output = new Formatter(System.out);
    File file;
@@ -433,11 +437,15 @@ public class GUIcomponent extends javax.swing.JFrame{
                     ic = new ImageIcon(unsoldImage);
                 }
                 bone_icon.setIcon(ic);
-                display = GUISellertool.bonelist.get(i).name + "\n";
-                display = display + Double.toString(GUISellertool.bonelist.get(i).coordinates.latit)+"\n";
-                display = display + Double.toString(GUISellertool.bonelist.get(i).coordinates.longi)+"\n";
-                display = display + Float.toString(GUISellertool.bonelist.get(i).price)+"\n";
+                Dinosaur pointer = GUISellertool.bonelist.get(i);
+                display = GUISellertool.bonelist.get(i).name + "\n Coordinates:(";
+                display = display + Double.toString(GUISellertool.bonelist.get(i).coordinates.latit)+"\n,";
+                display = display + Double.toString(GUISellertool.bonelist.get(i).coordinates.longi)+"\n) Price: $";
+                display = display + Float.toString(GUISellertool.bonelist.get(i).price)+" ID#";
+                display = display + Integer.toString(GUISellertool.bonelist.get(i).boneID);
                 //if carnivore
+                              
+                              
                 //if herb
                 bone_icon.setToolTipText(display);
                 int temp_x = GUISellertool.bonelist.get(i).coordinates.y;
